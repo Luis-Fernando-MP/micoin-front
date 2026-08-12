@@ -1,0 +1,5 @@
+Conect proyect
+npx eas-cli@latest init --id 5a0374d5-e684-4eda-a402-a4251558153b
+
+create build
+npx eas-cli@latest build --profile production

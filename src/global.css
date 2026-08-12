@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --mc-background: #ffffff;
+    --mc-card: #fafafa;
+    --mc-card-hover: #f0f0f0;
+    --mc-semantic-bg-warning: #fff8e6;
+    --mc-semantic-text-warning: #b45309;
+    --mc-semantic-bg-error: #fef2f2;
+    --mc-semantic-text-error: #dc2626;
+    --mc-semantic-bg-info: #eff6ff;
+    --mc-semantic-text-info: #0070f3;
+    --mc-semantic-bg-success: #ecfdf5;
+    --mc-semantic-text-success: #059669;
+    --mc-text-primary: #000000;
+    --mc-text-secondary: #666666;
+    --mc-primary: #000000;
+    --mc-primary-background: #000000;
+    --mc-brand: #ca9138;
+    --mc-brand-background: #ca9138;
+  }
+
+  .dark:root,
+  .dark {
+    --mc-background: #000000;
+    --mc-card: #111111;
+    --mc-card-hover: #1a1a1a;
+    --mc-semantic-bg-warning: #2d2006;
+    --mc-semantic-text-warning: #fbbf24;
+    --mc-semantic-bg-error: #2a0a0a;
+    --mc-semantic-text-error: #f87171;
+    --mc-semantic-bg-info: #0a1628;
+    --mc-semantic-text-info: #3291ff;
+    --mc-semantic-bg-success: #0a1f17;
+    --mc-semantic-text-success: #50e3c2;
+    --mc-text-primary: #ededed;
+    --mc-text-secondary: #888888;
+    --mc-primary: #ffffff;
+    --mc-primary-background: #ffffff;
+    --mc-brand: #f3d16b;
+    --mc-brand-background: #d6a951;
+  }
+}

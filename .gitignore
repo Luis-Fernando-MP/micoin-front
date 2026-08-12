@@ -32,8 +32,10 @@ pnpm-debug.log*
 *.pem
 
 # local env files
+.env
 .env*.local
 .env.eas-simulator
+.impeccable/config.local.json
 
 # typescript
 *.tsbuildinfo

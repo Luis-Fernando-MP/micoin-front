@@ -12,10 +12,10 @@ import { StripeProvider } from '@stripe/stripe-react-native'
 import { QueryClientProvider } from '@tanstack/react-query'
 
 import { queryClient } from '@core'
+import CameraHost from '@device/camera'
 import ThemeProvider from '@theme'
 
 import { useSession } from '@/auth/use-session'
-import { CameraHost } from '@/common/device/camera'
 
 export const unstable_settings = {
   anchor: '(public)',

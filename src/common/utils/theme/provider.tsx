@@ -17,7 +17,7 @@ interface Props {
 }
 
 /**
- * ThemeProvider — pone la clase del tema en el padre (`light` | `gray` | `dark`).
+ * ThemeProvider
  *
  * @param children - Árbol de la app
  *

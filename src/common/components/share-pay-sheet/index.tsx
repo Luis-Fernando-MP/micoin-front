@@ -10,8 +10,8 @@ import QrCode from '@components/qr-code'
 import MovementOverflow from '@components/share-pay-sheet/extensions/movement-overflow'
 import Text from '@components/text'
 import { showToast } from '@components/toast'
+import { copyText } from '@device/clipboard'
 
-import { copyText } from '@/common/device/clipboard'
 import { metadata } from '@/common/metadata'
 
 interface Props {

@@ -16,6 +16,7 @@ Alias de TypeScript:
 - `@core` → `src/common/core`
 - `@theme` → `src/common/utils/theme` (store, hooks, provider)
 - `@assets` → `assets`
+- `@device/*` → `src/common/device/*` (API nativa por carpeta)
 
 Tema: `BRAND_THEMES` en `src/common/utils/theme/themes.ts` (`icon` + `system`). Colores en `global.css` (clase = nombre del tema). Un tema nuevo = entrada + bloque CSS. El provider pone la clase en el padre.
 
@@ -35,6 +36,14 @@ src/common/components/{name}/
 ```
 
 No crear `hooks/`, `store/` ni `extensions/` vacíos.
+
+Device nativo (`src/common/device/{name}/index.ts` o `index.tsx`; hooks en `{name}/hooks/index.ts`):
+
+```
+src/common/device/{name}/
+  index.ts | index.tsx    # API pública mínima
+  hooks/index.ts          # solo si el módulo lo necesita
+```
 
 - Código, nombres y variables en inglés.
 - JSDoc en español en el export reutilizable de `src/common` (componente default o función pública). No en interfaces, páginas ni helpers privados.
@@ -177,4 +186,4 @@ Las extensiones viven en `extensions/` y se adjuntan al default. El consumidor n
 
 SDK 54 / Expo Go. `pnpm exec expo install` para nativos. No subir de SDK si rompe Expo Go.
 
-Próximo candidato a extraer con el mismo patrón: `src/common/device/camera.tsx` → `components/camera` + extensions `scanner` / `filters`.
+Próximo candidato a extraer con el mismo patrón: `@device/camera` → `@components/camera` + extensions `scanner` / `filters`.

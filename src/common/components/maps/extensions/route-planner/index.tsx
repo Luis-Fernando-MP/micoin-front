@@ -21,8 +21,8 @@ import { type LatLng } from '@components/maps/types'
 import BRAND from '@components/shared/brand'
 import Text from '@components/text'
 import { showToast } from '@components/toast'
+import { getLocationSnapshot } from '@device/location'
 
-import { getLocationSnapshot } from '@/common/device/location'
 import { cn } from '@/lib/utils'
 
 interface Props {

@@ -6,8 +6,8 @@ import Button from '@components/button'
 import { type LatLng } from '@components/maps/types'
 import BRAND from '@components/shared/brand'
 import { showToast } from '@components/toast'
+import { getLocationSnapshot } from '@device/location'
 
-import { getLocationSnapshot } from '@/common/device/location'
 import { cn } from '@/lib/utils'
 
 type Pin = {

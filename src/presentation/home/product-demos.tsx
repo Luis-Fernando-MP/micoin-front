@@ -12,22 +12,22 @@ import QrCode from '@components/qr-code'
 import BRAND from '@components/shared/brand'
 import Text from '@components/text'
 import { showToast } from '@components/toast'
-import { useMcVar } from '@theme'
-
 import {
   playUri,
   releasePlayer,
   startRecording,
   stopRecording,
-} from '@/common/device/audio-recorder'
-import { openScanner, pickImage } from '@/common/device/camera'
-import { resizeImage } from '@/common/device/image-manipulator'
-import { addExpense, type Expense, listExpenses } from '@/common/device/ledger'
-import { saveToGallery } from '@/common/device/media-library'
-import { scheduleLocalAlert } from '@/common/device/notifications'
-import { setScreenProtected } from '@/common/device/screen-capture'
-import { shareFile } from '@/common/device/sharing'
-import { sendPaymentSms } from '@/common/device/sms'
+} from '@device/audio-recorder'
+import { openScanner, pickImage } from '@device/camera'
+import { resizeImage } from '@device/image-manipulator'
+import { addExpense, type Expense, listExpenses } from '@device/ledger'
+import { saveToGallery } from '@device/media-library'
+import { scheduleLocalAlert } from '@device/notifications'
+import { setScreenProtected } from '@device/screen-capture'
+import { shareFile } from '@device/sharing'
+import { sendPaymentSms } from '@device/sms'
+import { useMcVar } from '@theme'
+
 import { metadata } from '@/common/metadata'
 
 const PAY_LINK = 'micoin://pay?amount=12.50'

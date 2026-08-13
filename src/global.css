@@ -31,6 +31,30 @@
     --mc-radius-surface: 20px;
   }
 
+  .pink {
+    --mc-background: #fff5f8;
+    --mc-card: #ffecf2;
+    --mc-card-hover: #ffe4ed;
+    --mc-border: #f5d0dc;
+    --mc-overlay: rgba(74, 29, 52, 0.36);
+    --mc-semantic-bg-warning: #fff8e6;
+    --mc-semantic-text-warning: #a16207;
+    --mc-semantic-bg-error: #fff0f0;
+    --mc-semantic-text-error: #dc2626;
+    --mc-semantic-bg-info: #f0f4ff;
+    --mc-semantic-text-info: #0070f3;
+    --mc-semantic-bg-success: #ecfdf5;
+    --mc-semantic-text-success: #059669;
+    --mc-text-primary: #4a1d34;
+    --mc-text-secondary: #9d6b85;
+    --mc-primary: #702459;
+    --mc-primary-background: #702459;
+    --mc-primary-foreground: #fff5f8;
+    --mc-brand: #b8842d;
+    --mc-brand-background: #ca9138;
+    --mc-brand-foreground: #171717;
+  }
+
   .gray {
     --mc-background: #111111;
     --mc-card: #1a1a1a;

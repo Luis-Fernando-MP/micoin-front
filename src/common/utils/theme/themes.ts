@@ -1,4 +1,10 @@
-import { type LucideIcon, Moon, Square, Sun } from 'lucide-react-native'
+import {
+  Flower2,
+  type LucideIcon,
+  Moon,
+  Square,
+  Sun,
+} from 'lucide-react-native'
 
 enum ThemeSystem {
   Light = 'light',
@@ -59,6 +65,11 @@ const BRAND_THEMES = {
   light: {
     label: 'Claro',
     icon: Sun,
+    system: ThemeSystem.Light,
+  },
+  pink: {
+    label: 'Rosa pastel',
+    icon: Flower2,
     system: ThemeSystem.Light,
   },
   gray: {

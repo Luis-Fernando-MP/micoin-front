@@ -1,5 +1,6 @@
-import { Stack } from 'expo-router';
-import { type FC } from 'react';
+import { type FC } from 'react'
+
+import { Stack } from 'expo-router'
 
 const PrivateLayout: FC = () => {
   return (
@@ -10,7 +11,7 @@ const PrivateLayout: FC = () => {
         options={{ presentation: 'modal', title: 'Modal' }}
       />
     </Stack>
-  );
-};
+  )
+}
 
-export default PrivateLayout;
+export default PrivateLayout

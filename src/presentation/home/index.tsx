@@ -1,4 +1,7 @@
-import { Link, type Href } from 'expo-router';
+import { type FC, type ReactNode, useState } from 'react'
+import { ScrollView, View } from 'react-native'
+
+import { type Href, Link } from 'expo-router'
 import {
   Camera,
   Check,
@@ -13,60 +16,55 @@ import {
   SunMedium,
   Volume2,
   Wifi,
-} from 'lucide-react-native';
-import { type FC, type ReactNode, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+} from 'lucide-react-native'
 
-import { useSession } from '@/auth/use-session';
-import Accordion from '@/common/components/accordion';
-import Avatar from '@/common/components/avatar';
-import Badge from '@/common/components/badge';
-import BrandLogo from '@/common/components/brand-logo';
-import Breadcrumb from '@/common/components/breadcrumb';
-import Button from '@/common/components/button';
-import Card from '@/common/components/card';
-import Checkbox from '@/common/components/checkbox';
-import Chip from '@/common/components/chip';
-import Combobox from '@/common/components/combobox';
-import Dialog from '@/common/components/dialog';
-import Drawer from '@/common/components/drawer';
-import Header from '@/common/components/header';
-import Icon from '@/common/components/icon';
-import Image from '@/common/components/image';
-import Input from '@/common/components/input';
-import MultiStep from '@/common/components/multi-step';
-import AppNav from '@/common/components/nav';
-import Separator from '@/common/components/separator';
-import FadeIn from '@/common/components/fade-in';
-import type { BrandStatus } from '@/common/components/shared/brand';
-import Switch from '@/common/components/switch';
-import Tabs from '@/common/components/tabs';
-import Text from '@/common/components/text';
-import ThemeToggle from '@/common/components/theme-toggle';
-import { showToast } from '@/common/components/toast';
-import { authenticateBiometric } from '@/common/device/biometrics';
-import { setBrightness } from '@/common/device/brightness';
-import { openCamera, pickImage } from '@/common/device/camera';
-import { copyText } from '@/common/device/clipboard';
-import { getContactsCount } from '@/common/device/contacts';
-import { pickDocument } from '@/common/device/document-picker';
-import { hapticSuccess } from '@/common/device/haptics';
-import { setKeepAwake } from '@/common/device/keep-awake';
-import { getLocationSnapshot } from '@/common/device/location';
-import { openSupportMail } from '@/common/device/mail';
-import {
-  lockPortrait,
-  unlockOrientation,
-} from '@/common/device/orientation';
-import { shareFile } from '@/common/device/sharing';
-import { speakText } from '@/common/device/speech';
-import { useDeviceLab } from '@/common/device/use-device-lab';
-import { metadata } from '@/common/metadata';
-import { LabCatalog } from '@/presentation/home/lab-catalog';
+import { useSession } from '@/auth/use-session'
+import Accordion from '@/common/components/accordion'
+import Avatar from '@/common/components/avatar'
+import Badge from '@/common/components/badge'
+import BrandLogo from '@/common/components/brand-logo'
+import Breadcrumb from '@/common/components/breadcrumb'
+import Button from '@/common/components/button'
+import Card from '@/common/components/card'
+import Checkbox from '@/common/components/checkbox'
+import Chip from '@/common/components/chip'
+import Combobox from '@/common/components/combobox'
+import Dialog from '@/common/components/dialog'
+import Drawer from '@/common/components/drawer'
+import FadeIn from '@/common/components/fade-in'
+import Header from '@/common/components/header'
+import Icon from '@/common/components/icon'
+import Image from '@/common/components/image'
+import Input from '@/common/components/input'
+import MultiStep from '@/common/components/multi-step'
+import AppNav from '@/common/components/nav'
+import Separator from '@/common/components/separator'
+import type { BrandStatus } from '@/common/components/shared/brand'
+import Switch from '@/common/components/switch'
+import Tabs from '@/common/components/tabs'
+import Text from '@/common/components/text'
+import ThemeToggle from '@/common/components/theme-toggle'
+import { showToast } from '@/common/components/toast'
+import { authenticateBiometric } from '@/common/device/biometrics'
+import { setBrightness } from '@/common/device/brightness'
+import { openCamera, pickImage } from '@/common/device/camera'
+import { copyText } from '@/common/device/clipboard'
+import { getContactsCount } from '@/common/device/contacts'
+import { pickDocument } from '@/common/device/document-picker'
+import { hapticSuccess } from '@/common/device/haptics'
+import { setKeepAwake } from '@/common/device/keep-awake'
+import { getLocationSnapshot } from '@/common/device/location'
+import { openSupportMail } from '@/common/device/mail'
+import { lockPortrait, unlockOrientation } from '@/common/device/orientation'
+import { shareFile } from '@/common/device/sharing'
+import { speakText } from '@/common/device/speech'
+import { useDeviceLab } from '@/common/device/use-device-lab'
+import { metadata } from '@/common/metadata'
+import { LabCatalog } from '@/presentation/home/lab-catalog'
 
 interface SectionProps {
-  title: string;
-  children: ReactNode;
+  title: string
+  children: ReactNode
 }
 
 const Section: FC<SectionProps> = ({ title, children }) => {
@@ -76,8 +74,8 @@ const Section: FC<SectionProps> = ({ title, children }) => {
       <Separator />
       {children}
     </Card>
-  );
-};
+  )
+}
 
 const STATUSES: BrandStatus[] = [
   'default',
@@ -87,28 +85,28 @@ const STATUSES: BrandStatus[] = [
   'error',
   'info',
   'success',
-];
+]
 
 const AVATAR_DEMO =
-  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop';
+  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop'
 
 const Home: FC = () => {
-  const { isAuthenticated, data } = useSession();
-  const deviceChips = useDeviceLab();
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogLocked, setDialogLocked] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [checked, setChecked] = useState(false);
-  const [switched, setSwitched] = useState(true);
-  const [combo, setCombo] = useState('pen');
-  const [chip, setChip] = useState('md');
-  const [previewUri, setPreviewUri] = useState<string | null>(null);
-  const [keepAwakeOn, setKeepAwakeOn] = useState(false);
+  const { isAuthenticated, data } = useSession()
+  const deviceChips = useDeviceLab()
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [dialogLocked, setDialogLocked] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [inputValue, setInputValue] = useState('')
+  const [checked, setChecked] = useState(false)
+  const [switched, setSwitched] = useState(true)
+  const [combo, setCombo] = useState('pen')
+  const [chip, setChip] = useState('md')
+  const [previewUri, setPreviewUri] = useState<string | null>(null)
+  const [keepAwakeOn, setKeepAwakeOn] = useState(false)
 
-  let statusLabel = 'Guest';
+  let statusLabel = 'Guest'
   if (isAuthenticated) {
-    statusLabel = 'Signed in';
+    statusLabel = 'Signed in'
   }
 
   return (
@@ -178,10 +176,30 @@ const Home: FC = () => {
             value={inputValue}
             onChangeText={setInputValue}
           />
-          <Input label="Outline" variant="outline" status="info" placeholder="Outline" />
-          <Input label="Filled" variant="filled" status="success" placeholder="Filled" />
-          <Input label="Ghost" variant="ghost" status="warning" placeholder="Ghost" />
-          <Input label="Error" variant="default" status="error" placeholder="Error" />
+          <Input
+            label="Outline"
+            variant="outline"
+            status="info"
+            placeholder="Outline"
+          />
+          <Input
+            label="Filled"
+            variant="filled"
+            status="success"
+            placeholder="Filled"
+          />
+          <Input
+            label="Ghost"
+            variant="ghost"
+            status="warning"
+            placeholder="Ghost"
+          />
+          <Input
+            label="Error"
+            variant="default"
+            status="error"
+            placeholder="Error"
+          />
         </Section>
 
         <Section title="Chip · size sm / md / lg">
@@ -227,9 +245,7 @@ const Home: FC = () => {
             <Image source={{ uri: previewUri }} aspectRatio={3 / 4} />
           )}
           {!previewUri && (
-            <Text.Subtitle>
-              Captura una foto para verla aquí.
-            </Text.Subtitle>
+            <Text.Subtitle>Captura una foto para verla aquí.</Text.Subtitle>
           )}
         </Section>
 
@@ -355,20 +371,20 @@ const Home: FC = () => {
             icon={Fingerprint}
             label="Biometric"
             onPress={async () => {
-              const result = await authenticateBiometric();
+              const result = await authenticateBiometric()
               if (result.ok) {
                 showToast({
                   title: metadata.name,
                   status: 'success',
                   message: 'Autenticado',
-                });
-                return;
+                })
+                return
               }
               showToast({
                 title: metadata.name,
                 status: 'warning',
                 message: result.reason,
-              });
+              })
             }}
           />
           <Button
@@ -376,28 +392,28 @@ const Home: FC = () => {
             variant="outline"
             label="Camera pro"
             onPress={async () => {
-              const photo = await openCamera({ facing: 'back' });
+              const photo = await openCamera({ facing: 'back' })
               if (!photo) {
-                return;
+                return
               }
               if (photo.type === 'video') {
-                showToast({ title: 'Video listo', status: 'success' });
-                return;
+                showToast({ title: 'Video listo', status: 'success' })
+                return
               }
-              setPreviewUri(photo.uri);
-              showToast({ title: 'Foto capturada', status: 'success' });
+              setPreviewUri(photo.uri)
+              showToast({ title: 'Foto capturada', status: 'success' })
             }}
           />
           <Button
             variant="ghost"
             label="Pick image"
             onPress={async () => {
-              const image = await pickImage();
+              const image = await pickImage()
               if (!image?.uri) {
-                return;
+                return
               }
-              setPreviewUri(image.uri);
-              showToast({ title: 'Imagen seleccionada', status: 'info' });
+              setPreviewUri(image.uri)
+              showToast({ title: 'Imagen seleccionada', status: 'info' })
             }}
           />
           <Button
@@ -405,11 +421,11 @@ const Home: FC = () => {
             variant="outline"
             label="Pick document"
             onPress={async () => {
-              const file = await pickDocument();
+              const file = await pickDocument()
               if (!file) {
-                return;
+                return
               }
-              showToast({ title: file.name, status: 'info' });
+              showToast({ title: file.name, status: 'info' })
             }}
           />
           <Button
@@ -417,8 +433,8 @@ const Home: FC = () => {
             variant="outline"
             label="Clipboard"
             onPress={async () => {
-              await copyText(metadata.name);
-              showToast({ title: 'Copiado', status: 'success' });
+              await copyText(metadata.name)
+              showToast({ title: 'Copiado', status: 'success' })
             }}
           />
           <Button
@@ -426,16 +442,16 @@ const Home: FC = () => {
             variant="outline"
             label="Location"
             onPress={async () => {
-              const result = await getLocationSnapshot();
+              const result = await getLocationSnapshot()
               if (!result.ok) {
-                showToast({ title: 'Location denied', status: 'warning' });
-                return;
+                showToast({ title: 'Location denied', status: 'warning' })
+                return
               }
               showToast({
                 title: `${result.lat}, ${result.lng}`,
                 status: 'info',
                 message: `±${result.accuracy}m`,
-              });
+              })
             }}
           />
           <Button
@@ -443,7 +459,7 @@ const Home: FC = () => {
             variant="outline"
             label="Speech"
             onPress={async () => {
-              await speakText();
+              await speakText()
             }}
           />
           <Button
@@ -451,9 +467,9 @@ const Home: FC = () => {
             variant="outline"
             label="Mail support"
             onPress={async () => {
-              const result = await openSupportMail();
+              const result = await openSupportMail()
               if (!result.ok) {
-                showToast({ title: 'Mail no disponible', status: 'warning' });
+                showToast({ title: 'Mail no disponible', status: 'warning' })
               }
             }}
           />
@@ -462,8 +478,8 @@ const Home: FC = () => {
             variant="outline"
             label="Brightness 80%"
             onPress={async () => {
-              const value = await setBrightness(80);
-              showToast({ title: `Bright ${value}%`, status: 'info' });
+              const value = await setBrightness(80)
+              showToast({ title: `Bright ${value}%`, status: 'info' })
             }}
           />
           <Button
@@ -471,44 +487,44 @@ const Home: FC = () => {
             variant="outline"
             label={keepAwakeOn ? 'Keep awake off' : 'Keep awake on'}
             onPress={async () => {
-              const next = !keepAwakeOn;
-              await setKeepAwake(next);
-              setKeepAwakeOn(next);
+              const next = !keepAwakeOn
+              await setKeepAwake(next)
+              setKeepAwakeOn(next)
               showToast({
                 title: next ? 'Pantalla despierta' : 'Keep awake off',
                 status: 'info',
-              });
+              })
             }}
           />
           <Button
             variant="outline"
             label="Contacts count"
             onPress={async () => {
-              const result = await getContactsCount();
+              const result = await getContactsCount()
               if (!result.ok) {
-                showToast({ title: 'Contacts denied', status: 'warning' });
-                return;
+                showToast({ title: 'Contacts denied', status: 'warning' })
+                return
               }
               showToast({
                 title: `${result.total} contactos`,
                 status: 'success',
-              });
+              })
             }}
           />
           <Button
             variant="outline"
             label="Lock portrait"
             onPress={async () => {
-              await lockPortrait();
-              showToast({ title: 'Portrait lock', status: 'info' });
+              await lockPortrait()
+              showToast({ title: 'Portrait lock', status: 'info' })
             }}
           />
           <Button
             variant="ghost"
             label="Unlock orientation"
             onPress={async () => {
-              await unlockOrientation();
-              showToast({ title: 'Orientation free', status: 'info' });
+              await unlockOrientation()
+              showToast({ title: 'Orientation free', status: 'info' })
             }}
           />
           <Button
@@ -516,18 +532,18 @@ const Home: FC = () => {
             variant="outline"
             label="Haptic + Share"
             onPress={async () => {
-              await hapticSuccess();
+              await hapticSuccess()
               if (!previewUri) {
                 showToast({
                   title: 'Sin archivo',
                   status: 'warning',
                   message: 'Captura una foto primero',
-                });
-                return;
+                })
+                return
               }
-              const result = await shareFile(previewUri);
+              const result = await shareFile(previewUri)
               if (!result.ok) {
-                showToast({ title: 'Share no disponible', status: 'warning' });
+                showToast({ title: 'Share no disponible', status: 'warning' })
               }
             }}
           />
@@ -550,11 +566,7 @@ const Home: FC = () => {
 
       <AppNav />
 
-      <Drawer
-        open={drawerOpen}
-        onOpenChange={setDrawerOpen}
-        title="Drawer"
-      >
+      <Drawer open={drawerOpen} onOpenChange={setDrawerOpen} title="Drawer">
         <Text.Subtitle className="mb-4">
           Sheet inferior para acciones secundarias.
         </Text.Subtitle>
@@ -601,7 +613,7 @@ const Home: FC = () => {
         </Dialog.Footer>
       </Dialog>
     </View>
-  );
-};
+  )
+}
 
-export { Home };
+export { Home }

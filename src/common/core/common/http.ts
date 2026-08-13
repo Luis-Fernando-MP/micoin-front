@@ -1,42 +1,42 @@
-import { getAuthCookie } from '@/auth/client';
+import { getAuthCookie } from '@/auth/client'
 
-type ApiVersion = 'v1' | 'v2';
+type ApiVersion = 'v1' | 'v2'
 
 type RequestOptions = {
-  use?: ApiVersion;
-  body?: unknown;
-  query?: Record<string, string | number | boolean | undefined>;
-  headers?: HeadersInit;
-};
+  use?: ApiVersion
+  body?: unknown
+  query?: Record<string, string | number | boolean | undefined>
+  headers?: HeadersInit
+}
 
 const getBaseUrl = () =>
-  process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8000';
+  process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8000'
 
 function getAuthHeaders(): Record<string, string> {
-  const cookie = getAuthCookie();
-  return cookie ? { cookie } : {};
+  const cookie = getAuthCookie()
+  return cookie ? { cookie } : {}
 }
 
 function buildUrl(path: string, options?: RequestOptions) {
-  const version = options?.use ?? 'v1';
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  const url = new URL(`${getBaseUrl()}/${version}${normalizedPath}`);
+  const version = options?.use ?? 'v1'
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  const url = new URL(`${getBaseUrl()}/${version}${normalizedPath}`)
 
   if (options?.query) {
     Object.entries(options.query).forEach(([key, value]) => {
-      if (value !== undefined) url.searchParams.set(key, String(value));
-    });
+      if (value !== undefined) url.searchParams.set(key, String(value))
+    })
   }
 
-  return url.toString();
+  return url.toString()
 }
 
 async function request<T>(
   method: string,
   path: string,
-  options?: RequestOptions
+  options?: RequestOptions,
 ): Promise<T> {
-  const authHeaders = getAuthHeaders();
+  const authHeaders = getAuthHeaders()
   const response = await fetch(buildUrl(path, options), {
     method,
     headers: {
@@ -49,19 +49,19 @@ async function request<T>(
     },
     body:
       options?.body !== undefined ? JSON.stringify(options.body) : undefined,
-  });
+  })
 
-  const payload = (await response.json().catch(() => null)) as T | null;
+  const payload = (await response.json().catch(() => null)) as T | null
 
   if (!response.ok) {
     const message =
       payload && typeof payload === 'object' && 'message' in payload
         ? String((payload as { message?: string }).message)
-        : `Request failed with status ${response.status}`;
-    throw new Error(message);
+        : `Request failed with status ${response.status}`
+    throw new Error(message)
   }
 
-  return payload as T;
+  return payload as T
 }
 
 export const restApi = {
@@ -75,4 +75,4 @@ export const restApi = {
     request<T>('PATCH', path, options),
   delete: <T>(path: string, options?: RequestOptions) =>
     request<T>('DELETE', path, options),
-};
+}

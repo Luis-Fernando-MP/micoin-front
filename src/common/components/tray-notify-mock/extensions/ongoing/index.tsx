@@ -1,23 +1,26 @@
-import { Radio } from 'lucide-react-native';
-import { type FC } from 'react';
-import { View } from 'react-native';
+import { type FC } from 'react'
+import { View } from 'react-native'
 
-import Icon from '@/common/components/icon';
-import BRAND from '@/common/components/shared/brand';
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
+import { Radio } from 'lucide-react-native'
+
+import Icon from '@/common/components/icon'
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
 interface Props {
-  title?: string;
-  body?: string;
+  title?: string
+  body?: string
 }
 
 /**
  * OngoingNotifyMock — mock de notificación ongoing inamovible.
  *
  * @param title - Título. @default 'Cobro en curso'
+ * @param title.title
  * @param body - Cuerpo
  *
+ * @param title.body
  * @example
  * import TrayNotifyMock from '@/common/components/tray-notify-mock';
  * <TrayNotifyMock.Ongoing />
@@ -31,7 +34,7 @@ const OngoingNotifyMock: FC<Props> = ({
       <View
         className={cn(
           'flex-row items-center gap-3 border border-brand bg-card p-3',
-          BRAND.radius.variants.surface
+          BRAND.radius.variants.surface,
         )}
       >
         <Icon icon={Radio} size={18} />
@@ -45,7 +48,10 @@ const OngoingNotifyMock: FC<Props> = ({
         Fase 2: foreground service / ongoing notification en Dev Client.
       </Text.Caption>
     </View>
-  );
-};
+  )
+}
 
-export default OngoingNotifyMock;
+/**
+ *
+ */
+export default OngoingNotifyMock

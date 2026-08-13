@@ -1,4 +1,4 @@
-import * as Device from 'expo-device';
+import * as Device from 'expo-device'
 
 const getDeviceInfo = () => {
   return {
@@ -8,7 +8,7 @@ const getDeviceInfo = () => {
     osVersion: Device.osVersion,
     deviceType: Device.deviceType,
     isDevice: Device.isDevice,
-  };
-};
+  }
+}
 
-export { getDeviceInfo };
+export { getDeviceInfo }

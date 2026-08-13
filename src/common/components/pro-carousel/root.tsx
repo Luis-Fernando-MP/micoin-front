@@ -1,27 +1,27 @@
-import { type FC, memo, useCallback } from 'react';
-import { Dimensions, View } from 'react-native';
-import { Carousel } from 'react-native-reanimated-carousel';
+import { type FC, memo, useCallback } from 'react'
+import { Dimensions, View } from 'react-native'
+import { Carousel } from 'react-native-reanimated-carousel'
 
-import BRAND from '@/common/components/shared/brand';
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
-type Slide = { title: string; body: string };
-type LayoutMode = 'parallax' | 'horizontal-stack' | 'vertical-stack';
+type Slide = { title: string; body: string }
+type LayoutMode = 'parallax' | 'horizontal-stack' | 'vertical-stack'
 
 interface Props {
-  data?: Slide[];
-  height?: number;
-  mode?: LayoutMode;
+  data?: Slide[]
+  height?: number
+  mode?: LayoutMode
 }
 
 const DEFAULT: Slide[] = [
   { title: 'Cobro QR', body: 'Recibe al instante.' },
   { title: 'Privacidad', body: 'Oculta tu saldo.' },
   { title: 'Ledger', body: 'Gastos offline.' },
-];
+]
 
-const WIDTH = Dimensions.get('window').width - 64;
+const WIDTH = Dimensions.get('window').width - 64
 
 const ProCarouselRoot: FC<Props> = ({
   data = DEFAULT,
@@ -33,15 +33,15 @@ const ProCarouselRoot: FC<Props> = ({
       <View
         className={cn(
           'mx-1 flex-1 justify-center border border-border bg-background px-4',
-          BRAND.radius.variants.surface
+          BRAND.radius.variants.surface,
         )}
       >
         <Text.Title size="sm">{item.title}</Text.Title>
         <Text.Subtitle>{item.body}</Text.Subtitle>
       </View>
     ),
-    []
-  );
+    [],
+  )
 
   return (
     <Carousel
@@ -55,8 +55,11 @@ const ProCarouselRoot: FC<Props> = ({
       }
       renderItem={renderItem}
     />
-  );
-};
+  )
+}
 
-export type { LayoutMode, Props as ProCarouselProps, Slide };
-export default memo(ProCarouselRoot);
+export type { LayoutMode, Props as ProCarouselProps, Slide }
+/**
+ *
+ */
+export default memo(ProCarouselRoot)

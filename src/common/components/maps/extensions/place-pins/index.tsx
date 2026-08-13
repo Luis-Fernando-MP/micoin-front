@@ -1,28 +1,28 @@
-import { memo, type FC, useCallback, useState } from 'react';
-import { View } from 'react-native';
-import MapView, { Marker, type Region } from 'react-native-maps';
+import { type FC, memo, useCallback, useState } from 'react'
+import { View } from 'react-native'
+import MapView, { Marker, type Region } from 'react-native-maps'
 
-import Button from '@/common/components/button';
-import { type LatLng } from '@/common/components/maps/types';
-import BRAND from '@/common/components/shared/brand';
-import { showToast } from '@/common/components/toast';
-import { getLocationSnapshot } from '@/common/device/location';
-import { cn } from '@/lib/utils';
+import Button from '@/common/components/button'
+import { type LatLng } from '@/common/components/maps/types'
+import BRAND from '@/common/components/shared/brand'
+import { showToast } from '@/common/components/toast'
+import { getLocationSnapshot } from '@/common/device/location'
+import { cn } from '@/lib/utils'
 
 type Pin = {
-  id: string;
-  coordinate: LatLng;
-  title?: string;
-};
-
-interface Props {
-  pins?: Pin[];
-  center?: LatLng;
-  height?: number;
-  showUser?: boolean;
+  id: string
+  coordinate: LatLng
+  title?: string
 }
 
-const SV: LatLng = { latitude: 13.6929, longitude: -89.2182 };
+interface Props {
+  pins?: Pin[]
+  center?: LatLng
+  height?: number
+  showUser?: boolean
+}
+
+const SV: LatLng = { latitude: 13.6929, longitude: -89.2182 }
 
 const DEFAULT_PINS: Pin[] = [
   {
@@ -30,7 +30,7 @@ const DEFAULT_PINS: Pin[] = [
     coordinate: { latitude: 13.7009, longitude: -89.2242 },
     title: 'Punto cercano',
   },
-];
+]
 
 /**
  * PlacePins — mapa con N marcadores alrededor de un centro.
@@ -39,10 +39,14 @@ const DEFAULT_PINS: Pin[] = [
  * recentrar en la ubicación del dispositivo.
  *
  * @param pins - Lista de marcadores
+ * @param pins.pins
  * @param center - Centro inicial del mapa
+ * @param pins.center
  * @param height - Alto del mapa en px. @default 180
+ * @param pins.height
  * @param showUser - Muestra marcador del usuario en el centro. @default true
  *
+ * @param pins.showUser
  * @example
  * import Maps from '@/common/components/maps';
  * <Maps.PlacePins pins={atms} />
@@ -57,25 +61,28 @@ const PlacePins: FC<Props> = ({
     ...center,
     latitudeDelta: 0.05,
     longitudeDelta: 0.05,
-  });
+  })
 
   const onCenterMe = useCallback(async () => {
-    const snap = await getLocationSnapshot();
+    const snap = await getLocationSnapshot()
     if (!snap.ok) {
-      showToast({ title: 'Ubicación denegada', status: 'warning' });
-      return;
+      showToast({ title: 'Ubicación denegada', status: 'warning' })
+      return
     }
     setRegion((prev) => ({
       ...prev,
       latitude: snap.lat,
       longitude: snap.lng,
-    }));
-  }, []);
+    }))
+  }, [])
 
   return (
     <View className="gap-2">
       <View
-        className={cn('overflow-hidden border border-border', BRAND.radius.variants.control)}
+        className={cn(
+          'overflow-hidden border border-border',
+          BRAND.radius.variants.control,
+        )}
         style={{ height }}
       >
         <MapView style={{ flex: 1 }} region={region}>
@@ -96,8 +103,11 @@ const PlacePins: FC<Props> = ({
         onPress={onCenterMe}
       />
     </View>
-  );
-};
+  )
+}
 
-export type { Pin, Props as PlacePinsProps };
-export default memo(PlacePins);
+export type { Pin, Props as PlacePinsProps }
+/**
+ *
+ */
+export default memo(PlacePins)

@@ -1,22 +1,22 @@
-import { type FC, type ReactNode, useEffect } from 'react';
-import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import { type FC, type ReactNode, useEffect } from 'react'
+import { Modal, Pressable, StyleSheet, View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-} from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
+} from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
 interface Props {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  title?: string;
-  children: ReactNode;
-  className?: string;
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  title?: string
+  children: ReactNode
+  className?: string
 }
 
 /**
@@ -26,6 +26,11 @@ interface Props {
  *
  * @param props - Ver DrawerProps / Props del archivo
  *
+ * @param props.open
+ * @param props.onOpenChange
+ * @param props.title
+ * @param props.children
+ * @param props.className
  * @example
  * import Drawer from '@/common/components/drawer';
  * <Drawer />
@@ -37,27 +42,27 @@ const Drawer: FC<Props> = ({
   children,
   className,
 }) => {
-  const insets = useSafeAreaInsets();
-  const translateY = useSharedValue(40);
-  const opacity = useSharedValue(0);
+  const insets = useSafeAreaInsets()
+  const translateY = useSharedValue(40)
+  const opacity = useSharedValue(0)
 
   useEffect(() => {
     if (!open) {
-      translateY.value = 40;
-      opacity.value = 0;
-      return;
+      translateY.value = 40
+      opacity.value = 0
+      return
     }
-    opacity.value = withTiming(1, { duration: 180 });
-    translateY.value = withTiming(0, { duration: 220 });
-  }, [open, opacity, translateY]);
+    opacity.value = withTiming(1, { duration: 180 })
+    translateY.value = withTiming(0, { duration: 220 })
+  }, [open, opacity, translateY])
 
   const backdropStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-  }));
+  }))
 
   const sheetStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
-  }));
+  }))
 
   return (
     <Modal
@@ -79,7 +84,7 @@ const Drawer: FC<Props> = ({
           className={cn(
             'border-t border-border bg-background px-4 pt-3',
             BRAND.radius.variants.surface,
-            className
+            className,
           )}
           style={[{ paddingBottom: insets.bottom + 16 }, sheetStyle]}
         >
@@ -95,13 +100,16 @@ const Drawer: FC<Props> = ({
         </Animated.View>
       </View>
     </Modal>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-});
+})
 
-export default Drawer;
+/**
+ *
+ */
+export default Drawer

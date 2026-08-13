@@ -1,23 +1,24 @@
-import { Check, ChevronDown } from 'lucide-react-native';
-import { type FC, useMemo, useState } from 'react';
-import { Pressable, View } from 'react-native';
-import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
+import { type FC, useMemo, useState } from 'react'
+import { Pressable, View } from 'react-native'
 
-import Icon from '@/common/components/icon';
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
+import { Check, ChevronDown } from 'lucide-react-native'
+
+import Icon from '@/common/components/icon'
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
 type Option = {
-  value: string;
-  label: string;
-};
+  value: string
+  label: string
+}
 
 interface Props {
-  options: Option[];
-  value?: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  className?: string;
+  options: Option[]
+  value?: string
+  onChange: (value: string) => void
+  placeholder?: string
+  className?: string
 }
 
 /**
@@ -27,6 +28,11 @@ interface Props {
  *
  * @param props - Ver ComboboxProps / Props del archivo
  *
+ * @param props.options
+ * @param props.value
+ * @param props.onChange
+ * @param props.placeholder
+ * @param props.className
  * @example
  * import Combobox from '@/common/components/combobox';
  * <Combobox />
@@ -38,15 +44,15 @@ const Combobox: FC<Props> = ({
   placeholder = 'Seleccionar…',
   className,
 }) => {
-  const [open, setOpen] = useState(false);
-  const selected = options.find((option) => option.value === value);
+  const [open, setOpen] = useState(false)
+  const selected = options.find((option) => option.value === value)
 
   const label = useMemo(() => {
     if (selected) {
-      return selected.label;
+      return selected.label
     }
-    return placeholder;
-  }, [placeholder, selected]);
+    return placeholder
+  }, [placeholder, selected])
 
   return (
     <View className={cn('z-20', className)}>
@@ -55,14 +61,14 @@ const Combobox: FC<Props> = ({
         className={cn(
           'h-11 flex-row items-center justify-between border border-border bg-background px-4',
           BRAND.radius.variants.control,
-          open && 'border-primary'
+          open && 'border-primary',
         )}
       >
         <Text
           className={cn(
             'text-sm',
             selected && 'text-foreground',
-            !selected && 'text-secondary'
+            !selected && 'text-secondary',
           )}
         >
           {label}
@@ -74,43 +80,46 @@ const Combobox: FC<Props> = ({
         <View
           className={cn(
             'absolute left-0 right-0 top-12 z-30 overflow-hidden border border-border bg-background shadow-lg',
-            BRAND.radius.variants.surface
+            BRAND.radius.variants.surface,
           )}
         >
           {options.map((item, index) => {
-            const isSelected = item.value === value;
-            const isLast = index === options.length - 1;
+            const isSelected = item.value === value
+            const isLast = index === options.length - 1
 
             return (
               <Pressable
                 key={item.value}
                 onPress={() => {
-                  onChange(item.value);
-                  setOpen(false);
+                  onChange(item.value)
+                  setOpen(false)
                 }}
                 className={cn(
                   'h-11 flex-row items-center justify-between px-4 active:bg-card-hover',
                   !isLast && 'border-b border-border',
-                  isSelected && 'bg-card'
+                  isSelected && 'bg-card',
                 )}
               >
                 <Text
                   className={cn(
                     'text-sm',
                     isSelected && 'font-semibold text-foreground',
-                    !isSelected && 'text-secondary'
+                    !isSelected && 'text-secondary',
                   )}
                 >
                   {item.label}
                 </Text>
                 {isSelected && <Icon icon={Check} tone="brand" size={16} />}
               </Pressable>
-            );
+            )
           })}
         </View>
       )}
     </View>
-  );
-};
+  )
+}
 
-export default Combobox;
+/**
+ *
+ */
+export default Combobox

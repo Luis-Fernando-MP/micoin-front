@@ -1,14 +1,15 @@
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
-import { type FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import BRAND from '@/common/components/shared/brand';
+import { type FC } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 
-import { cn } from '@/lib/utils';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import { LinearGradient } from 'expo-linear-gradient'
+import MaskedView from '@react-native-masked-view/masked-view'
+
+import BRAND from '@/common/components/shared/brand'
+import { cn } from '@/lib/utils'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 interface Props {
-  value?: string;
+  value?: string
 }
 
 /**
@@ -18,14 +19,15 @@ interface Props {
  *
  * @param props - Ver FoilTextProps / Props del archivo
  *
+ * @param props.value
  * @example
  * import FoilText from '@/common/components/foil-text';
  * <FoilText />
  */
 const FoilText: FC<Props> = ({ value = '$1,248.90' }) => {
-  const primary = useMcVar(BRAND.native.textPrimary);
-  const shine = useMcVar(BRAND.native.primaryForeground);
-  const brand = useMcVar(BRAND.native.brand);
+  const primary = useMcVar(BRAND.native.textPrimary)
+  const shine = useMcVar(BRAND.native.primaryForeground)
+  const brand = useMcVar(BRAND.native.brand)
 
   return (
     <View className={cn('overflow-hidden', BRAND.radius.variants.control)}>
@@ -45,8 +47,8 @@ const FoilText: FC<Props> = ({ value = '$1,248.90' }) => {
         />
       </MaskedView>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   maskRoot: {
@@ -58,6 +60,9 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '700',
   },
-});
+})
 
-export default FoilText;
+/**
+ *
+ */
+export default FoilText

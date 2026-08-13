@@ -1,26 +1,30 @@
-import { type BottomSheetModal } from '@gorhom/bottom-sheet';
-import { MoreHorizontal } from 'lucide-react-native';
-import { type FC, useRef } from 'react';
-import { View } from 'react-native';
+import { type FC, useRef } from 'react'
+import { View } from 'react-native'
 
-import AppBottomSheetModal from '@/common/components/bottom-sheet';
-import Button from '@/common/components/button';
-import Text from '@/common/components/text';
-import { showToast } from '@/common/components/toast';
+import { type BottomSheetModal } from '@gorhom/bottom-sheet'
+import { MoreHorizontal } from 'lucide-react-native'
+
+import AppBottomSheetModal from '@/common/components/bottom-sheet'
+import Button from '@/common/components/button'
+import Text from '@/common/components/text'
+import { showToast } from '@/common/components/toast'
 
 interface Props {
-  title?: string;
-  subtitle?: string;
-  detail?: string;
+  title?: string
+  subtitle?: string
+  detail?: string
 }
 
 /**
  * MovementOverflowMenu — fila de movimiento con ⋯ y sheet de detalle.
  *
  * @param title - Título de la fila. @default 'Café · -$3.50'
+ * @param title.title
  * @param subtitle - Subtítulo. @default 'Hoy · 10:24'
+ * @param title.subtitle
  * @param detail - Texto del sheet
  *
+ * @param title.detail
  * @example
  * import SharePaySheet from '@/common/components/share-pay-sheet';
  * <SharePaySheet.MovementOverflow />
@@ -30,7 +34,7 @@ const MovementOverflowMenu: FC<Props> = ({
   subtitle = 'Hoy · 10:24',
   detail = 'Comercio: Café Central · Categoría: Food · Método: QR',
 }) => {
-  const ref = useRef<BottomSheetModal>(null);
+  const ref = useRef<BottomSheetModal>(null)
 
   return (
     <View className="gap-2">
@@ -56,8 +60,8 @@ const MovementOverflowMenu: FC<Props> = ({
             variant="outline"
             label="Compartir recibo"
             onPress={() => {
-              showToast({ title: 'Recibo listo', status: 'info' });
-              ref.current?.dismiss();
+              showToast({ title: 'Recibo listo', status: 'info' })
+              ref.current?.dismiss()
             }}
           />
           <Button
@@ -69,8 +73,11 @@ const MovementOverflowMenu: FC<Props> = ({
         </View>
       </AppBottomSheetModal>
     </View>
-  );
-};
+  )
+}
 
-export type { Props as MovementOverflowMenuProps };
-export default MovementOverflowMenu;
+export type { Props as MovementOverflowMenuProps }
+/**
+ *
+ */
+export default MovementOverflowMenu

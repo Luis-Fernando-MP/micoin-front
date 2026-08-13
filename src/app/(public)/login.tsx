@@ -1,9 +1,9 @@
-import { type FC } from 'react';
+import { type FC } from 'react'
 
-import { Login } from '@/presentation/login';
+import { Login } from '@/presentation/login'
 
 const LoginRoute: FC = () => {
-  return <Login />;
-};
+  return <Login />
+}
 
-export default LoginRoute;
+export default LoginRoute

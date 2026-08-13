@@ -1,3 +1,9 @@
+import { type FC, useEffect, useRef, useState } from 'react'
+import { Modal, Pressable, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
+import { type BarcodeType, CameraView, useCameraPermissions } from 'expo-camera'
+import * as ImagePicker from 'expo-image-picker'
 import {
   Aperture,
   Camera as CameraIcon,
@@ -8,47 +14,38 @@ import {
   Video,
   X,
   Zap,
-} from 'lucide-react-native';
-import {
-  CameraView,
-  type BarcodeType,
-  useCameraPermissions,
-} from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker';
-import { type FC, useEffect, useRef, useState } from 'react';
-import { Modal, Pressable, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+} from 'lucide-react-native'
 
-import Icon from '@/common/components/icon';
-import Text from '@/common/components/text';
-import { hapticImpact } from '@/common/device/haptics';
-import { cn } from '@/lib/utils';
+import Icon from '@/common/components/icon'
+import Text from '@/common/components/text'
+import { hapticImpact } from '@/common/device/haptics'
+import { cn } from '@/lib/utils'
 
-type Facing = 'front' | 'back';
-type Flash = 'off' | 'on' | 'auto';
-type CaptureMode = 'picture' | 'video';
-type HostMode = 'camera' | 'scanner';
+type Facing = 'front' | 'back'
+type Flash = 'off' | 'on' | 'auto'
+type CaptureMode = 'picture' | 'video'
+type HostMode = 'camera' | 'scanner'
 
 type CameraAsset = {
-  uri: string;
-  width?: number;
-  height?: number;
-  type?: 'photo' | 'video';
-};
+  uri: string
+  width?: number
+  height?: number
+  type?: 'photo' | 'video'
+}
 
 type ScanResult = {
-  type: string;
-  data: string;
-};
+  type: string
+  data: string
+}
 
 type OpenCameraOptions = {
-  facing?: Facing;
-  mode?: CaptureMode;
-};
+  facing?: Facing
+  mode?: CaptureMode
+}
 
 type OpenScannerOptions = {
-  types?: BarcodeType[];
-};
+  types?: BarcodeType[]
+}
 
 const DEFAULT_SCAN_TYPES: BarcodeType[] = [
   'qr',
@@ -57,45 +54,45 @@ const DEFAULT_SCAN_TYPES: BarcodeType[] = [
   'code128',
   'code39',
   'upc_a',
-];
+]
 
 type CameraControls = {
-  openCamera: (options: OpenCameraOptions) => void;
-  openScanner: (options: OpenScannerOptions) => void;
-};
+  openCamera: (options: OpenCameraOptions) => void
+  openScanner: (options: OpenScannerOptions) => void
+}
 
-let controls: CameraControls | null = null;
-let pendingCamera: ((asset: CameraAsset | null) => void) | null = null;
-let pendingScan: ((result: ScanResult | null) => void) | null = null;
+let controls: CameraControls | null = null
+let pendingCamera: ((asset: CameraAsset | null) => void) | null = null
+let pendingScan: ((result: ScanResult | null) => void) | null = null
 
 const openCamera = (options: OpenCameraOptions = {}) => {
   return new Promise<CameraAsset | null>((resolve) => {
-    pendingCamera = resolve;
+    pendingCamera = resolve
     if (!controls) {
-      resolve(null);
-      return;
+      resolve(null)
+      return
     }
-    controls.openCamera(options);
-  });
-};
+    controls.openCamera(options)
+  })
+}
 
 const openScanner = (options: OpenScannerOptions = {}) => {
   return new Promise<ScanResult | null>((resolve) => {
-    pendingScan = resolve;
+    pendingScan = resolve
     if (!controls) {
-      resolve(null);
-      return;
+      resolve(null)
+      return
     }
-    controls.openScanner(options);
-  });
-};
+    controls.openScanner(options)
+  })
+}
 
 const pickImage = async () => {
-  const current = await ImagePicker.getMediaLibraryPermissionsAsync();
+  const current = await ImagePicker.getMediaLibraryPermissionsAsync()
   if (!current.granted) {
-    const asked = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const asked = await ImagePicker.requestMediaLibraryPermissionsAsync()
     if (!asked.granted) {
-      return null;
+      return null
     }
   }
 
@@ -103,141 +100,141 @@ const pickImage = async () => {
     quality: 0.9,
     allowsEditing: true,
     mediaTypes: ['images'],
-  });
+  })
 
   if (result.canceled) {
-    return null;
+    return null
   }
 
-  return result.assets[0] ?? null;
-};
+  return result.assets[0] ?? null
+}
 
 const CameraHost: FC = () => {
-  const insets = useSafeAreaInsets();
-  const cameraRef = useRef<CameraView>(null);
-  const [permission, requestPermission] = useCameraPermissions();
-  const [visible, setVisible] = useState(false);
-  const [hostMode, setHostMode] = useState<HostMode>('camera');
-  const [facing, setFacing] = useState<Facing>('back');
-  const [flash, setFlash] = useState<Flash>('off');
-  const [torch, setTorch] = useState(false);
-  const [zoom, setZoom] = useState(0);
-  const [grid, setGrid] = useState(true);
-  const [mode, setMode] = useState<CaptureMode>('picture');
-  const [recording, setRecording] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [scanTypes, setScanTypes] = useState<BarcodeType[]>(DEFAULT_SCAN_TYPES);
-  const [scanned, setScanned] = useState(false);
+  const insets = useSafeAreaInsets()
+  const cameraRef = useRef<CameraView>(null)
+  const [permission, requestPermission] = useCameraPermissions()
+  const [visible, setVisible] = useState(false)
+  const [hostMode, setHostMode] = useState<HostMode>('camera')
+  const [facing, setFacing] = useState<Facing>('back')
+  const [flash, setFlash] = useState<Flash>('off')
+  const [torch, setTorch] = useState(false)
+  const [zoom, setZoom] = useState(0)
+  const [grid, setGrid] = useState(true)
+  const [mode, setMode] = useState<CaptureMode>('picture')
+  const [recording, setRecording] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [scanTypes, setScanTypes] = useState<BarcodeType[]>(DEFAULT_SCAN_TYPES)
+  const [scanned, setScanned] = useState(false)
 
   useEffect(() => {
     controls = {
       openCamera: (options) => {
-        setHostMode('camera');
-        setFacing(options.facing ?? 'back');
-        setMode(options.mode ?? 'picture');
-        setScanned(false);
-        setVisible(true);
+        setHostMode('camera')
+        setFacing(options.facing ?? 'back')
+        setMode(options.mode ?? 'picture')
+        setScanned(false)
+        setVisible(true)
       },
       openScanner: (options) => {
-        setHostMode('scanner');
-        setFacing('back');
-        setScanTypes(options.types?.length ? options.types : DEFAULT_SCAN_TYPES);
-        setScanned(false);
-        setTorch(false);
-        setVisible(true);
+        setHostMode('scanner')
+        setFacing('back')
+        setScanTypes(options.types?.length ? options.types : DEFAULT_SCAN_TYPES)
+        setScanned(false)
+        setTorch(false)
+        setVisible(true)
       },
-    };
+    }
 
     return () => {
-      controls = null;
-    };
-  }, []);
+      controls = null
+    }
+  }, [])
 
   const closeCamera = (asset: CameraAsset | null) => {
-    setVisible(false);
-    setBusy(false);
-    setRecording(false);
-    setZoom(0);
-    setTorch(false);
-    pendingCamera?.(asset);
-    pendingCamera = null;
-  };
+    setVisible(false)
+    setBusy(false)
+    setRecording(false)
+    setZoom(0)
+    setTorch(false)
+    pendingCamera?.(asset)
+    pendingCamera = null
+  }
 
   const closeScanner = (result: ScanResult | null) => {
-    setVisible(false);
-    setScanned(false);
-    setTorch(false);
-    pendingScan?.(result);
-    pendingScan = null;
-  };
+    setVisible(false)
+    setScanned(false)
+    setTorch(false)
+    pendingScan?.(result)
+    pendingScan = null
+  }
 
   const onRequestClose = () => {
     if (hostMode === 'scanner') {
-      closeScanner(null);
-      return;
+      closeScanner(null)
+      return
     }
-    closeCamera(null);
-  };
+    closeCamera(null)
+  }
 
   const cycleFlash = () => {
     if (flash === 'off') {
-      setFlash('on');
-      return;
+      setFlash('on')
+      return
     }
     if (flash === 'on') {
-      setFlash('auto');
-      return;
+      setFlash('auto')
+      return
     }
-    setFlash('off');
-  };
+    setFlash('off')
+  }
 
   const onCapture = async () => {
     if (!cameraRef.current || busy || hostMode !== 'camera') {
-      return;
+      return
     }
 
     if (mode === 'video') {
       if (recording) {
-        cameraRef.current.stopRecording();
-        return;
+        cameraRef.current.stopRecording()
+        return
       }
-      setRecording(true);
-      await hapticImpact();
-      const video = await cameraRef.current.recordAsync({ maxDuration: 30 });
-      setRecording(false);
+      setRecording(true)
+      await hapticImpact()
+      const video = await cameraRef.current.recordAsync({ maxDuration: 30 })
+      setRecording(false)
       if (!video?.uri) {
-        closeCamera(null);
-        return;
+        closeCamera(null)
+        return
       }
-      closeCamera({ uri: video.uri, type: 'video' });
-      return;
+      closeCamera({ uri: video.uri, type: 'video' })
+      return
     }
 
-    setBusy(true);
-    await hapticImpact();
+    setBusy(true)
+    await hapticImpact()
     const photo = await cameraRef.current.takePictureAsync({
       quality: 0.92,
       skipProcessing: false,
       exif: true,
-    });
+    })
     if (!photo?.uri) {
-      closeCamera(null);
-      return;
+      closeCamera(null)
+      return
     }
     closeCamera({
       uri: photo.uri,
       width: photo.width,
       height: photo.height,
       type: 'photo',
-    });
-  };
+    })
+  }
 
-  let flashLabel = 'Off';
+  let flashLabel = 'Off'
   if (flash === 'on') {
-    flashLabel = 'On';
+    flashLabel = 'On'
   }
   if (flash === 'auto') {
-    flashLabel = 'Auto';
+    flashLabel = 'Auto'
   }
 
   return (
@@ -286,9 +283,9 @@ const CameraHost: FC = () => {
                   scanned
                     ? undefined
                     : ({ data, type }) => {
-                        setScanned(true);
-                        void hapticImpact();
-                        closeScanner({ type, data });
+                        setScanned(true)
+                        void hapticImpact()
+                        closeScanner({ type, data })
                       }
                 }
               />
@@ -315,7 +312,7 @@ const CameraHost: FC = () => {
                   onPress={() => setTorch((current) => !current)}
                   className={cn(
                     'h-10 w-10 items-center justify-center rounded-full bg-black/45',
-                    torch && 'bg-brand-background'
+                    torch && 'bg-brand-background',
                   )}
                 >
                   <Icon icon={Zap} color="#ffffff" size={16} />
@@ -384,7 +381,7 @@ const CameraHost: FC = () => {
                     onPress={() => setTorch((current) => !current)}
                     className={cn(
                       'h-10 w-10 items-center justify-center rounded-full bg-black/45',
-                      torch && 'bg-brand-background'
+                      torch && 'bg-brand-background',
                     )}
                   >
                     <Icon icon={Zap} color="#ffffff" size={16} />
@@ -401,14 +398,14 @@ const CameraHost: FC = () => {
               <View className="absolute bottom-28 left-0 right-0 items-center gap-3">
                 <View className="flex-row gap-2 rounded-full bg-black/45 p-1">
                   {(['picture', 'video'] as CaptureMode[]).map((item) => {
-                    const selected = mode === item;
+                    const selected = mode === item
                     return (
                       <Pressable
                         key={item}
                         onPress={() => setMode(item)}
                         className={cn(
                           'h-8 min-w-16 flex-row items-center justify-center gap-1 rounded-full px-3',
-                          selected && 'bg-white'
+                          selected && 'bg-white',
                         )}
                       >
                         <Icon
@@ -420,13 +417,13 @@ const CameraHost: FC = () => {
                           className={cn(
                             'text-xs font-semibold',
                             selected && 'text-black',
-                            !selected && 'text-white'
+                            !selected && 'text-white',
                           )}
                         >
                           {item === 'picture' ? 'Foto' : 'Video'}
                         </Text>
                       </Pressable>
-                    );
+                    )
                   })}
                 </View>
               </View>
@@ -439,7 +436,7 @@ const CameraHost: FC = () => {
               <Pressable
                 onPress={() =>
                   setFacing((current) =>
-                    current === 'back' ? 'front' : 'back'
+                    current === 'back' ? 'front' : 'back',
                   )
                 }
                 className="h-12 w-12 items-center justify-center rounded-full border border-border"
@@ -451,7 +448,7 @@ const CameraHost: FC = () => {
                 disabled={busy}
                 className={cn(
                   'h-20 w-20 items-center justify-center rounded-full border-4 border-brand-background bg-primary-background',
-                  recording && 'bg-error'
+                  recording && 'bg-error',
                 )}
               >
                 <Icon
@@ -466,8 +463,8 @@ const CameraHost: FC = () => {
         )}
       </View>
     </Modal>
-  );
-};
+  )
+}
 
-export { CameraHost, openCamera, openScanner, pickImage };
-export type { CameraAsset, Facing, ScanResult };
+export { CameraHost, openCamera, openScanner, pickImage }
+export type { CameraAsset, Facing, ScanResult }

@@ -1,26 +1,27 @@
-import { type FC } from 'react';
+import { type FC } from 'react'
 
 import BRAND, {
   type BrandSize,
   type BrandStatus,
-} from '@/common/components/shared/brand';
-import TextRoot, {
-  type TextRootProps,
-} from '@/common/components/text/root';
-import { cn } from '@/lib/utils';
+} from '@/common/components/shared/brand'
+import TextRoot, { type TextRootProps } from '@/common/components/text/root'
+import { cn } from '@/lib/utils'
 
 interface Props extends TextRootProps {
-  size?: BrandSize;
-  status?: BrandStatus;
+  size?: BrandSize
+  status?: BrandStatus
 }
 
 /**
  * Title — encabezado UI del design system.
  *
+ * @param size.className
  * @param size - Escala BRAND.type.title. @default 'md'
+ * @param size.size
  * @param status - Variante semántica. @default 'default'
  * @param className - Clases NativeWind extra
  *
+ * @param size.status
  * @example
  * import Text from '@/common/components/text';
  * <Text.Title size="md">Movimientos</Text.Title>
@@ -37,8 +38,11 @@ const Title: FC<Props> = ({
       className={cn(BRAND.type.title[size], className)}
       {...props}
     />
-  );
-};
+  )
+}
 
-export type { Props as TitleProps };
-export default Title;
+export type { Props as TitleProps }
+/**
+ *
+ */
+export default Title

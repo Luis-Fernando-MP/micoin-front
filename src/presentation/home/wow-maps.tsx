@@ -1,7 +1,7 @@
-import { type FC } from 'react';
-import { View } from 'react-native';
+import { type FC } from 'react'
+import { View } from 'react-native'
 
-import Maps from '@/common/components/maps';
+import Maps from '@/common/components/maps'
 
 /**
  * MapsGallery — composición de Maps + extensions para el lab.
@@ -17,7 +17,7 @@ const MapsGallery: FC = () => {
       <Maps.PlacePins />
       <Maps.DropPin />
     </View>
-  );
-};
+  )
+}
 
-export default MapsGallery;
+export default MapsGallery

@@ -1,15 +1,16 @@
-import LottieView from 'lottie-react-native';
-import { type FC, useRef } from 'react';
-import { View } from 'react-native';
+import { type FC, useRef } from 'react'
+import { View } from 'react-native'
 
-import Button from '@/common/components/button';
+import LottieView from 'lottie-react-native'
+
+import Button from '@/common/components/button'
 
 const SUCCESS_URI =
-  'https://assets10.lottiefiles.com/packages/lf20_jbrw3hcz.json';
+  'https://assets10.lottiefiles.com/packages/lf20_jbrw3hcz.json'
 
 interface Props {
-  uri?: string;
-  size?: number;
+  uri?: string
+  size?: number
 }
 
 /**
@@ -19,12 +20,14 @@ interface Props {
  *
  * @param props - Ver LottieSuccessProps / Props del archivo
  *
+ * @param props.uri
+ * @param props.size
  * @example
  * import LottieSuccess from '@/common/components/lottie-success';
  * <LottieSuccess />
  */
 const LottieSuccess: FC<Props> = ({ uri = SUCCESS_URI, size = 120 }) => {
-  const ref = useRef<LottieView>(null);
+  const ref = useRef<LottieView>(null)
 
   return (
     <View className="items-center gap-2">
@@ -40,12 +43,15 @@ const LottieSuccess: FC<Props> = ({ uri = SUCCESS_URI, size = 120 }) => {
         variant="outline"
         label="Replay"
         onPress={() => {
-          ref.current?.reset();
-          ref.current?.play();
+          ref.current?.reset()
+          ref.current?.play()
         }}
       />
     </View>
-  );
-};
+  )
+}
 
-export default LottieSuccess;
+/**
+ *
+ */
+export default LottieSuccess

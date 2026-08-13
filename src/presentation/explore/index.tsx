@@ -1,13 +1,14 @@
-import { Link } from 'expo-router';
-import { type FC } from 'react';
-import { View } from 'react-native';
+import { type FC } from 'react'
+import { View } from 'react-native'
 
-import { signOut } from '@/auth/client';
-import BrandLogo from '@/common/components/brand-logo';
-import Button from '@/common/components/button';
-import Card from '@/common/components/card';
-import AppNav from '@/common/components/nav';
-import Text from '@/common/components/text';
+import { Link } from 'expo-router'
+
+import { signOut } from '@/auth/client'
+import BrandLogo from '@/common/components/brand-logo'
+import Button from '@/common/components/button'
+import Card from '@/common/components/card'
+import AppNav from '@/common/components/nav'
+import Text from '@/common/components/text'
 
 const Explore: FC = () => {
   return (
@@ -31,7 +32,7 @@ const Explore: FC = () => {
       </View>
       <AppNav />
     </View>
-  );
-};
+  )
+}
 
-export { Explore };
+export { Explore }

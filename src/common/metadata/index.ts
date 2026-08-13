@@ -10,6 +10,6 @@ const metadata = {
   biometricPrompt: 'Desbloquea MiCoin',
   biometricCancel: 'Cancelar',
   copyright: `© ${new Date().getFullYear()} MiCoin`,
-} as const;
+} as const
 
-export { metadata };
+export { metadata }

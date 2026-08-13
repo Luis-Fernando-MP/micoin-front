@@ -1,23 +1,24 @@
-import { type BottomSheetModal } from '@gorhom/bottom-sheet';
-import { MoreHorizontal } from 'lucide-react-native';
-import { type FC, type ReactNode, useRef } from 'react';
-import { View } from 'react-native';
+import { type FC, type ReactNode, useRef } from 'react'
+import { View } from 'react-native'
 
-import AppBottomSheetModal from '@/common/components/bottom-sheet';
-import Button from '@/common/components/button';
-import Text from '@/common/components/text';
-import { showToast } from '@/common/components/toast';
+import { type BottomSheetModal } from '@gorhom/bottom-sheet'
+import { MoreHorizontal } from 'lucide-react-native'
+
+import AppBottomSheetModal from '@/common/components/bottom-sheet'
+import Button from '@/common/components/button'
+import Text from '@/common/components/text'
+import { showToast } from '@/common/components/toast'
 
 type Action = {
-  label: string;
-  onPress?: () => void;
-};
+  label: string
+  onPress?: () => void
+}
 
 interface Props {
-  title?: string;
-  description?: ReactNode;
-  actions?: Action[];
-  triggerLabel?: string;
+  title?: string
+  description?: ReactNode
+  actions?: Action[]
+  triggerLabel?: string
 }
 
 /**
@@ -27,6 +28,10 @@ interface Props {
  *
  * @param props - Ver RichOverflowSheetProps / Props del archivo
  *
+ * @param props.title
+ * @param props.description
+ * @param props.actions
+ * @param props.triggerLabel
  * @example
  * import RichOverflowSheet from '@/common/components/rich-overflow-sheet';
  * <RichOverflowSheet />
@@ -37,19 +42,17 @@ const RichOverflowSheet: FC<Props> = ({
   actions,
   triggerLabel = 'Abrir ⋯',
 }) => {
-  const ref = useRef<BottomSheetModal>(null);
-  const items =
-    actions ??
-    [
-      {
-        label: 'Duplicar cobro',
-        onPress: () => showToast({ title: 'Duplicado', status: 'success' }),
-      },
-      {
-        label: 'Archivar',
-        onPress: () => showToast({ title: 'Archivado', status: 'info' }),
-      },
-    ];
+  const ref = useRef<BottomSheetModal>(null)
+  const items = actions ?? [
+    {
+      label: 'Duplicar cobro',
+      onPress: () => showToast({ title: 'Duplicado', status: 'success' }),
+    },
+    {
+      label: 'Archivar',
+      onPress: () => showToast({ title: 'Archivado', status: 'info' }),
+    },
+  ]
 
   return (
     <View className="gap-2">
@@ -75,15 +78,18 @@ const RichOverflowSheet: FC<Props> = ({
               variant="outline"
               label={item.label}
               onPress={() => {
-                item.onPress?.();
-                ref.current?.dismiss();
+                item.onPress?.()
+                ref.current?.dismiss()
               }}
             />
           ))}
         </View>
       </AppBottomSheetModal>
     </View>
-  );
-};
+  )
+}
 
-export default RichOverflowSheet;
+/**
+ *
+ */
+export default RichOverflowSheet

@@ -1,18 +1,19 @@
-import { type FC, useState } from 'react';
-import { View } from 'react-native';
+import { type FC, useState } from 'react'
+import { View } from 'react-native'
+
 import {
   EmojiReactionBar as RnReactionBar,
   type EmojiSelection,
-} from 'rn-expo-emoji-picker';
+} from 'rn-expo-emoji-picker'
 
-import Text from '@/common/components/text';
+import Text from '@/common/components/text'
 
 interface Props {
-  emojis?: string[];
-  onChange?: (emoji: string | null) => void;
+  emojis?: string[]
+  onChange?: (emoji: string | null) => void
 }
 
-const DEFAULT = ['👍', '❤️', '😂', '😮', '😢', '🔥'];
+const DEFAULT = ['👍', '❤️', '😂', '😮', '😢', '🔥']
 
 /**
  * EmojiReactionBar — pieza reutilizable del kit MiCoin.
@@ -21,12 +22,14 @@ const DEFAULT = ['👍', '❤️', '😂', '😮', '😢', '🔥'];
  *
  * @param props - Ver EmojiReactionBarProps / Props del archivo
  *
+ * @param props.emojis
+ * @param props.onChange
  * @example
  * import EmojiReactionBar from '@/common/components/emoji-reaction-bar';
  * <EmojiReactionBar />
  */
 const EmojiReactionBar: FC<Props> = ({ emojis = DEFAULT, onChange }) => {
-  const [active, setActive] = useState<string | null>(null);
+  const [active, setActive] = useState<string | null>(null)
 
   return (
     <View className="gap-2">
@@ -34,16 +37,19 @@ const EmojiReactionBar: FC<Props> = ({ emojis = DEFAULT, onChange }) => {
         emojis={emojis}
         selectedEmojis={active ? [active] : []}
         onEmojiSelected={(selection: EmojiSelection) => {
-          const next = active === selection.emoji ? null : selection.emoji;
-          setActive(next);
-          onChange?.(next);
+          const next = active === selection.emoji ? null : selection.emoji
+          setActive(next)
+          onChange?.(next)
         }}
       />
       {active && (
         <Text className="text-sm text-secondary">Reacción: {active}</Text>
       )}
     </View>
-  );
-};
+  )
+}
 
-export default EmojiReactionBar;
+/**
+ *
+ */
+export default EmojiReactionBar

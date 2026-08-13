@@ -20,4 +20,4 @@ export const mcVars = {
   brand: '--mc-brand',
   brandBackground: '--mc-brand-background',
   brandForeground: '--mc-brand-foreground',
-} as const;
+} as const

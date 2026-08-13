@@ -1,11 +1,11 @@
-import { type FC } from 'react';
-import { View } from 'react-native';
+import { type FC } from 'react'
+import { View } from 'react-native'
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils'
 
 interface Props {
-  className?: string;
-  orientation?: 'horizontal' | 'vertical';
+  className?: string
+  orientation?: 'horizontal' | 'vertical'
 }
 
 /**
@@ -15,15 +15,14 @@ interface Props {
  *
  * @param props - Ver SeparatorProps / Props del archivo
  *
+ * @param props.className
+ * @param props.orientation
  * @example
  * import Separator from '@/common/components/separator';
  * <Separator />
  */
-const Separator: FC<Props> = ({
-  className,
-  orientation = 'horizontal',
-}) => {
-  const isVertical = orientation === 'vertical';
+const Separator: FC<Props> = ({ className, orientation = 'horizontal' }) => {
+  const isVertical = orientation === 'vertical'
 
   return (
     <View
@@ -31,10 +30,13 @@ const Separator: FC<Props> = ({
         'bg-card-hover',
         isVertical && 'h-full w-px',
         !isVertical && 'h-px w-full',
-        className
+        className,
       )}
     />
-  );
-};
+  )
+}
 
-export default Separator;
+/**
+ *
+ */
+export default Separator

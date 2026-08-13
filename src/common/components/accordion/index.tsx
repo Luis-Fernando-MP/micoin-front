@@ -1,22 +1,23 @@
-import { ChevronDown } from 'lucide-react-native';
-import { type FC, useState } from 'react';
-import { Pressable, View } from 'react-native';
-import BRAND from '@/common/components/shared/brand';
+import { type FC, useState } from 'react'
+import { Pressable, View } from 'react-native'
 
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import { ChevronDown } from 'lucide-react-native'
+
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 type Item = {
-  id: string;
-  title: string;
-  content: string;
-};
+  id: string
+  title: string
+  content: string
+}
 
 interface Props {
-  items: Item[];
-  type?: 'single' | 'multiple';
-  className?: string;
+  items: Item[]
+  type?: 'single' | 'multiple'
+  className?: string
 }
 
 /**
@@ -26,39 +27,38 @@ interface Props {
  *
  * @param props - Ver AccordionProps / Props del archivo
  *
+ * @param props.items
+ * @param props.type
+ * @param props.className
  * @example
  * import Accordion from '@/common/components/accordion';
  * <Accordion />
  */
-const Accordion: FC<Props> = ({
-  items,
-  type = 'single',
-  className,
-}) => {
-  const [open, setOpen] = useState<string[]>([]);
-  const iconColor = useMcVar(BRAND.native.textSecondary);
+const Accordion: FC<Props> = ({ items, type = 'single', className }) => {
+  const [open, setOpen] = useState<string[]>([])
+  const iconColor = useMcVar(BRAND.native.textSecondary)
 
   const toggle = (id: string) => {
-    const isOpen = open.includes(id);
+    const isOpen = open.includes(id)
     if (type === 'single') {
       if (isOpen) {
-        setOpen([]);
-        return;
+        setOpen([])
+        return
       }
-      setOpen([id]);
-      return;
+      setOpen([id])
+      return
     }
     if (isOpen) {
-      setOpen(open.filter((value) => value !== id));
-      return;
+      setOpen(open.filter((value) => value !== id))
+      return
     }
-    setOpen([...open, id]);
-  };
+    setOpen([...open, id])
+  }
 
   return (
     <View className={cn('gap-2', className)}>
       {items.map((item) => {
-        const isOpen = open.includes(item.id);
+        const isOpen = open.includes(item.id)
 
         return (
           <View
@@ -78,10 +78,13 @@ const Accordion: FC<Props> = ({
               </View>
             )}
           </View>
-        );
+        )
       })}
     </View>
-  );
-};
+  )
+}
 
-export default Accordion;
+/**
+ *
+ */
+export default Accordion

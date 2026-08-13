@@ -1,6 +1,6 @@
 export type OutputResponseService<T> = {
-  success: boolean;
-  message?: string;
-  statusCode?: number;
-  data: T;
-};
+  success: boolean
+  message?: string
+  statusCode?: number
+  data: T
+}

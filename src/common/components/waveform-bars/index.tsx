@@ -1,26 +1,23 @@
-import BRAND from '@/common/components/shared/brand';
-import {
-  Canvas,
-  Group,
-  RoundedRect,
-} from '@shopify/react-native-skia';
-import { type FC, useEffect } from 'react';
-import { View } from 'react-native';
+import { type FC, useEffect } from 'react'
+import { View } from 'react-native'
 import {
   type SharedValue,
   useDerivedValue,
   useSharedValue,
   withRepeat,
   withTiming,
-} from 'react-native-reanimated';
+} from 'react-native-reanimated'
 
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import { Canvas, Group, RoundedRect } from '@shopify/react-native-skia'
+
+import BRAND from '@/common/components/shared/brand'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 interface Props {
-  bars?: number;
-  width?: number;
-  height?: number;
-  active?: boolean;
+  bars?: number
+  width?: number
+  height?: number
+  active?: boolean
 }
 
 /**
@@ -30,6 +27,10 @@ interface Props {
  *
  * @param props - Ver WaveformBarsProps / Props del archivo
  *
+ * @param props.bars
+ * @param props.width
+ * @param props.height
+ * @param props.active
  * @example
  * import WaveformBars from '@/common/components/waveform-bars';
  * <WaveformBars />
@@ -40,19 +41,19 @@ const WaveformBars: FC<Props> = ({
   height = 56,
   active = true,
 }) => {
-  const brand = useMcVar(BRAND.native.brand);
-  const muted = useMcVar(BRAND.native.border);
-  const tick = useSharedValue(0);
+  const brand = useMcVar(BRAND.native.brand)
+  const muted = useMcVar(BRAND.native.border)
+  const tick = useSharedValue(0)
 
   useEffect(() => {
     if (!active) {
-      tick.value = 0;
-      return;
+      tick.value = 0
+      return
     }
-    tick.value = withRepeat(withTiming(1, { duration: 900 }), -1, true);
-  }, [active, tick]);
+    tick.value = withRepeat(withTiming(1, { duration: 900 }), -1, true)
+  }, [active, tick])
 
-  const barWidth = (width - (bars - 1) * 3) / bars;
+  const barWidth = (width - (bars - 1) * 3) / bars
 
   return (
     <View>
@@ -72,17 +73,17 @@ const WaveformBars: FC<Props> = ({
         </Group>
       </Canvas>
     </View>
-  );
-};
+  )
+}
 
 type WaveBarProps = {
-  index: number;
-  phase: number;
-  tick: SharedValue<number>;
-  barWidth: number;
-  height: number;
-  color: string;
-};
+  index: number
+  phase: number
+  tick: SharedValue<number>
+  barWidth: number
+  height: number
+  color: string
+}
 
 const WaveBar: FC<WaveBarProps> = ({
   index,
@@ -93,12 +94,12 @@ const WaveBar: FC<WaveBarProps> = ({
   color,
 }) => {
   const barHeight = useDerivedValue(() => {
-    const wave = Math.sin((tick.value + phase) * Math.PI * 2);
-    const normalized = 0.25 + ((wave + 1) / 2) * 0.75;
-    return height * normalized;
-  });
-  const y = useDerivedValue(() => height - barHeight.value);
-  const x = index * (barWidth + 3);
+    const wave = Math.sin((tick.value + phase) * Math.PI * 2)
+    const normalized = 0.25 + ((wave + 1) / 2) * 0.75
+    return height * normalized
+  })
+  const y = useDerivedValue(() => height - barHeight.value)
+  const x = index * (barWidth + 3)
 
   return (
     <RoundedRect
@@ -109,7 +110,10 @@ const WaveBar: FC<WaveBarProps> = ({
       r={2}
       color={color}
     />
-  );
-};
+  )
+}
 
-export default WaveformBars;
+/**
+ *
+ */
+export default WaveformBars

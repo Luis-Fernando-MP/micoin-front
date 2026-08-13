@@ -1,5 +1,6 @@
-import { Stack } from 'expo-router';
-import { type FC } from 'react';
+import { type FC } from 'react'
+
+import { Stack } from 'expo-router'
 
 const PublicLayout: FC = () => {
   return (
@@ -8,7 +9,7 @@ const PublicLayout: FC = () => {
       <Stack.Screen name="login" options={{ title: 'Login' }} />
       <Stack.Screen name="register" options={{ title: 'Register' }} />
     </Stack>
-  );
-};
+  )
+}
 
-export default PublicLayout;
+export default PublicLayout

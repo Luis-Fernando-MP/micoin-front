@@ -1,19 +1,19 @@
-import { memo, type FC, useCallback, useState } from 'react';
-import { View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { type FC, memo, useCallback, useState } from 'react'
+import { View } from 'react-native'
+import MapView, { Marker } from 'react-native-maps'
 
-import { type LatLng } from '@/common/components/maps/types';
-import BRAND from '@/common/components/shared/brand';
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
+import { type LatLng } from '@/common/components/maps/types'
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
 interface Props {
-  initialPin?: LatLng;
-  height?: number;
-  onChange?: (pin: LatLng) => void;
+  initialPin?: LatLng
+  height?: number
+  onChange?: (pin: LatLng) => void
 }
 
-const SV: LatLng = { latitude: 13.6929, longitude: -89.2182 };
+const SV: LatLng = { latitude: 13.6929, longitude: -89.2182 }
 
 /**
  * DropPin — mapa donde un tap suelta un marcador.
@@ -21,29 +21,35 @@ const SV: LatLng = { latitude: 13.6929, longitude: -89.2182 };
  * Extiende Maps para elegir coordenadas tocando el mapa.
  *
  * @param initialPin - Coordenada inicial del pin
+ * @param initialPin.initialPin
  * @param height - Alto del mapa en px. @default 180
+ * @param initialPin.height
  * @param onChange - Callback con la nueva coordenada
  *
+ * @param initialPin.onChange
  * @example
  * import Maps from '@/common/components/maps';
  * <Maps.DropPin onChange={setPin} />
  */
 const DropPin: FC<Props> = ({ initialPin = SV, height = 180, onChange }) => {
-  const [pin, setPin] = useState(initialPin);
+  const [pin, setPin] = useState(initialPin)
 
   const onPress = useCallback(
     (event: { nativeEvent: { coordinate: LatLng } }) => {
-      const next = event.nativeEvent.coordinate;
-      setPin(next);
-      onChange?.(next);
+      const next = event.nativeEvent.coordinate
+      setPin(next)
+      onChange?.(next)
     },
-    [onChange]
-  );
+    [onChange],
+  )
 
   return (
     <View className="gap-2">
       <View
-        className={cn('overflow-hidden border border-border', BRAND.radius.variants.control)}
+        className={cn(
+          'overflow-hidden border border-border',
+          BRAND.radius.variants.control,
+        )}
         style={{ height }}
       >
         <MapView
@@ -58,8 +64,11 @@ const DropPin: FC<Props> = ({ initialPin = SV, height = 180, onChange }) => {
         Lat {pin.latitude.toFixed(5)} · Lng {pin.longitude.toFixed(5)}
       </Text>
     </View>
-  );
-};
+  )
+}
 
-export type { Props as DropPinProps };
-export default memo(DropPin);
+export type { Props as DropPinProps }
+/**
+ *
+ */
+export default memo(DropPin)

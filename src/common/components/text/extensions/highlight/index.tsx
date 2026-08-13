@@ -1,21 +1,21 @@
-import { type FC } from 'react';
+import { type FC } from 'react'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand';
-import TextRoot, {
-  type TextRootProps,
-} from '@/common/components/text/root';
-import { cn } from '@/lib/utils';
+import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
+import TextRoot, { type TextRootProps } from '@/common/components/text/root'
+import { cn } from '@/lib/utils'
 
 interface Props extends TextRootProps {
-  status?: BrandStatus;
+  status?: BrandStatus
 }
 
 /**
  * Highlight — énfasis tipográfico (no es una caja).
  *
+ * @param status.className
  * @param status - Variante semántica. @default 'default'
  * @param className - Clases NativeWind extra
  *
+ * @param status.status
  * @example
  * import Text from '@/common/components/text';
  * <Text.Highlight status="brand">$12.50</Text.Highlight>
@@ -31,8 +31,11 @@ const Highlight: FC<Props> = ({
       className={cn(BRAND.type.highlight, className)}
       {...props}
     />
-  );
-};
+  )
+}
 
-export type { Props as HighlightProps };
-export default Highlight;
+export type { Props as HighlightProps }
+/**
+ *
+ */
+export default Highlight

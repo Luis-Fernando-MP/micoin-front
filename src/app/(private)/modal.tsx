@@ -1,9 +1,9 @@
-import { type FC } from 'react';
+import { type FC } from 'react'
 
-import { Modal } from '@/presentation/modal';
+import { Modal } from '@/presentation/modal'
 
 const ModalRoute: FC = () => {
-  return <Modal />;
-};
+  return <Modal />
+}
 
-export default ModalRoute;
+export default ModalRoute

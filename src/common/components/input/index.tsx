@@ -1,20 +1,21 @@
-import { cva, type VariantProps } from 'class-variance-authority';
-import { type FC } from 'react';
-import { TextInput, type TextInputProps, View } from 'react-native';
+import { type FC } from 'react'
+import { TextInput, type TextInputProps, View } from 'react-native'
+
+import { cva, type VariantProps } from 'class-variance-authority'
 
 import BRAND, {
   type BrandSize,
   type BrandSizeMap,
   type BrandStatus,
-} from '@/common/components/shared/brand';
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+} from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 const inputShell = cva(
   cn(
     'w-full border px-4 text-base text-foreground',
-    BRAND.radius.variants.control
+    BRAND.radius.variants.control,
   ),
   {
     variants: {
@@ -36,23 +37,28 @@ const inputShell = cva(
       variant: 'default',
       size: BRAND.sizes.defaultVariant,
     },
-  }
-);
+  },
+)
 
 interface Props extends TextInputProps, VariantProps<typeof inputShell> {
-  label?: string;
-  className?: string;
-  status?: BrandStatus;
-  size?: BrandSize;
+  label?: string
+  className?: string
+  status?: BrandStatus
+  size?: BrandSize
 }
 
 /**
  * Input — campo de texto con status y size BRAND.
  *
  * @param label - Etiqueta
+ * @param label.label
+ * @param label.className
+ * @param label.variant
  * @param status - Variante semántica. @default 'default'
+ * @param label.status
  * @param size - Tamaño BRAND. @default 'md'
  *
+ * @param label.size
  * @example
  * import Input from '@/common/components/input';
  * <Input label="Monto" status="brand" />
@@ -65,9 +71,9 @@ const Input: FC<Props> = ({
   size = BRAND.sizes.defaultVariant,
   ...props
 }) => {
-  const placeholderColor = useMcVar(BRAND.native.textSecondary);
-  const isGhost = variant === 'ghost';
-  const tone = BRAND.colors.variants[status];
+  const placeholderColor = useMcVar(BRAND.native.textSecondary)
+  const isGhost = variant === 'ghost'
+  const tone = BRAND.colors.variants[status]
 
   return (
     <View className="gap-2">
@@ -81,14 +87,17 @@ const Input: FC<Props> = ({
           inputShell({ variant, size: isGhost ? undefined : size }),
           isGhost && 'h-11',
           status !== 'default' && tone.border,
-          className
+          className,
         )}
         placeholderTextColor={placeholderColor}
         {...props}
       />
     </View>
-  );
-};
+  )
+}
 
-export type { Props as InputProps };
-export default Input;
+export type { Props as InputProps }
+/**
+ *
+ */
+export default Input

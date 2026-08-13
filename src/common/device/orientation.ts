@@ -1,18 +1,18 @@
-import * as ScreenOrientation from 'expo-screen-orientation';
+import * as ScreenOrientation from 'expo-screen-orientation'
 
 const getOrientation = async () => {
-  const orientation = await ScreenOrientation.getOrientationAsync();
-  return ScreenOrientation.Orientation[orientation] ?? String(orientation);
-};
+  const orientation = await ScreenOrientation.getOrientationAsync()
+  return ScreenOrientation.Orientation[orientation] ?? String(orientation)
+}
 
 const lockPortrait = async () => {
   await ScreenOrientation.lockAsync(
-    ScreenOrientation.OrientationLock.PORTRAIT_UP
-  );
-};
+    ScreenOrientation.OrientationLock.PORTRAIT_UP,
+  )
+}
 
 const unlockOrientation = async () => {
-  await ScreenOrientation.unlockAsync();
-};
+  await ScreenOrientation.unlockAsync()
+}
 
-export { getOrientation, lockPortrait, unlockOrientation };
+export { getOrientation, lockPortrait, unlockOrientation }

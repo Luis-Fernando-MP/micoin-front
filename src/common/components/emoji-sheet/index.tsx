@@ -1,15 +1,16 @@
-import { type BottomSheetModal } from '@gorhom/bottom-sheet';
-import { Smile } from 'lucide-react-native';
-import { type FC, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { type FC, useRef, useState } from 'react'
+import { View } from 'react-native'
 
-import AppBottomSheetModal from '@/common/components/bottom-sheet';
-import Button from '@/common/components/button';
-import EmojiPicker from '@/common/components/emoji-picker';
-import Text from '@/common/components/text';
+import { type BottomSheetModal } from '@gorhom/bottom-sheet'
+import { Smile } from 'lucide-react-native'
+
+import AppBottomSheetModal from '@/common/components/bottom-sheet'
+import Button from '@/common/components/button'
+import EmojiPicker from '@/common/components/emoji-picker'
+import Text from '@/common/components/text'
 
 interface Props {
-  onSelect?: (emoji: string) => void;
+  onSelect?: (emoji: string) => void
 }
 
 /**
@@ -19,13 +20,14 @@ interface Props {
  *
  * @param props - Ver EmojiSheetProps / Props del archivo
  *
+ * @param props.onSelect
  * @example
  * import EmojiSheet from '@/common/components/emoji-sheet';
  * <EmojiSheet />
  */
 const EmojiSheet: FC<Props> = ({ onSelect }) => {
-  const ref = useRef<BottomSheetModal>(null);
-  const [emoji, setEmoji] = useState('✨');
+  const ref = useRef<BottomSheetModal>(null)
+  const [emoji, setEmoji] = useState('✨')
 
   return (
     <View className="gap-2">
@@ -41,15 +43,18 @@ const EmojiSheet: FC<Props> = ({ onSelect }) => {
           <EmojiPicker
             height={320}
             onSelect={(value) => {
-              setEmoji(value);
-              onSelect?.(value);
-              ref.current?.dismiss();
+              setEmoji(value)
+              onSelect?.(value)
+              ref.current?.dismiss()
             }}
           />
         </View>
       </AppBottomSheetModal>
     </View>
-  );
-};
+  )
+}
 
-export default EmojiSheet;
+/**
+ *
+ */
+export default EmojiSheet

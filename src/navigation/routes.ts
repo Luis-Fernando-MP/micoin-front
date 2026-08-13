@@ -1,12 +1,12 @@
-export type RouteAuth = 'public' | 'private';
+export type RouteAuth = 'public' | 'private'
 
 export type AppRoute = {
-  href: string;
-  auth: RouteAuth;
-  title: string;
-  icon?: string;
-  showInNav?: boolean;
-};
+  href: string
+  auth: RouteAuth
+  title: string
+  icon?: string
+  showInNav?: boolean
+}
 
 export const routes = {
   home: {
@@ -41,36 +41,34 @@ export const routes = {
     title: 'Modal',
     showInNav: false,
   },
-} as const satisfies Record<string, AppRoute>;
+} as const satisfies Record<string, AppRoute>
 
-export type RouteKey = keyof typeof routes;
+export type RouteKey = keyof typeof routes
 
-export const allRoutes = Object.values(routes);
+export const allRoutes = Object.values(routes)
 
-export const publicRoutes = allRoutes.filter(
-  (route) => route.auth === 'public'
-);
+export const publicRoutes = allRoutes.filter((route) => route.auth === 'public')
 
 export const privateRoutes = allRoutes.filter(
-  (route) => route.auth === 'private'
-);
+  (route) => route.auth === 'private',
+)
 
 const isPublicRoute = (href: string) => {
-  return publicRoutes.some((route) => route.href === href);
-};
+  return publicRoutes.some((route) => route.href === href)
+}
 
 const getNavRoutes = (isAuthenticated: boolean): AppRoute[] => {
   return allRoutes.filter((route) => {
     if (!route.showInNav) {
-      return false;
+      return false
     }
 
     if (route.auth === 'private' && !isAuthenticated) {
-      return false;
+      return false
     }
 
-    return true;
-  });
-};
+    return true
+  })
+}
 
-export { getNavRoutes, isPublicRoute };
+export { getNavRoutes, isPublicRoute }

@@ -1,9 +1,9 @@
-import { type FC } from 'react';
+import { type FC } from 'react'
 
-import { Explore } from '@/presentation/explore';
+import { Explore } from '@/presentation/explore'
 
 const ExploreRoute: FC = () => {
-  return <Explore />;
-};
+  return <Explore />
+}
 
-export default ExploreRoute;
+export default ExploreRoute

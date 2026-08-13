@@ -1,17 +1,18 @@
-import { cva, type VariantProps } from 'class-variance-authority';
-import { type LucideIcon } from 'lucide-react-native';
-import { type FC, type ReactNode } from 'react';
-import { Pressable, type PressableProps } from 'react-native';
+import { type FC, type ReactNode } from 'react'
+import { Pressable, type PressableProps } from 'react-native'
 
-import Icon from '@/common/components/icon';
-import BRAND, { type BrandSize } from '@/common/components/shared/brand';
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
+import { cva, type VariantProps } from 'class-variance-authority'
+import { type LucideIcon } from 'lucide-react-native'
+
+import Icon from '@/common/components/icon'
+import BRAND, { type BrandSize } from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
   cn(
     'flex-row items-center justify-center gap-2',
-    BRAND.radius.variants.control
+    BRAND.radius.variants.control,
   ),
   {
     variants: {
@@ -28,8 +29,8 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: 'default',
     },
-  }
-);
+  },
+)
 
 const buttonTextVariants = cva('', {
   variants: {
@@ -43,40 +44,48 @@ const buttonTextVariants = cva('', {
   defaultVariants: {
     variant: 'default',
   },
-});
+})
 
 const iconTone = (
-  variant: Props['variant']
+  variant: Props['variant'],
 ): 'onPrimary' | 'onBrand' | 'foreground' => {
   if (variant === 'default') {
-    return 'onPrimary';
+    return 'onPrimary'
   }
   if (variant === 'brand') {
-    return 'onBrand';
+    return 'onBrand'
   }
-  return 'foreground';
-};
+  return 'foreground'
+}
 
 interface Props
-  extends Omit<PressableProps, 'children'>,
+  extends
+    Omit<PressableProps, 'children'>,
     VariantProps<typeof buttonVariants> {
-  className?: string;
-  label?: string;
-  children?: ReactNode;
-  size?: BrandSize;
-  icon?: LucideIcon;
+  className?: string
+  label?: string
+  children?: ReactNode
+  size?: BrandSize
+  icon?: LucideIcon
 }
 
 /**
  * Button — control de acción con variantes y tamaños BRAND.
  *
+ * @param label.className
+ * @param label.variant
+ * @param label.disabled
  * @param label - Texto del botón
  * @param variant - Estilo visual. @default 'default'
+ * @param label.label
+ * @param label.children
  * @param size - Tamaño BRAND. @default 'md'
+ * @param label.size
  * @param icon - Icono Lucide opcional
  * @param disabled - Deshabilitado
  * @param className - Clases NativeWind extra
  *
+ * @param label.icon
  * @example
  * import Button from '@/common/components/button';
  * <Button label="Pagar" variant="brand" size="sm" />
@@ -91,27 +100,25 @@ const Button: FC<Props> = ({
   icon,
   ...props
 }) => {
-  const sizing = BRAND.sizes.variants[size];
+  const sizing = BRAND.sizes.variants[size]
 
   return (
     <Pressable
       className={cn(
         buttonVariants({ variant, disabled: Boolean(disabled) }),
         sizing.height,
-        className
+        className,
       )}
       disabled={disabled}
       {...props}
     >
-      {icon && (
-        <Icon icon={icon} size={sizing.icon} tone={iconTone(variant)} />
-      )}
+      {icon && <Icon icon={icon} size={sizing.icon} tone={iconTone(variant)} />}
       {label && (
         <Text
           className={cn(
             sizing.text,
             'font-semibold',
-            buttonTextVariants({ variant })
+            buttonTextVariants({ variant }),
           )}
         >
           {label}
@@ -119,8 +126,11 @@ const Button: FC<Props> = ({
       )}
       {!label && children}
     </Pressable>
-  );
-};
+  )
+}
 
-export type { Props as ButtonProps };
-export default Button;
+export type { Props as ButtonProps }
+/**
+ *
+ */
+export default Button

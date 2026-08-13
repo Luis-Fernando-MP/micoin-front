@@ -1,30 +1,36 @@
-import { type FC } from 'react';
-import { Pressable } from 'react-native';
+import { type FC } from 'react'
+import { Pressable } from 'react-native'
 
 import BRAND, {
   type BrandSize,
   type BrandStatus,
-} from '@/common/components/shared/brand';
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
+} from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
 interface Props {
-  label: string;
-  className?: string;
-  status?: BrandStatus;
-  size?: BrandSize;
-  selected?: boolean;
-  onPress?: () => void;
+  label: string
+  className?: string
+  status?: BrandStatus
+  size?: BrandSize
+  selected?: boolean
+  onPress?: () => void
 }
 
 /**
  * Chip — filtro o etiqueta táctil del design system.
  *
  * @param label - Texto
+ * @param label.label
+ * @param label.className
+ * @param label.size
+ * @param label.selected
  * @param status - Variante semántica. @default 'default'
  * @param size - Tamaño BRAND. @default 'md'
  * @param selected - Estado activo
  *
+ * @param label.status
+ * @param label.onPress
  * @example
  * import Chip from '@/common/components/chip';
  * <Chip label="Hoy" status="brand" selected />
@@ -37,8 +43,8 @@ const Chip: FC<Props> = ({
   status = BRAND.colors.defaultVariant,
   onPress,
 }) => {
-  const tone = BRAND.colors.variants[status];
-  const sizing = BRAND.sizes.variants[size];
+  const tone = BRAND.colors.variants[status]
+  const sizing = BRAND.sizes.variants[size]
 
   return (
     <Pressable
@@ -50,21 +56,24 @@ const Chip: FC<Props> = ({
         selected && BRAND.colors.variants.primary.background,
         !selected && tone.soft,
         !selected && tone.border,
-        className
+        className,
       )}
     >
       <Text
         className={cn(
           sizing.text,
           selected && BRAND.colors.variants.primary.foreground,
-          !selected && tone.text
+          !selected && tone.text,
         )}
       >
         {label}
       </Text>
     </Pressable>
-  );
-};
+  )
+}
 
-export type { Props as ChipProps };
-export default Chip;
+export type { Props as ChipProps }
+/**
+ *
+ */
+export default Chip

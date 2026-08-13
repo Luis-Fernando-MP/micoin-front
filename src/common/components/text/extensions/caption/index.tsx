@@ -1,13 +1,11 @@
-import { type FC } from 'react';
+import { type FC } from 'react'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand';
-import TextRoot, {
-  type TextRootProps,
-} from '@/common/components/text/root';
-import { cn } from '@/lib/utils';
+import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
+import TextRoot, { type TextRootProps } from '@/common/components/text/root'
+import { cn } from '@/lib/utils'
 
 interface Props extends TextRootProps {
-  status?: BrandStatus;
+  status?: BrandStatus
 }
 
 /**
@@ -15,9 +13,11 @@ interface Props extends TextRootProps {
  *
  * Sin `status` usa tono muted; con `status` usa BRAND.colors.
  *
+ * @param status.className
  * @param status - Variante semántica opcional
  * @param className - Clases NativeWind extra
  *
+ * @param status.status
  * @example
  * import Text from '@/common/components/text';
  * <Text.Caption>Mock de bandeja (Expo Go)</Text.Caption>
@@ -26,15 +26,14 @@ const Caption: FC<Props> = ({ className, status, ...props }) => {
   return (
     <TextRoot
       status={status}
-      className={cn(
-        BRAND.type.caption,
-        !status && BRAND.type.muted,
-        className
-      )}
+      className={cn(BRAND.type.caption, !status && BRAND.type.muted, className)}
       {...props}
     />
-  );
-};
+  )
+}
 
-export type { Props as CaptionProps };
-export default Caption;
+export type { Props as CaptionProps }
+/**
+ *
+ */
+export default Caption

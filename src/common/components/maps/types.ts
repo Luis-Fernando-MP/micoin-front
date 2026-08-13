@@ -1,3 +1,3 @@
-type LatLng = { latitude: number; longitude: number };
+type LatLng = { latitude: number; longitude: number }
 
-export type { LatLng };
+export type { LatLng }

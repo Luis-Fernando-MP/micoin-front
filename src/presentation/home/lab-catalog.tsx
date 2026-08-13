@@ -1,29 +1,29 @@
-import { type FC, type ReactNode } from 'react';
-import { View } from 'react-native';
+import { type FC, type ReactNode } from 'react'
+import { View } from 'react-native'
 
-import AudioPlayer from '@/common/components/audio-player';
-import ConfettiBurst from '@/common/components/confetti-burst';
-import EmojiPicker from '@/common/components/emoji-picker';
-import EmojiReactionBar from '@/common/components/emoji-reaction-bar';
-import EmojiSheet from '@/common/components/emoji-sheet';
-import FoilText from '@/common/components/foil-text';
-import FrostCard from '@/common/components/frost-card';
-import KeyboardAwareComposer from '@/common/components/keyboard-aware-composer';
-import LabModule from '@/common/components/lab-module';
-import LottieSuccess from '@/common/components/lottie-success';
-import MiniPlayerBar from '@/common/components/mini-player-bar';
-import PressableScale from '@/common/components/pressable-scale';
-import ProCarousel from '@/common/components/pro-carousel';
-import PrivacyCover from '@/common/components/privacy-cover';
-import RichOverflowSheet from '@/common/components/rich-overflow-sheet';
-import SegmentedTabs from '@/common/components/segmented-tabs';
-import SharePaySheet from '@/common/components/share-pay-sheet';
-import SkeletonList from '@/common/components/skeleton-list';
-import Text from '@/common/components/text';
-import TrayNotifyMock from '@/common/components/tray-notify-mock';
-import VideoPlayer from '@/common/components/video-player';
-import WaveformBars from '@/common/components/waveform-bars';
-import { showToast } from '@/common/components/toast';
+import AudioPlayer from '@/common/components/audio-player'
+import ConfettiBurst from '@/common/components/confetti-burst'
+import EmojiPicker from '@/common/components/emoji-picker'
+import EmojiReactionBar from '@/common/components/emoji-reaction-bar'
+import EmojiSheet from '@/common/components/emoji-sheet'
+import FoilText from '@/common/components/foil-text'
+import FrostCard from '@/common/components/frost-card'
+import KeyboardAwareComposer from '@/common/components/keyboard-aware-composer'
+import LabModule from '@/common/components/lab-module'
+import LottieSuccess from '@/common/components/lottie-success'
+import MiniPlayerBar from '@/common/components/mini-player-bar'
+import PressableScale from '@/common/components/pressable-scale'
+import PrivacyCover from '@/common/components/privacy-cover'
+import ProCarousel from '@/common/components/pro-carousel'
+import RichOverflowSheet from '@/common/components/rich-overflow-sheet'
+import SegmentedTabs from '@/common/components/segmented-tabs'
+import SharePaySheet from '@/common/components/share-pay-sheet'
+import SkeletonList from '@/common/components/skeleton-list'
+import Text from '@/common/components/text'
+import { showToast } from '@/common/components/toast'
+import TrayNotifyMock from '@/common/components/tray-notify-mock'
+import VideoPlayer from '@/common/components/video-player'
+import WaveformBars from '@/common/components/waveform-bars'
 import {
   BarcodeDemo,
   LedgerDemo,
@@ -36,18 +36,18 @@ import {
   StripeCardDemo,
   TicketPhotoDemo,
   VoiceNoteDemo,
-} from '@/presentation/home/product-demos';
-import MapsGallery from '@/presentation/home/wow-maps';
-import SkiaGallery from '@/presentation/home/wow-skia';
+} from '@/presentation/home/product-demos'
+import MapsGallery from '@/presentation/home/wow-maps'
+import SkiaGallery from '@/presentation/home/wow-skia'
 
 type Entry = {
-  id: number;
-  title: string;
-  what: string;
-  why: string;
-  pack?: string;
-  children: ReactNode;
-};
+  id: number
+  title: string
+  what: string
+  why: string
+  pack?: string
+  children: ReactNode
+}
 
 const ENTRIES: Entry[] = [
   {
@@ -290,9 +290,7 @@ const ENTRIES: Entry[] = [
     pack: 'moti',
     children: (
       <PressableScale
-        onPress={() =>
-          showToast({ title: 'Tap!', status: 'success' })
-        }
+        onPress={() => showToast({ title: 'Tap!', status: 'success' })}
       >
         <View className="items-center rounded-control border border-border bg-card px-4 py-3">
           <Text.Highlight>Pulsa aquí</Text.Highlight>
@@ -364,7 +362,7 @@ const ENTRIES: Entry[] = [
     pack: 'Fase 2 mock',
     children: <TrayNotifyMock.MediaStyle />,
   },
-];
+]
 
 const LabCatalog: FC = () => {
   return (
@@ -382,7 +380,7 @@ const LabCatalog: FC = () => {
         </LabModule>
       ))}
     </View>
-  );
-};
+  )
+}
 
-export { LabCatalog };
+export { LabCatalog }

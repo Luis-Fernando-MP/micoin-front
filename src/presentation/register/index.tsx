@@ -1,40 +1,41 @@
-import { useRouter } from 'expo-router';
-import { type FC, useState } from 'react';
-import { View } from 'react-native';
+import { type FC, useState } from 'react'
+import { View } from 'react-native'
 
-import { signUp } from '@/auth/client';
-import BrandLogo from '@/common/components/brand-logo';
-import Button from '@/common/components/button';
-import Card from '@/common/components/card';
-import Input from '@/common/components/input';
-import Text from '@/common/components/text';
+import { useRouter } from 'expo-router'
+
+import { signUp } from '@/auth/client'
+import BrandLogo from '@/common/components/brand-logo'
+import Button from '@/common/components/button'
+import Card from '@/common/components/card'
+import Input from '@/common/components/input'
+import Text from '@/common/components/text'
 
 const Register: FC = () => {
-  const router = useRouter();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
+  const router = useRouter()
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [pending, setPending] = useState(false)
 
-  let submitLabel = 'Register';
+  let submitLabel = 'Register'
   if (pending) {
-    submitLabel = 'Creating…';
+    submitLabel = 'Creating…'
   }
 
   const onSubmit = async () => {
-    setPending(true);
-    setError(null);
-    const result = await signUp.email({ name, email, password });
-    setPending(false);
+    setPending(true)
+    setError(null)
+    const result = await signUp.email({ name, email, password })
+    setPending(false)
 
     if (result.error) {
-      setError(result.error.message ?? 'Unable to create account');
-      return;
+      setError(result.error.message ?? 'Unable to create account')
+      return
     }
 
-    router.replace('/explore');
-  };
+    router.replace('/explore')
+  }
 
   return (
     <View className="flex-1 justify-center bg-background p-5">
@@ -61,7 +62,7 @@ const Register: FC = () => {
         <Button disabled={pending} label={submitLabel} onPress={onSubmit} />
       </Card>
     </View>
-  );
-};
+  )
+}
 
-export { Register };
+export { Register }

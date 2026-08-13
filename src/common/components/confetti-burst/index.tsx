@@ -1,13 +1,13 @@
-import { type FC, useRef, useState } from 'react';
-import { View } from 'react-native';
-import ConfettiCannon from 'react-native-confetti-cannon';
-import BRAND from '@/common/components/shared/brand';
+import { type FC, useRef, useState } from 'react'
+import { View } from 'react-native'
+import ConfettiCannon from 'react-native-confetti-cannon'
 
-import Button from '@/common/components/button';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import Button from '@/common/components/button'
+import BRAND from '@/common/components/shared/brand'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 interface Props {
-  count?: number;
+  count?: number
 }
 
 /**
@@ -17,16 +17,17 @@ interface Props {
  *
  * @param props - Ver ConfettiBurstProps / Props del archivo
  *
+ * @param props.count
  * @example
  * import ConfettiBurst from '@/common/components/confetti-burst';
  * <ConfettiBurst />
  */
 const ConfettiBurst: FC<Props> = ({ count = 80 }) => {
-  const [key, setKey] = useState(0);
-  const brand = useMcVar(BRAND.native.brand);
-  const primary = useMcVar(BRAND.native.primary);
-  const card = useMcVar(BRAND.native.card);
-  const confettiRef = useRef<ConfettiCannon>(null);
+  const [key, setKey] = useState(0)
+  const brand = useMcVar(BRAND.native.brand)
+  const primary = useMcVar(BRAND.native.primary)
+  const card = useMcVar(BRAND.native.card)
+  const confettiRef = useRef<ConfettiCannon>(null)
 
   return (
     <View className="relative h-40 items-center justify-center overflow-hidden">
@@ -35,8 +36,8 @@ const ConfettiBurst: FC<Props> = ({ count = 80 }) => {
         variant="brand"
         label="Celebrar"
         onPress={() => {
-          setKey((value) => value + 1);
-          confettiRef.current?.start();
+          setKey((value) => value + 1)
+          confettiRef.current?.start()
         }}
       />
       <ConfettiCannon
@@ -49,7 +50,10 @@ const ConfettiBurst: FC<Props> = ({ count = 80 }) => {
         colors={[brand, primary, card]}
       />
     </View>
-  );
-};
+  )
+}
 
-export default ConfettiBurst;
+/**
+ *
+ */
+export default ConfettiBurst

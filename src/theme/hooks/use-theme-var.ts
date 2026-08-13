@@ -1,19 +1,19 @@
-import { useUnstableNativeVariable } from 'nativewind';
+import { useUnstableNativeVariable } from 'nativewind'
 
-import { mcVars } from '@/theme/css-vars';
+import { mcVars } from '@/theme/css-vars'
 
-type McVarKey = keyof typeof mcVars;
+type McVarKey = keyof typeof mcVars
 
 const useMcVar = (key: McVarKey, fallback = ''): string => {
-  const value = useUnstableNativeVariable(mcVars[key]) as unknown;
+  const value = useUnstableNativeVariable(mcVars[key]) as unknown
 
   if (typeof value === 'string' && value.length > 0) {
-    return value;
+    return value
   }
 
-  return fallback;
-};
+  return fallback
+}
 
-const useThemeVar = useMcVar;
+const useThemeVar = useMcVar
 
-export { useMcVar, useThemeVar };
+export { useMcVar, useThemeVar }

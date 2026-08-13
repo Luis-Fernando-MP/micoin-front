@@ -1,17 +1,18 @@
-import { useVideoPlayer, VideoView } from 'expo-video';
-import { type FC } from 'react';
-import { View } from 'react-native';
-import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
+import { type FC } from 'react'
+import { View } from 'react-native'
 
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
+import { useVideoPlayer, VideoView } from 'expo-video'
+
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
 const DEMO =
-  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
 
 interface Props {
-  uri?: string;
-  height?: number;
+  uri?: string
+  height?: number
 }
 
 /**
@@ -21,14 +22,16 @@ interface Props {
  *
  * @param props - Ver VideoPlayerProps / Props del archivo
  *
+ * @param props.uri
+ * @param props.height
  * @example
  * import VideoPlayer from '@/common/components/video-player';
  * <VideoPlayer />
  */
 const VideoPlayer: FC<Props> = ({ uri = DEMO, height = 180 }) => {
   const player = useVideoPlayer(uri, (instance) => {
-    instance.loop = true;
-  });
+    instance.loop = true
+  })
 
   return (
     <View className="gap-2">
@@ -43,7 +46,10 @@ const VideoPlayer: FC<Props> = ({ uri = DEMO, height = 180 }) => {
         expo-video · controles nativos
       </Text>
     </View>
-  );
-};
+  )
+}
 
-export default VideoPlayer;
+/**
+ *
+ */
+export default VideoPlayer

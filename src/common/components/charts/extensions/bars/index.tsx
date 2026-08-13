@@ -1,27 +1,32 @@
-import { Canvas, Group, Rect } from '@shopify/react-native-skia';
-import { memo, type FC } from 'react';
-import { View } from 'react-native';
-import BRAND from '@/common/components/shared/brand';
+import { type FC, memo } from 'react'
+import { View } from 'react-native'
 
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import { Canvas, Group, Rect } from '@shopify/react-native-skia'
+
+import BRAND from '@/common/components/shared/brand'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 interface Props {
-  data?: number[];
-  highlightIndex?: number;
-  width?: number;
-  height?: number;
+  data?: number[]
+  highlightIndex?: number
+  width?: number
+  height?: number
 }
 
-const DEFAULT = [40, 65, 35, 80, 55, 90, 48];
+const DEFAULT = [40, 65, 35, 80, 55, 90, 48]
 
 /**
  * BarChart — barras verticales de una serie.
  *
  * @param data - Valores 0–100. @default serie semanal
+ * @param data.data
  * @param highlightIndex - Índice resaltado con color brand
+ * @param data.highlightIndex
  * @param width - Ancho del canvas. @default 280
+ * @param data.width
  * @param height - Alto del canvas. @default 100
  *
+ * @param data.height
  * @example
  * import Charts from '@/common/components/charts';
  * <Charts.BarChart data={[40, 65, 80]} highlightIndex={2} />
@@ -32,17 +37,17 @@ const BarChart: FC<Props> = ({
   width = 280,
   height = 100,
 }) => {
-  const brand = useMcVar(BRAND.native.brand);
-  const muted = useMcVar(BRAND.native.border);
-  const barW = 28;
-  const gap = 10;
+  const brand = useMcVar(BRAND.native.brand)
+  const muted = useMcVar(BRAND.native.border)
+  const barW = 28
+  const gap = 10
 
   return (
     <View>
       <Canvas style={{ width, height }}>
         {data.map((value, index) => {
-          const x = index * (barW + gap) + 8;
-          const h = (value / 100) * 70;
+          const x = index * (barW + gap) + 8
+          const h = (value / 100) * 70
           return (
             <Group key={index}>
               <Rect
@@ -53,12 +58,15 @@ const BarChart: FC<Props> = ({
                 color={index === highlightIndex ? brand : muted}
               />
             </Group>
-          );
+          )
         })}
       </Canvas>
     </View>
-  );
-};
+  )
+}
 
-export type { Props as BarChartProps };
-export default memo(BarChart);
+export type { Props as BarChartProps }
+/**
+ *
+ */
+export default memo(BarChart)

@@ -1,4 +1,6 @@
-import BRAND from '@/common/components/shared/brand';
+import { type FC, memo, useMemo, useState } from 'react'
+import { View } from 'react-native'
+
 import {
   Canvas,
   Circle,
@@ -6,55 +8,57 @@ import {
   Path,
   Skia,
   vec,
-} from '@shopify/react-native-skia';
-import { memo, type FC, useMemo, useState } from 'react';
-import { View } from 'react-native';
+} from '@shopify/react-native-skia'
 
-import Button from '@/common/components/button';
-import Text from '@/common/components/text';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import Button from '@/common/components/button'
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 interface Props {
-  value?: number;
-  min?: number;
-  max?: number;
+  value?: number
+  min?: number
+  max?: number
 }
 
 /**
  * GaugeChart — semicírculo de score con aguja.
  *
  * @param value - Valor inicial. @default 780
+ * @param value.value
  * @param min - Mínimo. @default 300
+ * @param value.min
  * @param max - Máximo. @default 850
  *
+ * @param value.max
  * @example
  * import Charts from '@/common/components/charts';
  * <Charts.GaugeChart value={720} />
  */
 const GaugeChart: FC<Props> = ({ value = 780, min = 300, max = 850 }) => {
-  const brand = useMcVar(BRAND.native.brand);
-  const muted = useMcVar(BRAND.native.border);
-  const [score, setScore] = useState(value);
-  const angle = ((score - min) / (max - min)) * Math.PI;
-  const cx = 90;
-  const cy = 90;
-  const r = 70;
-  const needleX = cx + Math.cos(Math.PI - angle) * (r - 12);
-  const needleY = cy - Math.sin(Math.PI - angle) * (r - 12);
+  const brand = useMcVar(BRAND.native.brand)
+  const muted = useMcVar(BRAND.native.border)
+  const [score, setScore] = useState(value)
+  const angle = ((score - min) / (max - min)) * Math.PI
+  const cx = 90
+  const cy = 90
+  const r = 70
+  const needleX = cx + Math.cos(Math.PI - angle) * (r - 12)
+  const needleY = cy - Math.sin(Math.PI - angle) * (r - 12)
   const track = useMemo(() => {
-    const p = Skia.Path.Make();
-    p.addArc({ x: cx - r, y: cy - r, width: r * 2, height: r * 2 }, 180, 180);
-    return p;
-  }, []);
+    const p = Skia.Path.Make()
+    p.addArc({ x: cx - r, y: cy - r, width: r * 2, height: r * 2 }, 180, 180)
+    return p
+  }, [])
   const fill = useMemo(() => {
-    const p = Skia.Path.Make();
+    const p = Skia.Path.Make()
     p.addArc(
       { x: cx - r, y: cy - r, width: r * 2, height: r * 2 },
       180,
-      ((score - min) / (max - min)) * 180
-    );
-    return p;
-  }, [max, min, score]);
+      ((score - min) / (max - min)) * 180,
+    )
+    return p
+  }, [max, min, score])
 
   return (
     <View className="flex-row items-center gap-3">
@@ -87,8 +91,11 @@ const GaugeChart: FC<Props> = ({ value = 780, min = 300, max = 850 }) => {
         />
       </View>
     </View>
-  );
-};
+  )
+}
 
-export type { Props as GaugeChartProps };
-export default memo(GaugeChart);
+export type { Props as GaugeChartProps }
+/**
+ *
+ */
+export default memo(GaugeChart)

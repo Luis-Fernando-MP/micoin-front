@@ -1,9 +1,10 @@
-import { Link } from 'expo-router';
-import { type FC } from 'react';
-import { View } from 'react-native';
+import { type FC } from 'react'
+import { View } from 'react-native'
 
-import Button from '@/common/components/button';
-import Text from '@/common/components/text';
+import { Link } from 'expo-router'
+
+import Button from '@/common/components/button'
+import Text from '@/common/components/text'
 
 const Modal: FC = () => {
   return (
@@ -13,7 +14,7 @@ const Modal: FC = () => {
         <Button variant="outline" label="Back home" />
       </Link>
     </View>
-  );
-};
+  )
+}
 
-export { Modal };
+export { Modal }

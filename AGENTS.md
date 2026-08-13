@@ -2,6 +2,13 @@
 
 Prioridad #1 del repo: piezas reutilizables en `src/common`.
 
+## Estilo
+
+- Sin punto y coma. Imports: librerías arriba, `@/` abajo, relativos de carpeta (`./`) al final. Prohibido `../`.
+- Constantes y tipos arriba; el componente abajo. Pieza React: `export default`.
+- Sin comentarios narrativos ni `//` en bloques. JSDoc en español en piezas/métodos reutilizables de `src/common` (`@param`, `@example`).
+- `pnpm lint` / `pnpm lint:fix` · `pnpm format` / `pnpm format:fix`.
+
 ## Black-box
 
 Cada componente es una pieza de coche: se conecta y listo. El consumidor no cablea estado interno ni lógica de librería.
@@ -20,7 +27,7 @@ src/common/components/{name}/
 No crear `hooks/`, `store/` ni `extensions/` vacíos.
 
 - Código, nombres y variables en inglés.
-- JSDoc en español, solo encima del componente exportado (no en interfaces, no en páginas, no en métodos internos).
+- JSDoc en español en el export reutilizable de `src/common` (componente default o función pública). No en interfaces, páginas ni helpers privados.
 - Screens en `presentation/` solo consumen pieces.
 
 ### Export default
@@ -33,7 +40,7 @@ export default Avatar;
 ```
 
 ```tsx
-import Avatar from '@/common/components/avatar';
+import Avatar from '@/common/components/avatar'
 ```
 
 Named export solo para tipos, hooks, store, helpers y subpartes compuestas (`Dialog.Header` adjunto al default). Prohibido `export { Avatar }` como export principal.
@@ -43,9 +50,13 @@ Named export solo para tipos, hooks, store, helpers y subpartes compuestas (`Dia
 Fuente de verdad: `src/common/components/shared/brand.ts`.
 
 ```ts
-import BRAND, { type BrandStatus, type BrandSize, type BrandRadius } from '@/common/components/shared/brand';
+import BRAND, {
+  type BrandStatus,
+  type BrandSize,
+  type BrandRadius,
+} from '@/common/components/shared/brand'
 
-type BrandSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type BrandSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 ```
 
 `BRAND.sizes` y `BRAND.type.title` satisfacen `Record<BrandSize, …>`. Si se agrega un step, se agrega al type primero. Radius no usa esta escala (`none | sm | control | surface | pill`).
@@ -105,6 +116,7 @@ Las extensiones viven en `extensions/` y se adjuntan al default. El consumidor n
 - Un `index.tsx` de 400+ líneas con 4 modos
 - Copy, toasts o deep links de producto hardcodeados en el core
 - JSDoc en páginas o helpers privados
+- Comentarios `//` o `../` en imports
 - Carpetas `hooks/` vacías
 - Clases de status/size/radius fuera de BRAND
 - `renderItem` inline inestable en listas largas

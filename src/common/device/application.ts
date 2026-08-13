@@ -1,15 +1,12 @@
-import * as Application from 'expo-application';
-import { Platform } from 'react-native';
+import { Platform } from 'react-native'
+
+import * as Application from 'expo-application'
 
 const getAppInfo = async () => {
   const androidId =
-    Platform.OS === 'android'
-      ? Application.getAndroidId()
-      : null;
+    Platform.OS === 'android' ? Application.getAndroidId() : null
   const iosId =
-    Platform.OS === 'ios'
-      ? await Application.getIosIdForVendorAsync()
-      : null;
+    Platform.OS === 'ios' ? await Application.getIosIdForVendorAsync() : null
 
   return {
     name: Application.applicationName,
@@ -17,7 +14,7 @@ const getAppInfo = async () => {
     build: Application.nativeBuildVersion,
     androidId,
     iosId,
-  };
-};
+  }
+}
 
-export { getAppInfo };
+export { getAppInfo }

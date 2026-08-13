@@ -1,25 +1,21 @@
-import BRAND from '@/common/components/shared/brand';
+import { forwardRef, type ReactNode, useCallback, useMemo } from 'react'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
 import {
   BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetView,
   type BottomSheetBackdropProps,
+  BottomSheetModal,
   type BottomSheetModalProps,
-} from '@gorhom/bottom-sheet';
-import {
-  forwardRef,
-  type ReactNode,
-  useCallback,
-  useMemo,
-} from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+  BottomSheetView,
+} from '@gorhom/bottom-sheet'
 
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import BRAND from '@/common/components/shared/brand'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 type Props = {
-  children: ReactNode;
-  snapPoints?: (string | number)[];
-} & Omit<BottomSheetModalProps, 'children' | 'snapPoints'>;
+  children: ReactNode
+  snapPoints?: (string | number)[]
+} & Omit<BottomSheetModalProps, 'children' | 'snapPoints'>
 
 /**
  * AppBottomSheetModal — pieza reutilizable del kit MiCoin.
@@ -41,15 +37,15 @@ const AppBottomSheetModal = forwardRef<BottomSheetModal, Props>(
       handleIndicatorStyle,
       ...props
     },
-    ref
+    ref,
   ) => {
-    const insets = useSafeAreaInsets();
-    const card = useMcVar(BRAND.native.card);
-    const border = useMcVar(BRAND.native.border);
+    const insets = useSafeAreaInsets()
+    const card = useMcVar(BRAND.native.card)
+    const border = useMcVar(BRAND.native.border)
     const snapPoints = useMemo(
       () => snapPointsProp ?? ['40%', '70%'],
-      [snapPointsProp]
-    );
+      [snapPointsProp],
+    )
 
     const renderBackdrop = useCallback(
       (backdropProps: BottomSheetBackdropProps) => (
@@ -60,8 +56,8 @@ const AppBottomSheetModal = forwardRef<BottomSheetModal, Props>(
           pressBehavior="close"
         />
       ),
-      []
-    );
+      [],
+    )
 
     return (
       <BottomSheetModal
@@ -85,10 +81,13 @@ const AppBottomSheetModal = forwardRef<BottomSheetModal, Props>(
           {children}
         </BottomSheetView>
       </BottomSheetModal>
-    );
-  }
-);
+    )
+  },
+)
 
-AppBottomSheetModal.displayName = 'AppBottomSheetModal';
+AppBottomSheetModal.displayName = 'AppBottomSheetModal'
 
-export default AppBottomSheetModal;
+/**
+ *
+ */
+export default AppBottomSheetModal

@@ -1,66 +1,67 @@
-import { CardField } from '@stripe/stripe-react-native';
-import { type AudioPlayer } from 'expo-audio';
-import { type FC, useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
-import ViewShot from 'react-native-view-shot';
-import BRAND from '@/common/components/shared/brand';
+import { type FC, useEffect, useRef, useState } from 'react'
+import { View } from 'react-native'
+import ViewShot from 'react-native-view-shot'
 
-import Barcode from '@/common/components/barcode';
-import Button from '@/common/components/button';
-import Image from '@/common/components/image';
-import QrCode from '@/common/components/qr-code';
-import Text from '@/common/components/text';
-import { showToast } from '@/common/components/toast';
+import { type AudioPlayer } from 'expo-audio'
+import { CardField } from '@stripe/stripe-react-native'
+
+import Barcode from '@/common/components/barcode'
+import Button from '@/common/components/button'
+import Image from '@/common/components/image'
+import QrCode from '@/common/components/qr-code'
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { showToast } from '@/common/components/toast'
 import {
   playUri,
   releasePlayer,
   startRecording,
   stopRecording,
-} from '@/common/device/audio-recorder';
-import { openScanner, pickImage } from '@/common/device/camera';
-import { resizeImage } from '@/common/device/image-manipulator';
-import { addExpense, listExpenses, type Expense } from '@/common/device/ledger';
-import { saveToGallery } from '@/common/device/media-library';
-import { scheduleLocalAlert } from '@/common/device/notifications';
-import { setScreenProtected } from '@/common/device/screen-capture';
-import { shareFile } from '@/common/device/sharing';
-import { sendPaymentSms } from '@/common/device/sms';
-import { metadata } from '@/common/metadata';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+} from '@/common/device/audio-recorder'
+import { openScanner, pickImage } from '@/common/device/camera'
+import { resizeImage } from '@/common/device/image-manipulator'
+import { addExpense, type Expense, listExpenses } from '@/common/device/ledger'
+import { saveToGallery } from '@/common/device/media-library'
+import { scheduleLocalAlert } from '@/common/device/notifications'
+import { setScreenProtected } from '@/common/device/screen-capture'
+import { shareFile } from '@/common/device/sharing'
+import { sendPaymentSms } from '@/common/device/sms'
+import { metadata } from '@/common/metadata'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
-const PAY_LINK = 'micoin://pay?amount=12.50';
-const BARCODE_VALUE = '5901234123457';
+const PAY_LINK = 'micoin://pay?amount=12.50'
+const BARCODE_VALUE = '5901234123457'
 
 const LocalAlertDemo: FC = () => (
   <Button
     size="sm"
     label="Simular movimiento en 3s"
     onPress={async () => {
-      const result = await scheduleLocalAlert();
+      const result = await scheduleLocalAlert()
       if (!result.ok) {
-        showToast({ title: 'No se pudo agendar', status: 'warning' });
-        return;
+        showToast({ title: 'No se pudo agendar', status: 'warning' })
+        return
       }
       showToast({
         title: 'Alerta en 3s',
         message: 'Push real requiere Dev Client',
         status: 'success',
-      });
+      })
     }}
   />
-);
+)
 
 const PayQrDemo: FC = () => (
   <View className="items-center gap-2">
     <QrCode value={PAY_LINK} size={148} />
     <Text.Caption className="text-center">{PAY_LINK}</Text.Caption>
   </View>
-);
+)
 
-const BarcodeDemo: FC = () => <Barcode value={BARCODE_VALUE} format="EAN13" />;
+const BarcodeDemo: FC = () => <Barcode value={BARCODE_VALUE} format="EAN13" />
 
 const ScannerDemo: FC = () => {
-  const [scanLabel, setScanLabel] = useState<string | null>(null);
+  const [scanLabel, setScanLabel] = useState<string | null>(null)
   return (
     <View className="gap-2">
       <Button
@@ -68,38 +69,36 @@ const ScannerDemo: FC = () => {
         variant="outline"
         label="Abrir scanner"
         onPress={async () => {
-          const result = await openScanner();
+          const result = await openScanner()
           if (!result) {
-            return;
+            return
           }
-          setScanLabel(`${result.type}: ${result.data.slice(0, 48)}`);
+          setScanLabel(`${result.type}: ${result.data.slice(0, 48)}`)
           showToast({
             title: result.type,
             message: result.data.slice(0, 60),
             status: 'success',
-          });
+          })
         }}
       />
       {scanLabel && (
-        <Text.Subtitle numberOfLines={2}>
-          {scanLabel}
-        </Text.Subtitle>
+        <Text.Subtitle numberOfLines={2}>{scanLabel}</Text.Subtitle>
       )}
     </View>
-  );
-};
+  )
+}
 
 const VoiceNoteDemo: FC = () => {
-  const [recording, setRecording] = useState(false);
-  const [audioUri, setAudioUri] = useState<string | null>(null);
-  const playerRef = useRef<AudioPlayer | null>(null);
+  const [recording, setRecording] = useState(false)
+  const [audioUri, setAudioUri] = useState<string | null>(null)
+  const playerRef = useRef<AudioPlayer | null>(null)
 
   useEffect(() => {
     return () => {
-      releasePlayer(playerRef.current);
-      playerRef.current = null;
-    };
-  }, []);
+      releasePlayer(playerRef.current)
+      playerRef.current = null
+    }
+  }, [])
 
   return (
     <View className="flex-row flex-wrap gap-2">
@@ -108,12 +107,12 @@ const VoiceNoteDemo: FC = () => {
         label={recording ? 'Grabando…' : 'Grabar'}
         disabled={recording}
         onPress={async () => {
-          const result = await startRecording();
+          const result = await startRecording()
           if (!result.ok) {
-            showToast({ title: 'Mic denegado', status: 'warning' });
-            return;
+            showToast({ title: 'Mic denegado', status: 'warning' })
+            return
           }
-          setRecording(true);
+          setRecording(true)
         }}
       />
       <Button
@@ -122,10 +121,10 @@ const VoiceNoteDemo: FC = () => {
         label="Stop"
         disabled={!recording}
         onPress={async () => {
-          const uri = await stopRecording();
-          setRecording(false);
-          setAudioUri(uri);
-          showToast({ title: 'Audio listo', status: 'success' });
+          const uri = await stopRecording()
+          setRecording(false)
+          setAudioUri(uri)
+          showToast({ title: 'Audio listo', status: 'success' })
         }}
       />
       <Button
@@ -135,38 +134,38 @@ const VoiceNoteDemo: FC = () => {
         disabled={!audioUri}
         onPress={async () => {
           if (!audioUri) {
-            return;
+            return
           }
-          releasePlayer(playerRef.current);
-          playerRef.current = await playUri(audioUri);
+          releasePlayer(playerRef.current)
+          playerRef.current = await playUri(audioUri)
         }}
       />
     </View>
-  );
-};
+  )
+}
 
 const ScreenProtectDemo: FC = () => {
-  const [protectedScreen, setProtectedScreen] = useState(false);
+  const [protectedScreen, setProtectedScreen] = useState(false)
   return (
     <Button
       size="sm"
       variant="outline"
       label={protectedScreen ? 'Desproteger' : 'Proteger pantalla'}
       onPress={async () => {
-        const next = !protectedScreen;
-        await setScreenProtected(next);
-        setProtectedScreen(next);
+        const next = !protectedScreen
+        await setScreenProtected(next)
+        setProtectedScreen(next)
         showToast({
           title: next ? 'Captura bloqueada' : 'Captura permitida',
           status: 'info',
-        });
+        })
       }}
     />
-  );
-};
+  )
+}
 
 const ReceiptDemo: FC = () => {
-  const receiptRef = useRef<ViewShot>(null);
+  const receiptRef = useRef<ViewShot>(null)
   return (
     <View className="gap-2">
       <ViewShot ref={receiptRef} options={{ format: 'png', quality: 0.9 }}>
@@ -181,31 +180,31 @@ const ReceiptDemo: FC = () => {
         variant="outline"
         label="Compartir recibo"
         onPress={async () => {
-          const uri = await receiptRef.current?.capture?.();
+          const uri = await receiptRef.current?.capture?.()
           if (!uri) {
-            return;
+            return
           }
-          await shareFile(uri, 'Comprobante MiCoin');
+          await shareFile(uri, 'Comprobante MiCoin')
         }}
       />
     </View>
-  );
-};
+  )
+}
 
 const LedgerDemo: FC = () => {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([])
   useEffect(() => {
-    void listExpenses().then(setExpenses);
-  }, []);
+    void listExpenses().then(setExpenses)
+  }, [])
   return (
     <View className="gap-2">
       <Button
         size="sm"
         label="Agregar gasto $8.00"
         onPress={async () => {
-          await addExpense('Café', 8);
-          setExpenses(await listExpenses());
-          showToast({ title: 'Gasto guardado', status: 'success' });
+          await addExpense('Café', 8)
+          setExpenses(await listExpenses())
+          showToast({ title: 'Gasto guardado', status: 'success' })
         }}
       />
       <View className="gap-1">
@@ -214,13 +213,11 @@ const LedgerDemo: FC = () => {
             {item.title} · ${item.amount.toFixed(2)}
           </Text.Subtitle>
         ))}
-        {!expenses.length && (
-          <Text.Subtitle>Sin gastos aún</Text.Subtitle>
-        )}
+        {!expenses.length && <Text.Subtitle>Sin gastos aún</Text.Subtitle>}
       </View>
     </View>
-  );
-};
+  )
+}
 
 const SmsPayDemo: FC = () => (
   <Button
@@ -228,16 +225,16 @@ const SmsPayDemo: FC = () => (
     variant="outline"
     label="Enviar cobro por SMS"
     onPress={async () => {
-      const result = await sendPaymentSms();
+      const result = await sendPaymentSms()
       if (!result.ok) {
-        showToast({ title: 'SMS no disponible', status: 'warning' });
+        showToast({ title: 'SMS no disponible', status: 'warning' })
       }
     }}
   />
-);
+)
 
 const TicketPhotoDemo: FC = () => {
-  const [ticketUri, setTicketUri] = useState<string | null>(null);
+  const [ticketUri, setTicketUri] = useState<string | null>(null)
   return (
     <View className="gap-2">
       <Button
@@ -245,13 +242,13 @@ const TicketPhotoDemo: FC = () => {
         variant="outline"
         label="Pick + resize 800px"
         onPress={async () => {
-          const image = await pickImage();
+          const image = await pickImage()
           if (!image?.uri) {
-            return;
+            return
           }
-          const uri = await resizeImage(image.uri, 800);
-          setTicketUri(uri);
-          showToast({ title: 'Ticket procesado', status: 'success' });
+          const uri = await resizeImage(image.uri, 800)
+          setTicketUri(uri)
+          showToast({ title: 'Ticket procesado', status: 'success' })
         }}
       />
       {ticketUri && <Image source={{ uri: ticketUri }} aspectRatio={4 / 3} />}
@@ -265,37 +262,37 @@ const TicketPhotoDemo: FC = () => {
             showToast({
               title: 'Procesa un ticket primero',
               status: 'warning',
-            });
-            return;
+            })
+            return
           }
-          const result = await saveToGallery(ticketUri);
+          const result = await saveToGallery(ticketUri)
           if (!result.ok) {
             const title =
               result.reason === 'expo-go'
                 ? 'Galería limitada en Expo Go'
-                : 'Galería denegada';
-            showToast({ title, status: 'warning' });
-            return;
+                : 'Galería denegada'
+            showToast({ title, status: 'warning' })
+            return
           }
-          showToast({ title: 'Guardado en Fotos', status: 'success' });
+          showToast({ title: 'Guardado en Fotos', status: 'success' })
         }}
       />
     </View>
-  );
-};
+  )
+}
 
 const StripeCardDemo: FC = () => {
-  const textColor = useMcVar(BRAND.native.textPrimary);
-  const backgroundColor = useMcVar(BRAND.native.card);
-  const borderColor = useMcVar(BRAND.native.border);
-  const hasKey = Boolean(process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+  const textColor = useMcVar(BRAND.native.textPrimary)
+  const backgroundColor = useMcVar(BRAND.native.card)
+  const borderColor = useMcVar(BRAND.native.border)
+  const hasKey = Boolean(process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
   if (!hasKey) {
     return (
       <Text.Subtitle>
         Define EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY en .env para ver CardField.
       </Text.Subtitle>
-    );
+    )
   }
 
   return (
@@ -324,8 +321,8 @@ const StripeCardDemo: FC = () => {
         }
       />
     </View>
-  );
-};
+  )
+}
 
 export {
   BarcodeDemo,
@@ -339,4 +336,4 @@ export {
   StripeCardDemo,
   TicketPhotoDemo,
   VoiceNoteDemo,
-};
+}

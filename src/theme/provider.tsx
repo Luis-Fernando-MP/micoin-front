@@ -1,24 +1,25 @@
-import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
-import { colorScheme as nativewindColorScheme } from 'nativewind';
-import { type FC, type ReactNode, useEffect } from 'react';
-import { View } from 'react-native';
+import { type FC, type ReactNode, useEffect } from 'react'
+import { View } from 'react-native'
 
-import { cn } from '@/lib/utils';
-import { useTheme } from '@/theme/hooks/use-theme';
-import { useNavTheme } from '@/theme/nav-theme';
+import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native'
+import { colorScheme as nativewindColorScheme } from 'nativewind'
+
+import { cn } from '@/lib/utils'
+import { useTheme } from '@/theme/hooks/use-theme'
+import { useNavTheme } from '@/theme/nav-theme'
 
 interface Props {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const ThemeProvider: FC<Props> = ({ children }) => {
-  const { colorScheme } = useTheme();
-  const navTheme = useNavTheme();
-  const isDark = colorScheme === 'dark';
+  const { colorScheme } = useTheme()
+  const navTheme = useNavTheme()
+  const isDark = colorScheme === 'dark'
 
   useEffect(() => {
-    nativewindColorScheme.set(colorScheme);
-  }, [colorScheme]);
+    nativewindColorScheme.set(colorScheme)
+  }, [colorScheme])
 
   return (
     <NavigationThemeProvider value={navTheme}>
@@ -26,7 +27,7 @@ const ThemeProvider: FC<Props> = ({ children }) => {
         {children}
       </View>
     </NavigationThemeProvider>
-  );
-};
+  )
+}
 
-export { ThemeProvider };
+export { ThemeProvider }

@@ -1,17 +1,17 @@
-import { Moon, Sun } from 'lucide-react-native';
-import { type FC, useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import { type FC, useEffect } from 'react'
+import { Pressable, View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-} from 'react-native-reanimated';
+} from 'react-native-reanimated'
 
-import BRAND from '@/common/components/shared/brand';
+import { Moon, Sun } from 'lucide-react-native'
 
-import { cn } from '@/lib/utils';
-import { useTheme } from '@/theme/hooks/use-theme';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import BRAND from '@/common/components/shared/brand'
+import { cn } from '@/lib/utils'
+import { useTheme } from '@/theme/hooks/use-theme'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 /**
  * ThemeToggle — pieza reutilizable del kit MiCoin.
@@ -25,29 +25,29 @@ import { useMcVar } from '@/theme/hooks/use-theme-var';
  * <ThemeToggle />
  */
 const ThemeToggle: FC = () => {
-  const { colorScheme, setPreference } = useTheme();
-  const isDark = colorScheme === 'dark';
-  const translateX = useSharedValue(isDark ? 36 : 4);
-  const iconColor = useMcVar(BRAND.native.textPrimary);
+  const { colorScheme, setPreference } = useTheme()
+  const isDark = colorScheme === 'dark'
+  const translateX = useSharedValue(isDark ? 36 : 4)
+  const iconColor = useMcVar(BRAND.native.textPrimary)
 
   useEffect(() => {
     translateX.value = withSpring(isDark ? 36 : 4, {
       damping: 15,
       stiffness: 150,
-    });
-  }, [isDark, translateX]);
+    })
+  }, [isDark, translateX])
 
   const knobStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
-  }));
+  }))
 
   const onToggle = () => {
     if (isDark) {
-      setPreference('light');
-      return;
+      setPreference('light')
+      return
     }
-    setPreference('dark');
-  };
+    setPreference('dark')
+  }
 
   return (
     <Pressable
@@ -63,11 +63,14 @@ const ThemeToggle: FC = () => {
       <Animated.View
         style={knobStyle}
         className={cn(
-          'absolute h-9 w-9 rounded-full border border-border bg-background'
+          'absolute h-9 w-9 rounded-full border border-border bg-background',
         )}
       />
     </Pressable>
-  );
-};
+  )
+}
 
-export default ThemeToggle;
+/**
+ *
+ */
+export default ThemeToggle

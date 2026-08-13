@@ -1,30 +1,35 @@
-import { type FC, useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import { type FC, useEffect } from 'react'
+import { Pressable, View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-} from 'react-native-reanimated';
+} from 'react-native-reanimated'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand';
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
+import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
 interface Props {
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
-  label?: string;
-  className?: string;
-  status?: BrandStatus;
+  checked: boolean
+  onCheckedChange: (checked: boolean) => void
+  label?: string
+  className?: string
+  status?: BrandStatus
 }
 
 /**
  * Switch — interruptor con status BRAND.
  *
  * @param checked - Estado
+ * @param checked.checked
  * @param onCheckedChange - Callback
+ * @param checked.onCheckedChange
+ * @param checked.label
+ * @param checked.className
  * @param status - Variante semántica. @default 'primary'
  *
+ * @param checked.status
  * @example
  * import Switch from '@/common/components/switch';
  * <Switch checked={on} onCheckedChange={setOn} />
@@ -36,18 +41,18 @@ const Switch: FC<Props> = ({
   className,
   status = 'primary',
 }) => {
-  const translateX = useSharedValue(checked ? 20 : 2);
+  const translateX = useSharedValue(checked ? 20 : 2)
 
   useEffect(() => {
     translateX.value = withSpring(checked ? 20 : 2, {
       damping: 15,
       stiffness: 160,
-    });
-  }, [checked, translateX]);
+    })
+  }, [checked, translateX])
 
   const knobStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
-  }));
+  }))
 
   return (
     <Pressable
@@ -57,7 +62,7 @@ const Switch: FC<Props> = ({
       <View
         className={cn(
           'h-7 w-12 justify-center rounded-full bg-card-hover',
-          checked && BRAND.colors.variants[status].background
+          checked && BRAND.colors.variants[status].background,
         )}
       >
         <Animated.View
@@ -67,8 +72,11 @@ const Switch: FC<Props> = ({
       </View>
       {label && <Text>{label}</Text>}
     </Pressable>
-  );
-};
+  )
+}
 
-export type { Props as SwitchProps };
-export default Switch;
+export type { Props as SwitchProps }
+/**
+ *
+ */
+export default Switch

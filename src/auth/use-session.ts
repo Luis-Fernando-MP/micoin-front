@@ -1,22 +1,22 @@
-import { authClient } from '@/auth/client';
+import { authClient } from '@/auth/client'
 
 type SessionPayload = {
-  session?: unknown;
+  session?: unknown
   user?: {
-    email?: string | null;
-    name?: string | null;
-  } | null;
-} | null;
+    email?: string | null
+    name?: string | null
+  } | null
+} | null
 
 const useSession = () => {
-  const session = authClient.useSession();
-  const data = session.data as SessionPayload;
+  const session = authClient.useSession()
+  const data = session.data as SessionPayload
 
   return {
     ...session,
     data,
     isAuthenticated: Boolean(data?.session || data?.user),
-  };
-};
+  }
+}
 
-export { useSession };
+export { useSession }

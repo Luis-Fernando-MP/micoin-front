@@ -4,17 +4,17 @@ import {
   Circle,
   CircleAlert,
   Info,
+  type LucideIcon,
   Sparkles,
   Star,
-  type LucideIcon,
-} from 'lucide-react-native';
+} from 'lucide-react-native'
 
-import { mcVars } from '@/theme/css-vars';
+import { mcVars } from '@/theme/css-vars'
 
-type NativeToken = keyof typeof mcVars;
+type NativeToken = keyof typeof mcVars
 
-type BrandSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-type BrandSizeMap<T> = Record<BrandSize, T>;
+type BrandSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+type BrandSizeMap<T> = Record<BrandSize, T>
 
 const BRAND_COLORS = {
   default: {
@@ -94,7 +94,7 @@ const BRAND_COLORS = {
     icon: CheckCircle as LucideIcon,
     label: 'Éxito',
   },
-} as const;
+} as const
 
 const BRAND_RADIUS = {
   none: 'rounded-none',
@@ -102,7 +102,7 @@ const BRAND_RADIUS = {
   control: 'rounded-control',
   surface: 'rounded-surface',
   pill: 'rounded-full',
-} as const;
+} as const
 
 const BRAND_SIZES = {
   xs: { height: 'h-8 px-2.5', text: 'text-xs', icon: 14, chip: 'px-2 py-0.5' },
@@ -111,11 +111,11 @@ const BRAND_SIZES = {
   lg: { height: 'h-12 px-5', text: 'text-base', icon: 18, chip: 'px-3.5 py-2' },
   xl: { height: 'h-14 px-6', text: 'text-lg', icon: 20, chip: 'px-4 py-2.5' },
 } as const satisfies BrandSizeMap<{
-  height: string;
-  text: string;
-  icon: number;
-  chip: string;
-}>;
+  height: string
+  text: string
+  icon: number
+  chip: string
+}>
 
 const BRAND_NATIVE = {
   background: 'background' as NativeToken,
@@ -128,7 +128,7 @@ const BRAND_NATIVE = {
   primaryForeground: 'primaryForeground' as NativeToken,
   brand: 'brand' as NativeToken,
   brandForeground: 'brandForeground' as NativeToken,
-} as const;
+} as const
 
 const BRAND_TYPE = {
   body: 'text-base',
@@ -146,7 +146,7 @@ const BRAND_TYPE = {
   } satisfies BrandSizeMap<string>,
   defaultTitleSize: 'md' as const,
   muted: 'text-secondary',
-} as const;
+} as const
 
 const BRAND = {
   colors: {
@@ -163,11 +163,11 @@ const BRAND = {
   },
   type: BRAND_TYPE,
   native: BRAND_NATIVE,
-} as const;
+} as const
 
-type BrandStatus = keyof typeof BRAND_COLORS;
-type BrandRadius = keyof typeof BRAND_RADIUS;
-type Brand = typeof BRAND;
+type BrandStatus = keyof typeof BRAND_COLORS
+type BrandRadius = keyof typeof BRAND_RADIUS
+type Brand = typeof BRAND
 
 export type {
   Brand,
@@ -176,6 +176,6 @@ export type {
   BrandSizeMap,
   BrandStatus,
   NativeToken,
-};
-export { BRAND };
-export default BRAND;
+}
+export { BRAND }
+export default BRAND

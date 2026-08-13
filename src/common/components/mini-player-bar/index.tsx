@@ -1,18 +1,19 @@
-import { Pause, Play } from 'lucide-react-native';
-import { type FC, useState } from 'react';
-import { View } from 'react-native';
-import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
+import { type FC, useState } from 'react'
+import { View } from 'react-native'
 
-import Icon from '@/common/components/icon';
-import PressableScale from '@/common/components/pressable-scale';
-import Text from '@/common/components/text';
-import WaveformBars from '@/common/components/waveform-bars';
-import { cn } from '@/lib/utils';
+import { Pause, Play } from 'lucide-react-native'
+
+import Icon from '@/common/components/icon'
+import PressableScale from '@/common/components/pressable-scale'
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import WaveformBars from '@/common/components/waveform-bars'
+import { cn } from '@/lib/utils'
 
 interface Props {
-  title?: string;
-  subtitle?: string;
-  onPress?: () => void;
+  title?: string
+  subtitle?: string
+  onPress?: () => void
 }
 
 /**
@@ -22,6 +23,9 @@ interface Props {
  *
  * @param props - Ver MiniPlayerBarProps / Props del archivo
  *
+ * @param props.title
+ * @param props.subtitle
+ * @param props.onPress
  * @example
  * import MiniPlayerBar from '@/common/components/mini-player-bar';
  * <MiniPlayerBar />
@@ -31,19 +35,19 @@ const MiniPlayerBar: FC<Props> = ({
   subtitle = 'Now playing',
   onPress,
 }) => {
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(true)
 
   return (
     <PressableScale
       onPress={() => {
-        setPlaying((value) => !value);
-        onPress?.();
+        setPlaying((value) => !value)
+        onPress?.()
       }}
     >
       <View
         className={cn(
           'flex-row items-center gap-3 border border-border bg-card px-3 py-2',
-          BRAND.radius.variants.surface
+          BRAND.radius.variants.surface,
         )}
       >
         <Icon icon={playing ? Pause : Play} size={18} />
@@ -58,7 +62,10 @@ const MiniPlayerBar: FC<Props> = ({
         <WaveformBars bars={12} width={72} height={28} active={playing} />
       </View>
     </PressableScale>
-  );
-};
+  )
+}
 
-export default MiniPlayerBar;
+/**
+ *
+ */
+export default MiniPlayerBar

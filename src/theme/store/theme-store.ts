@@ -1,13 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
-export type ThemePreference = 'light' | 'dark' | 'system';
+export type ThemePreference = 'light' | 'dark' | 'system'
 
 type ThemeState = {
-  preference: ThemePreference;
-  setPreference: (preference: ThemePreference) => void;
-};
+  preference: ThemePreference
+  setPreference: (preference: ThemePreference) => void
+}
 
 export const useThemeStore = create<ThemeState>()(
   persist(
@@ -18,6 +18,6 @@ export const useThemeStore = create<ThemeState>()(
     {
       name: 'micoin-theme',
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
-);
+    },
+  ),
+)

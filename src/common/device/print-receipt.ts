@@ -1,7 +1,7 @@
-import * as Print from 'expo-print';
+import * as Print from 'expo-print'
 
-import { shareFile } from '@/common/device/sharing';
-import { metadata } from '@/common/metadata';
+import { shareFile } from '@/common/device/sharing'
+import { metadata } from '@/common/metadata'
 
 const buildReceiptHtml = (amount: string, reference: string) => {
   return `<!DOCTYPE html>
@@ -21,17 +21,17 @@ const buildReceiptHtml = (amount: string, reference: string) => {
     <p>Ref: ${reference}</p>
     <div class="amount">$${amount}</div>
   </body>
-</html>`;
-};
+</html>`
+}
 
 const printAndShareReceipt = async (
   amount = '12.50',
-  reference = `MC-${Date.now().toString(36).toUpperCase()}`
+  reference = `MC-${Date.now().toString(36).toUpperCase()}`,
 ) => {
-  const html = buildReceiptHtml(amount, reference);
-  const file = await Print.printToFileAsync({ html });
-  const shared = await shareFile(file.uri, 'Comprobante PDF');
-  return { ok: shared.ok, uri: file.uri, reference };
-};
+  const html = buildReceiptHtml(amount, reference)
+  const file = await Print.printToFileAsync({ html })
+  const shared = await shareFile(file.uri, 'Comprobante PDF')
+  return { ok: shared.ok, uri: file.uri, reference }
+}
 
-export { buildReceiptHtml, printAndShareReceipt };
+export { buildReceiptHtml, printAndShareReceipt }

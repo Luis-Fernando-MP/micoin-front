@@ -1,1 +1,1 @@
-export { queryClient } from './common/query-client';
+export { queryClient } from './common/query-client'

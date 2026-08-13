@@ -1,9 +1,9 @@
-import { type FC } from 'react';
+import { type FC } from 'react'
 
-import { Register } from '@/presentation/register';
+import { Register } from '@/presentation/register'
 
 const RegisterRoute: FC = () => {
-  return <Register />;
-};
+  return <Register />
+}
 
-export default RegisterRoute;
+export default RegisterRoute

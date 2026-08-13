@@ -1,9 +1,9 @@
-import { type FC } from 'react';
+import { type FC } from 'react'
 
-import { Home } from '@/presentation/home';
+import { Home } from '@/presentation/home'
 
 const HomeRoute: FC = () => {
-  return <Home />;
-};
+  return <Home />
+}
 
-export default HomeRoute;
+export default HomeRoute

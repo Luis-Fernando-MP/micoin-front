@@ -1,8 +1,8 @@
-import { type FC } from 'react';
-import { View } from 'react-native';
+import { type FC } from 'react'
+import { View } from 'react-native'
 
-import Charts from '@/common/components/charts';
-import Text from '@/common/components/text';
+import Charts from '@/common/components/charts'
+import Text from '@/common/components/text'
 
 /**
  * SkiaGallery — monta Charts + extensions para el lab.
@@ -39,7 +39,7 @@ const SkiaGallery: FC = () => {
         <Charts.HeatmapChart />
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default SkiaGallery;
+export default SkiaGallery

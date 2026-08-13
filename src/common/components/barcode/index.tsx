@@ -1,21 +1,22 @@
-import barcodes from 'jsbarcode/src/barcodes';
-import { type FC, useMemo } from 'react';
-import { View } from 'react-native';
-import Svg, { Rect } from 'react-native-svg';
-import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
+import { type FC, useMemo } from 'react'
+import { View } from 'react-native'
+import Svg, { Rect } from 'react-native-svg'
 
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import barcodes from 'jsbarcode/src/barcodes'
 
-type Format = 'CODE128' | 'EAN13' | 'CODE39';
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
+
+type Format = 'CODE128' | 'EAN13' | 'CODE39'
 
 interface Props {
-  value: string;
-  format?: Format;
-  className?: string;
-  height?: number;
-  barWidth?: number;
+  value: string
+  format?: Format
+  className?: string
+  height?: number
+  barWidth?: number
 }
 
 /**
@@ -25,6 +26,11 @@ interface Props {
  *
  * @param props - Ver BarcodeProps / Props del archivo
  *
+ * @param props.value
+ * @param props.format
+ * @param props.className
+ * @param props.height
+ * @param props.barWidth
  * @example
  * import Barcode from '@/common/components/barcode';
  * <Barcode />
@@ -36,26 +42,26 @@ const Barcode: FC<Props> = ({
   height = 64,
   barWidth = 2,
 }) => {
-  const fg = useMcVar(BRAND.native.textPrimary);
+  const fg = useMcVar(BRAND.native.textPrimary)
 
   const encoded = useMemo(() => {
     try {
-      const Encoder = barcodes[format];
+      const Encoder = barcodes[format]
       if (!Encoder) {
-        return null;
+        return null
       }
-      const instance = new Encoder(value, {});
-      const result = instance.encode();
+      const instance = new Encoder(value, {})
+      const result = instance.encode()
       if (Array.isArray(result)) {
-        return result.map((item) => item.data).join('');
+        return result.map((item) => item.data).join('')
       }
-      return result.data as string;
+      return result.data as string
     } catch {
-      return null;
+      return null
     }
-  }, [format, value]);
+  }, [format, value])
 
-  const width = (encoded?.length ?? 0) * barWidth;
+  const width = (encoded?.length ?? 0) * barWidth
 
   if (!encoded) {
     return (
@@ -63,12 +69,12 @@ const Barcode: FC<Props> = ({
         className={cn(
           'items-center border border-border bg-background px-3 py-4',
           BRAND.radius.variants.surface,
-          className
+          className,
         )}
       >
         <Text className="text-sm text-secondary">Barcode inválido</Text>
       </View>
-    );
+    )
   }
 
   return (
@@ -76,13 +82,13 @@ const Barcode: FC<Props> = ({
       className={cn(
         'items-center gap-2 border border-border bg-background px-3 py-3',
         BRAND.radius.variants.surface,
-        className
+        className,
       )}
     >
       <Svg width={width} height={height}>
         {encoded.split('').map((bit, index) => {
           if (bit !== '1') {
-            return null;
+            return null
           }
           return (
             <Rect
@@ -93,12 +99,15 @@ const Barcode: FC<Props> = ({
               height={height}
               fill={fg}
             />
-          );
+          )
         })}
       </Svg>
       <Text className="text-xs text-secondary">{value}</Text>
     </View>
-  );
-};
+  )
+}
 
-export default Barcode;
+/**
+ *
+ */
+export default Barcode

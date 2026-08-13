@@ -1,16 +1,17 @@
+import { type FC } from 'react'
+import { Platform, StyleSheet, View } from 'react-native'
+
 import {
   GlassView,
   isGlassEffectAPIAvailable,
   isLiquidGlassAvailable,
-} from 'expo-glass-effect';
-import { LinearGradient } from 'expo-linear-gradient';
-import { type FC } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
-import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
+} from 'expo-glass-effect'
+import { LinearGradient } from 'expo-linear-gradient'
 
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 /**
  * FrostCard — pieza reutilizable del kit MiCoin.
@@ -24,17 +25,20 @@ import { useMcVar } from '@/theme/hooks/use-theme-var';
  * <FrostCard />
  */
 const FrostCard: FC = () => {
-  const brand = useMcVar(BRAND.native.brand);
-  const primary = useMcVar(BRAND.native.primary);
+  const brand = useMcVar(BRAND.native.brand)
+  const primary = useMcVar(BRAND.native.primary)
   const canGlass =
     Platform.OS === 'ios' &&
     isLiquidGlassAvailable() &&
-    isGlassEffectAPIAvailable();
+    isGlassEffectAPIAvailable()
 
   return (
     <View className="flex-row gap-2">
       <View
-        className={cn('flex-1 border border-border p-3', BRAND.radius.variants.control)}
+        className={cn(
+          'flex-1 border border-border p-3',
+          BRAND.radius.variants.control,
+        )}
         style={{ backgroundColor: brand, minHeight: 96 }}
       >
         <Text className="text-xs font-medium text-brand-foreground">
@@ -47,7 +51,7 @@ const FrostCard: FC = () => {
       <View
         className={cn(
           'relative flex-1 overflow-hidden border border-border',
-          BRAND.radius.variants.control
+          BRAND.radius.variants.control,
         )}
         style={{ minHeight: 96 }}
       >
@@ -68,8 +72,8 @@ const FrostCard: FC = () => {
         )}
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   pad: {
@@ -80,6 +84,9 @@ const styles = StyleSheet.create({
   frost: {
     backgroundColor: 'rgba(255,255,255,0.55)',
   },
-});
+})
 
-export default FrostCard;
+/**
+ *
+ */
+export default FrostCard

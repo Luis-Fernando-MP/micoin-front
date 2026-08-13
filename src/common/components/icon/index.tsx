@@ -1,8 +1,9 @@
-import { type LucideIcon, type LucideProps } from 'lucide-react-native';
-import { type FC } from 'react';
+import { type FC } from 'react'
 
-import BRAND from '@/common/components/shared/brand';
-import { useMcVar } from '@/theme/hooks/use-theme-var';
+import { type LucideIcon, type LucideProps } from 'lucide-react-native'
+
+import BRAND from '@/common/components/shared/brand'
+import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 type Tone =
   | 'foreground'
@@ -11,12 +12,12 @@ type Tone =
   | 'brand'
   | 'background'
   | 'onBrand'
-  | 'onPrimary';
+  | 'onPrimary'
 
 interface Props extends Omit<LucideProps, 'color'> {
-  icon: LucideIcon;
-  tone?: Tone;
-  color?: string;
+  icon: LucideIcon
+  tone?: Tone
+  color?: string
 }
 
 const toneToNative: Record<Tone, keyof typeof BRAND.native> = {
@@ -27,16 +28,21 @@ const toneToNative: Record<Tone, keyof typeof BRAND.native> = {
   background: 'background',
   onBrand: 'brandForeground',
   onPrimary: 'primaryForeground',
-};
+}
 
 /**
  * Icon — glifo Lucide con tono BRAND.
  *
  * @param icon - Componente Lucide
+ * @param icon.icon
  * @param tone - Tono semántico. @default 'foreground'
+ * @param icon.tone
  * @param color - Override nativo
+ * @param icon.color
  * @param size - Tamaño en px. @default 18
  *
+ * @param icon.size
+ * @param icon.strokeWidth
  * @example
  * import Icon from '@/common/components/icon';
  * import { Camera } from 'lucide-react-native';
@@ -50,18 +56,16 @@ const Icon: FC<Props> = ({
   strokeWidth = 1.75,
   ...props
 }) => {
-  const themeColor = useMcVar(BRAND.native[toneToNative[tone]]);
-  const resolved = color ?? themeColor;
+  const themeColor = useMcVar(BRAND.native[toneToNative[tone]])
+  const resolved = color ?? themeColor
 
   return (
-    <Glyph
-      size={size}
-      strokeWidth={strokeWidth}
-      color={resolved}
-      {...props}
-    />
-  );
-};
+    <Glyph size={size} strokeWidth={strokeWidth} color={resolved} {...props} />
+  )
+}
 
-export type { Props as IconProps };
-export default Icon;
+export type { Props as IconProps }
+/**
+ *
+ */
+export default Icon

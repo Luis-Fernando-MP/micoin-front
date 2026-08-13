@@ -1,68 +1,74 @@
 import {
   AudioModule,
+  type AudioPlayer,
+  type AudioRecorder,
   createAudioPlayer,
   RecordingPresets,
   requestRecordingPermissionsAsync,
   setAudioModeAsync,
-  type AudioPlayer,
-} from 'expo-audio';
+} from 'expo-audio'
 
-let activeRecorder: InstanceType<typeof AudioModule.AudioRecorder> | null =
-  null;
-let activePlayer: AudioPlayer | null = null;
+const nativeAudio = AudioModule as {
+  AudioRecorder: new (
+    options: (typeof RecordingPresets)['HIGH_QUALITY'],
+  ) => AudioRecorder
+}
+
+let activeRecorder: AudioRecorder | null = null
+let activePlayer: AudioPlayer | null = null
 
 const startRecording = async () => {
-  const permission = await requestRecordingPermissionsAsync();
+  const permission = await requestRecordingPermissionsAsync()
   if (!permission.granted) {
-    return { ok: false as const, reason: 'denied' as const };
+    return { ok: false as const, reason: 'denied' as const }
   }
 
   await setAudioModeAsync({
     allowsRecording: true,
     playsInSilentMode: true,
-  });
+  })
 
-  const recorder = new AudioModule.AudioRecorder(RecordingPresets.HIGH_QUALITY);
-  await recorder.prepareToRecordAsync();
-  recorder.record();
-  activeRecorder = recorder;
+  const recorder = new nativeAudio.AudioRecorder(RecordingPresets.HIGH_QUALITY)
+  await recorder.prepareToRecordAsync()
+  recorder.record()
+  activeRecorder = recorder
 
-  return { ok: true as const };
-};
+  return { ok: true as const }
+}
 
 const stopRecording = async () => {
   if (!activeRecorder) {
-    return null;
+    return null
   }
 
-  await activeRecorder.stop();
-  const uri = activeRecorder.uri;
-  activeRecorder = null;
+  await activeRecorder.stop()
+  const uri = activeRecorder.uri
+  activeRecorder = null
 
   await setAudioModeAsync({
     allowsRecording: false,
     playsInSilentMode: true,
-  });
+  })
 
-  return uri;
-};
+  return uri
+}
 
 const playUri = async (uri: string) => {
-  activePlayer?.remove();
-  const player = createAudioPlayer({ uri });
-  activePlayer = player;
-  player.play();
-  return player;
-};
+  activePlayer?.remove()
+  const player = createAudioPlayer({ uri })
+  activePlayer = player
+  player.play()
+  return player
+}
 
 const releasePlayer = (player: AudioPlayer | null) => {
   if (!player) {
-    return;
+    return
   }
   if (activePlayer === player) {
-    activePlayer = null;
+    activePlayer = null
   }
-  player.remove();
-};
+  player.remove()
+}
 
-export { playUri, releasePlayer, startRecording, stopRecording };
+export { playUri, releasePlayer, startRecording, stopRecording }

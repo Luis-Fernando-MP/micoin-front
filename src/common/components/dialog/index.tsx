@@ -1,46 +1,58 @@
-import { type FC, type ReactNode, createContext, useContext, useEffect } from 'react';
-import { Modal as RNModal, Pressable, StyleSheet, View } from 'react-native';
+import {
+  createContext,
+  type FC,
+  type ReactNode,
+  useContext,
+  useEffect,
+} from 'react'
+import { Modal as RNModal, Pressable, StyleSheet, View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-} from 'react-native-reanimated';
+} from 'react-native-reanimated'
 
-import Text from '@/common/components/text';
-import { cn } from '@/lib/utils';
-import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
+import BRAND from '@/common/components/shared/brand'
+import Text from '@/common/components/text'
+import { cn } from '@/lib/utils'
 
 type DialogContextValue = {
-  onOpenChange: (open: boolean) => void;
-};
+  onOpenChange: (open: boolean) => void
+}
 
-const DialogContext = createContext<DialogContextValue | null>(null);
+const DialogContext = createContext<DialogContextValue | null>(null)
 
 const useDialog = () => {
-  const ctx = useContext(DialogContext);
+  const ctx = useContext(DialogContext)
   if (!ctx) {
-    throw new Error('Dialog compound used outside Dialog');
+    throw new Error('Dialog compound used outside Dialog')
   }
-  return ctx;
-};
+  return ctx
+}
 
 interface DialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  overlay?: boolean;
-  closeOnOutside?: boolean;
-  children: ReactNode;
-  className?: string;
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  overlay?: boolean
+  closeOnOutside?: boolean
+  children: ReactNode
+  className?: string
 }
 
 /**
  * Dialog — modal compuesto (Header, Title, Content, Footer).
  *
  * @param open - Visible
+ * @param open.open
  * @param onOpenChange - Callback de apertura
+ * @param open.onOpenChange
  * @param overlay - Fondo oscuro. @default true
+ * @param open.overlay
  * @param closeOnOutside - Cierra al tap fuera. @default false
  *
+ * @param open.closeOnOutside
+ * @param open.children
+ * @param open.className
  * @example
  * import Dialog from '@/common/components/dialog';
  * <Dialog open={open} onOpenChange={setOpen}><Dialog.Title>Hola</Dialog.Title></Dialog>
@@ -53,34 +65,34 @@ const DialogRoot: FC<DialogProps> = ({
   children,
   className,
 }) => {
-  const opacity = useSharedValue(0);
-  const scale = useSharedValue(0.96);
+  const opacity = useSharedValue(0)
+  const scale = useSharedValue(0.96)
 
   useEffect(() => {
     if (!open) {
-      opacity.value = 0;
-      scale.value = 0.96;
-      return;
+      opacity.value = 0
+      scale.value = 0.96
+      return
     }
-    opacity.value = withTiming(1, { duration: 160 });
-    scale.value = withTiming(1, { duration: 160 });
-  }, [open, opacity, scale]);
+    opacity.value = withTiming(1, { duration: 160 })
+    scale.value = withTiming(1, { duration: 160 })
+  }, [open, opacity, scale])
 
   const backdropStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-  }));
+  }))
 
   const panelStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
     transform: [{ scale: scale.value }],
-  }));
+  }))
 
   const onBackdropPress = () => {
     if (!closeOnOutside) {
-      return;
+      return
     }
-    onOpenChange(false);
-  };
+    onOpenChange(false)
+  }
 
   return (
     <DialogContext.Provider value={{ onOpenChange }}>
@@ -108,7 +120,7 @@ const DialogRoot: FC<DialogProps> = ({
             className={cn(
               'w-full border border-border bg-card p-5',
               BRAND.radius.variants.surface,
-              className
+              className,
             )}
             style={panelStyle}
           >
@@ -119,15 +131,15 @@ const DialogRoot: FC<DialogProps> = ({
         </View>
       </RNModal>
     </DialogContext.Provider>
-  );
-};
+  )
+}
 
 const Header: FC<{ children: ReactNode; className?: string }> = ({
   children,
   className,
 }) => {
-  return <View className={cn('mb-3 gap-1', className)}>{children}</View>;
-};
+  return <View className={cn('mb-3 gap-1', className)}>{children}</View>
+}
 
 const Title: FC<{ children: ReactNode; className?: string }> = ({
   children,
@@ -135,15 +147,15 @@ const Title: FC<{ children: ReactNode; className?: string }> = ({
 }) => {
   return (
     <Text className={cn('text-lg font-semibold', className)}>{children}</Text>
-  );
-};
+  )
+}
 
 const Content: FC<{ children: ReactNode; className?: string }> = ({
   children,
   className,
 }) => {
-  return <View className={cn('gap-3', className)}>{children}</View>;
-};
+  return <View className={cn('gap-3', className)}>{children}</View>
+}
 
 const Footer: FC<{ children: ReactNode; className?: string }> = ({
   children,
@@ -153,21 +165,24 @@ const Footer: FC<{ children: ReactNode; className?: string }> = ({
     <View className={cn('mt-4 flex-row justify-end gap-2', className)}>
       {children}
     </View>
-  );
-};
+  )
+}
 
 const Dialog = Object.assign(DialogRoot, {
   Header,
   Title,
   Content,
   Footer,
-});
+})
 
 const styles = StyleSheet.create({
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-});
+})
 
-export { useDialog };
-export default Dialog;
+export { useDialog }
+/**
+ *
+ */
+export default Dialog

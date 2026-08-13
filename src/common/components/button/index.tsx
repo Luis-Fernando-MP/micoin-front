@@ -5,58 +5,69 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { type LucideIcon } from 'lucide-react-native'
 
 import Icon from '@components/icon'
-import BRAND, { type BrandSize } from '@components/shared/brand'
+import BRAND, {
+  type BrandSize,
+  type BrandStatus,
+  type NativeToken,
+} from '@components/shared/brand'
 import Text from '@components/text'
+import { useMcVar } from '@theme'
 
 import { cn } from '@/lib/utils'
 
-const buttonVariants = cva(
-  cn(
-    'flex-row items-center justify-center gap-2',
-    BRAND.radius.variants.control,
-  ),
-  {
-    variants: {
-      variant: {
-        default: `${BRAND.colors.variants.primary.background} active:opacity-90`,
-        outline: `border ${BRAND.colors.variants.default.border} bg-background active:bg-card-hover`,
-        ghost: 'bg-transparent active:bg-card-hover',
-        brand: `${BRAND.colors.variants.brand.background} active:opacity-90`,
-      },
-      disabled: {
-        true: 'opacity-50',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-    },
-  },
-)
+type ButtonVariant = 'default' | 'outline' | 'ghost' | 'brand'
 
-const buttonTextVariants = cva('', {
-  variants: {
-    variant: {
-      default: BRAND.colors.variants.primary.foreground,
-      outline: BRAND.colors.variants.default.text,
-      ghost: BRAND.colors.variants.default.text,
-      brand: BRAND.colors.variants.brand.foreground,
-    },
+type ButtonSize = BrandSize | 'icon'
+
+const BUTTON_SIZES = {
+  ...BRAND.sizes.variants,
+  icon: {
+    height: 'h-9 w-9 p-0',
+    text: 'text-xs',
+    icon: 16,
+    chip: 'px-2 py-0.5',
   },
-  defaultVariants: {
-    variant: 'default',
+} as const
+
+const buttonVariants = cva('', {
+  variants: {
+    disabled: {
+      true: 'opacity-50',
+    },
   },
 })
 
-const iconTone = (
-  variant: Props['variant'],
-): 'onPrimary' | 'onBrand' | 'foreground' => {
-  if (variant === 'default') {
-    return 'onPrimary'
-  }
+const isSolidVariant = (variant: ButtonVariant) =>
+  variant === 'default' || variant === 'brand'
+
+const resolveStatus = (
+  variant: ButtonVariant,
+  status: BrandStatus,
+): BrandStatus => {
   if (variant === 'brand') {
-    return 'onBrand'
+    return 'brand'
   }
-  return 'foreground'
+
+  return status
+}
+
+const iconNativeToken = (
+  status: BrandStatus,
+  variant: ButtonVariant,
+): NativeToken => {
+  if (!isSolidVariant(variant)) {
+    return BRAND.colors.variants[status].native
+  }
+
+  if (status === 'primary') {
+    return 'primaryForeground'
+  }
+
+  if (status === 'brand') {
+    return 'brandForeground'
+  }
+
+  return BRAND.colors.variants[status].nativeBg
 }
 
 interface Props
@@ -66,34 +77,36 @@ interface Props
   className?: string
   label?: string
   children?: ReactNode
-  size?: BrandSize
+  size?: ButtonSize
   icon?: LucideIcon
+  variant?: ButtonVariant
+  status?: BrandStatus
+  center?: boolean
 }
 
 /**
- * Button — control de acción con variantes y tamaños BRAND.
+ * Button — control de acción con variantes, status semántico y tamaños BRAND.
  *
- * @param label.className
- * @param label.variant
- * @param label.disabled
  * @param label - Texto del botón
  * @param variant - Estilo visual. @default 'default'
- * @param label.label
- * @param label.children
- * @param size - Tamaño BRAND. @default 'md'
- * @param label.size
+ * @param status - Tono semántico BRAND. @default 'primary'
+ * @param size - Escala BRAND o `icon` cuadrado. @default 'md'
  * @param icon - Icono Lucide opcional
+ * @param center - Centra el contenido. @default true
  * @param disabled - Deshabilitado
  * @param className - Clases NativeWind extra
  *
- * @param label.icon
  * @example
- * import Button from '@components/button';
+ * import Button from '@components/button'
  * <Button label="Pagar" variant="brand" size="sm" />
+ * <Button icon={Camera} size="icon" variant="outline" />
+ * <Button label="Error" status="error" />
  */
 const Button: FC<Props> = ({
   className,
   variant = 'default',
+  status = 'primary',
+  center = true,
   disabled,
   label,
   children,
@@ -101,27 +114,46 @@ const Button: FC<Props> = ({
   icon,
   ...props
 }) => {
-  const sizing = BRAND.sizes.variants[size]
+  const resolvedStatus = resolveStatus(variant, status)
+  const tone = BRAND.colors.variants[resolvedStatus]
+  const sizing = BUTTON_SIZES[size]
+  const solid = isSolidVariant(variant)
+  const iconToken = iconNativeToken(resolvedStatus, variant)
+  const iconColor = useMcVar(iconToken)
+
+  let surface = ''
+  if (solid) {
+    surface = cn(tone.background, 'active:opacity-90')
+  }
+  if (variant === 'outline') {
+    surface = cn('border bg-background active:bg-card-hover', tone.border)
+  }
+  if (variant === 'ghost') {
+    surface = 'bg-transparent active:bg-card-hover'
+  }
+
+  const textClass = solid ? tone.foreground : tone.text
+  const align = center
+    ? 'items-center justify-center'
+    : 'items-center justify-start'
 
   return (
     <Pressable
       className={cn(
-        buttonVariants({ variant, disabled: Boolean(disabled) }),
+        'flex-row gap-2',
+        align,
+        BRAND.radius.variants.control,
+        surface,
         sizing.height,
+        buttonVariants({ disabled: Boolean(disabled) }),
         className,
       )}
       disabled={disabled}
       {...props}
     >
-      {icon && <Icon icon={icon} size={sizing.icon} tone={iconTone(variant)} />}
+      {icon && <Icon icon={icon} size={sizing.icon} color={iconColor} />}
       {label && (
-        <Text
-          className={cn(
-            sizing.text,
-            'font-semibold',
-            buttonTextVariants({ variant }),
-          )}
-        >
+        <Text className={cn(sizing.text, 'font-semibold', textClass)}>
           {label}
         </Text>
       )}
@@ -130,8 +162,5 @@ const Button: FC<Props> = ({
   )
 }
 
-export type { Props as ButtonProps }
-/**
- *
- */
+export type { Props as ButtonProps, ButtonSize, ButtonVariant }
 export default Button

@@ -6,8 +6,6 @@ import { BRAND_THEMES, resolveTheme } from '@theme'
 import { useThemeStore } from '@theme/store'
 import { type ThemeAppearance } from '@theme/themes'
 
-import { cn } from '@/lib/utils'
-
 const APPEARANCES = Object.keys(BRAND_THEMES) as ThemeAppearance[]
 
 /**
@@ -34,11 +32,10 @@ const ThemeToggle: FC = () => {
           <Button
             key={appearance}
             icon={BRAND_THEMES[appearance].icon}
-            size="xs"
-            variant={active ? 'outline' : 'ghost'}
+            size="icon"
+            variant={active ? 'brand' : 'ghost'}
             onPress={() => setPreference(appearance)}
             accessibilityLabel={BRAND_THEMES[appearance].label}
-            className={cn('h-9 w-9 px-0', active && 'bg-background')}
           />
         )
       })}

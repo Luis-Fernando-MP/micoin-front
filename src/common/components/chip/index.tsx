@@ -1,80 +1,91 @@
 import { type FC } from 'react'
-import { Pressable } from 'react-native'
+import { Pressable, type PressableProps, View } from 'react-native'
 
-import BRAND, {
-  type BrandSize,
-  type BrandStatus,
-} from '@components/shared/brand'
+import BRAND, { type BrandStatus } from '@components/shared/brand'
 import Text from '@components/text'
 
 import { cn } from '@/lib/utils'
+
+type ChipVariant = 'solid' | 'soft' | 'outline'
 
 interface Props {
   label: string
   className?: string
   status?: BrandStatus
-  size?: BrandSize
+  variant?: ChipVariant
   selected?: boolean
-  onPress?: () => void
+  onPress?: PressableProps['onPress']
+}
+
+const resolveChipStyle = (
+  variant: ChipVariant,
+  status: BrandStatus,
+  selected: boolean,
+) => {
+  const resolvedVariant = selected ? 'solid' : variant
+  const resolvedStatus = selected ? 'primary' : status
+  const tone = BRAND.colors.variants[resolvedStatus]
+  const isOutline = resolvedVariant === 'outline'
+  const isSolid = resolvedVariant === 'solid'
+
+  return {
+    shell: cn(
+      'self-start px-2.5 py-1',
+      BRAND.radius.variants.pill,
+      isSolid && tone.background,
+      !isSolid && !isOutline && tone.soft,
+      isOutline && `border ${tone.border}`,
+    ),
+    text: cn(
+      'text-xs font-medium',
+      isSolid && tone.foreground,
+      !isSolid && tone.text,
+    ),
+  }
 }
 
 /**
- * Chip — filtro o etiqueta táctil del design system.
+ * Chip — etiqueta compacta con variantes semánticas BRAND.
+ *
+ * No requiere onPress; opcional para filtros o toggles.
  *
  * @param label - Texto
- * @param label.label
- * @param label.className
- * @param label.size
- * @param label.selected
- * @param status - Variante semántica. @default 'default'
- * @param size - Tamaño BRAND. @default 'md'
- * @param selected - Estado activo
+ * @param variant - Relleno. @default 'soft'
+ * @param status - Tono semántico. @default 'default'
+ * @param selected - Resalta como primary solid. @default false
+ * @param onPress - Handler opcional; sin él renderiza View estático
+ * @param className - Clases NativeWind extra
  *
- * @param label.status
- * @param label.onPress
  * @example
- * import Chip from '@components/chip';
- * <Chip label="Hoy" status="brand" selected />
+ * import Chip from '@components/chip'
+ * <Chip label="OK" status="success" />
+ * <Chip label="Hoy" selected onPress={() => {}} />
  */
 const Chip: FC<Props> = ({
   label,
   className,
-  size = BRAND.sizes.defaultVariant,
-  selected = false,
+  variant = 'soft',
   status = BRAND.colors.defaultVariant,
+  selected = false,
   onPress,
 }) => {
-  const tone = BRAND.colors.variants[status]
-  const sizing = BRAND.sizes.variants[size]
+  const { shell, text } = resolveChipStyle(variant, status, selected)
+  const rootClass = cn(shell, onPress && 'active:opacity-90', className)
+
+  if (onPress) {
+    return (
+      <Pressable onPress={onPress} className={rootClass}>
+        <Text className={text}>{label}</Text>
+      </Pressable>
+    )
+  }
 
   return (
-    <Pressable
-      onPress={onPress}
-      className={cn(
-        BRAND.radius.variants.pill,
-        sizing.chip,
-        'items-center justify-center',
-        selected && BRAND.colors.variants.primary.background,
-        !selected && tone.soft,
-        !selected && tone.border,
-        className,
-      )}
-    >
-      <Text
-        className={cn(
-          sizing.text,
-          selected && BRAND.colors.variants.primary.foreground,
-          !selected && tone.text,
-        )}
-      >
-        {label}
-      </Text>
-    </Pressable>
+    <View className={rootClass}>
+      <Text className={text}>{label}</Text>
+    </View>
   )
 }
 
-export type { Props as ChipProps }
-/**
- *
- */
+export type { ChipVariant, Props as ChipProps }
 export default Chip

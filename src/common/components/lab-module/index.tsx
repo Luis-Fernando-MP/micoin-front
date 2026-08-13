@@ -38,7 +38,7 @@ const LabModule: FC<Props> = ({
         <Text.Title size="sm">
           {id} · {title}
         </Text.Title>
-        {pack && <Chip label={pack} size="sm" status="info" />}
+        {pack && <Chip label={pack} status="info" variant="soft" />}
         <Text className="text-sm text-secondary">
           <Text className="font-medium text-primary">Qué hace: </Text>
           {what}

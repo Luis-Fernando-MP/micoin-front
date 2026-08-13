@@ -20,7 +20,6 @@ import {
 
 import Accordion from '@components/accordion'
 import Avatar from '@components/avatar'
-import Badge from '@components/badge'
 import BrandLogo from '@components/brand-logo'
 import Breadcrumb from '@components/breadcrumb'
 import Button from '@components/button'
@@ -86,7 +85,9 @@ const AVATAR_DEMO =
 const IMAGE_DEMO =
   'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80'
 
-const KIT_LAST = 39
+const FILTERS = ['Hoy', 'Semana', 'Mes'] as const
+
+const KIT_LAST = 38
 
 const Home: FC = () => {
   const { isAuthenticated, data } = useSession()
@@ -98,7 +99,7 @@ const Home: FC = () => {
   const [checked, setChecked] = useState(false)
   const [switched, setSwitched] = useState(true)
   const [combo, setCombo] = useState('pen')
-  const [chip, setChip] = useState<BrandSize>('md')
+  const [filter, setFilter] = useState<(typeof FILTERS)[number]>('Hoy')
   const [previewUri, setPreviewUri] = useState<string | null>(null)
   const [scanLabel, setScanLabel] = useState<string | null>(null)
   const [keepAwakeOn, setKeepAwakeOn] = useState(false)
@@ -163,7 +164,7 @@ const Home: FC = () => {
           n={2}
           title="Text"
           does="Tipografía del design system con roles, size y status BRAND."
-          doesNot="No sustituye Input ni Badge. No es un editor rico."
+          doesNot="No sustituye Input ni Chip. No es un editor rico."
           solves="Copy de UI sin hardcodear text-lg / font-semibold."
         >
           <CatalogVariant
@@ -442,10 +443,10 @@ const Home: FC = () => {
 
         <CatalogCard
           n={4}
-          title="Badge"
-          does="Etiqueta de estado semántico (solid, soft, outline)."
-          doesNot="No es Chip táctil ni filtro. No navega."
-          solves="Marcar estado: Guest, OK, error, brand."
+          title="Chip"
+          does="Etiqueta compacta semántica (soft, solid, outline). onPress opcional."
+          doesNot="No es Button ni Tab. No navega por sí solo."
+          solves="Estado, filtros y tags con la misma forma pill del kit."
         >
           <CatalogVariant
             n={4}
@@ -455,7 +456,7 @@ const Home: FC = () => {
           >
             <View className="flex-row flex-wrap gap-2">
               {STATUSES.map((status) => (
-                <Badge key={status} label={status} status={status} />
+                <Chip key={status} label={status} status={status} />
               ))}
             </View>
           </CatalogVariant>
@@ -467,7 +468,7 @@ const Home: FC = () => {
           >
             <View className="flex-row flex-wrap gap-2">
               {STATUSES.map((status) => (
-                <Badge
+                <Chip
                   key={status}
                   label={status}
                   status={status}
@@ -484,11 +485,28 @@ const Home: FC = () => {
           >
             <View className="flex-row flex-wrap gap-2">
               {STATUSES.map((status) => (
-                <Badge
+                <Chip
                   key={status}
                   label={status}
                   status={status}
                   variant="outline"
+                />
+              ))}
+            </View>
+          </CatalogVariant>
+          <CatalogVariant
+            n={4}
+            sub={4}
+            title="Filtro"
+            description="onPress + selected; sin press es estático."
+          >
+            <View className="flex-row flex-wrap items-center gap-2">
+              {FILTERS.map((item) => (
+                <Chip
+                  key={item}
+                  label={item}
+                  selected={filter === item}
+                  onPress={() => setFilter(item)}
                 />
               ))}
             </View>
@@ -604,20 +622,21 @@ const Home: FC = () => {
         <CatalogCard
           n={11}
           title="Button"
-          does="Control de acción con size, variant e icono Lucide."
+          does="Control de acción con size, variant, status semántico e icono Lucide."
           doesNot="No es Link. No dispara device APIs por sí mismo."
-          solves="CTA, outline, ghost y brand con la escala BRAND."
+          solves="CTA, outline, ghost, brand y semánticos con la escala BRAND."
         >
           <CatalogVariant
             n={11}
             sub={1}
             title="Size"
-            description="Escala BRAND xs–xl."
+            description="Escala BRAND xs–xl e icon."
           >
-            <View className="flex-row flex-wrap gap-2">
+            <View className="flex-row flex-wrap items-center gap-2">
               {SIZES.map((size) => (
                 <Button key={size} size={size} label={size} />
               ))}
+              <Button icon={Camera} size="icon" variant="outline" />
             </View>
           </CatalogVariant>
           <CatalogVariant
@@ -636,6 +655,85 @@ const Home: FC = () => {
           <CatalogVariant
             n={11}
             sub={3}
+            title="Solid · status"
+            description="Fondo lleno en cada semántica BRAND."
+          >
+            <View className="flex-row flex-wrap gap-2">
+              {STATUSES.map((status) => (
+                <Button key={status} status={status} label={status} />
+              ))}
+            </View>
+          </CatalogVariant>
+          <CatalogVariant
+            n={11}
+            sub={4}
+            title="Outline · status"
+            description="Borde y texto semántico sobre background."
+          >
+            <View className="flex-row flex-wrap gap-2">
+              {STATUSES.map((status) => (
+                <Button
+                  key={status}
+                  status={status}
+                  variant="outline"
+                  label={status}
+                />
+              ))}
+            </View>
+          </CatalogVariant>
+          <CatalogVariant
+            n={11}
+            sub={5}
+            title="Ghost · status"
+            description="Sin borde; texto e icono semánticos."
+          >
+            <View className="flex-row flex-wrap gap-2">
+              {STATUSES.map((status) => (
+                <Button
+                  key={status}
+                  status={status}
+                  variant="ghost"
+                  label={status}
+                />
+              ))}
+            </View>
+          </CatalogVariant>
+          <CatalogVariant
+            n={11}
+            sub={6}
+            title="Icon · outline & ghost"
+            description="size icon con cada status semántico."
+          >
+            <View className="gap-2">
+              <View className="flex-row flex-wrap gap-2">
+                {STATUSES.map((status) => (
+                  <Button
+                    key={`outline-${status}`}
+                    icon={BRAND.colors.variants[status].icon}
+                    status={status}
+                    variant="outline"
+                    size="icon"
+                    accessibilityLabel={status}
+                  />
+                ))}
+              </View>
+              <View className="flex-row flex-wrap gap-2">
+                {STATUSES.map((status) => (
+                  <Button
+                    key={`ghost-${status}`}
+                    icon={BRAND.colors.variants[status].icon}
+                    status={status}
+                    variant="ghost"
+                    size="icon"
+                    accessibilityLabel={status}
+                  />
+                ))}
+              </View>
+            </View>
+          </CatalogVariant>
+          <CatalogVariant
+            n={11}
+            sub={7}
             title="Con icono"
             description="Lucide a la izquierda del label."
           >
@@ -652,11 +750,15 @@ const Home: FC = () => {
           </CatalogVariant>
           <CatalogVariant
             n={11}
-            sub={4}
+            sub={8}
             title="Disabled"
             description="Bloquea press y baja opacidad."
           >
-            <Button disabled label="Disabled" />
+            <View className="flex-row flex-wrap gap-2">
+              <Button disabled label="Solid" />
+              <Button disabled variant="outline" label="Outline" />
+              <Button disabled variant="ghost" label="Ghost" />
+            </View>
           </CatalogVariant>
         </CatalogCard>
 
@@ -698,7 +800,7 @@ const Home: FC = () => {
             n={12}
             sub={3}
             title="Filled"
-            description="Fondo card. Status success."
+            description="Sin borde; card o soft semántico."
           >
             <Input
               label="Filled"
@@ -711,7 +813,7 @@ const Home: FC = () => {
             n={12}
             sub={4}
             title="Ghost"
-            description="Solo línea inferior. Status warning."
+            description="Solo border-b; sin caja ni radius."
           >
             <Input
               label="Ghost"
@@ -737,7 +839,7 @@ const Home: FC = () => {
             n={12}
             sub={6}
             title="Size"
-            description="Escala BRAND xs–xl (no aplica a ghost)."
+            description="Altura, padding y text-* de BRAND.sizes."
           >
             <View className="gap-2">
               {SIZES.map((size) => (
@@ -749,52 +851,13 @@ const Home: FC = () => {
 
         <CatalogCard
           n={13}
-          title="Chip"
-          does="Filtro o etiqueta táctil con size, status y selected."
-          doesNot="No es Badge pasivo. No es Tab."
-          solves="Elegir Hoy / Semana / tamaño sin un segmented nativo."
-        >
-          <CatalogVariant
-            n={13}
-            sub={1}
-            title="Size"
-            description="Escala BRAND xs–xl. Uno seleccionado."
-          >
-            <View className="flex-row flex-wrap items-center gap-2">
-              {SIZES.map((size) => (
-                <Chip
-                  key={size}
-                  label={size}
-                  size={size}
-                  selected={chip === size}
-                  onPress={() => setChip(size)}
-                />
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={13}
-            sub={2}
-            title="Status"
-            description="Semántica BRAND sin selected."
-          >
-            <View className="flex-row flex-wrap items-center gap-2">
-              {STATUSES.map((status) => (
-                <Chip key={status} label={status} size="sm" status={status} />
-              ))}
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={14}
           title="Avatar"
           does="Imagen circular con fallback de iniciales si falla la carga."
           doesNot="No es BrandLogo. No recorta galería. No es picker."
           solves="Identidad de usuario/comercio sin gestionar onError."
         >
           <CatalogVariant
-            n={14}
+            n={13}
             sub={1}
             title="Fallback"
             description="Sin uri: iniciales."
@@ -802,7 +865,7 @@ const Home: FC = () => {
             <Avatar fallback="MC" status="brand" size={48} />
           </CatalogVariant>
           <CatalogVariant
-            n={14}
+            n={13}
             sub={2}
             title="Con foto"
             description="uri remota."
@@ -810,7 +873,7 @@ const Home: FC = () => {
             <Avatar uri={AVATAR_DEMO} fallback="JD" size={48} />
           </CatalogVariant>
           <CatalogVariant
-            n={14}
+            n={13}
             sub={3}
             title="Status"
             description="Borde semántico. Mismo size 48."
@@ -827,7 +890,7 @@ const Home: FC = () => {
             </View>
           </CatalogVariant>
           <CatalogVariant
-            n={14}
+            n={13}
             sub={4}
             title="Size"
             description="Diámetro en px: 32 / 40 / 48 / 64 / 80."
@@ -843,25 +906,25 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={15}
+          n={14}
           title="Image"
           does="Frame expo-image con aspect ratio, radius y status de borde."
           doesNot="No abre cámara ni galería. No recorta ni comprime."
           solves="Mostrar fotos de producto o tickets con recorte listo."
         >
           <CatalogVariant
-            n={15}
+            n={14}
             sub={1}
             title="16:9"
             description="Default. Producto / hero."
           >
             <Image source={{ uri: IMAGE_DEMO }} aspectRatio={16 / 9} />
           </CatalogVariant>
-          <CatalogVariant n={15} sub={2} title="1:1" description="Cuadrado.">
+          <CatalogVariant n={14} sub={2} title="1:1" description="Cuadrado.">
             <Image source={{ uri: IMAGE_DEMO }} aspectRatio={1} />
           </CatalogVariant>
           <CatalogVariant
-            n={15}
+            n={14}
             sub={3}
             title="4:3"
             description="Ticket / documento."
@@ -869,7 +932,7 @@ const Home: FC = () => {
             <Image source={{ uri: IMAGE_DEMO }} aspectRatio={4 / 3} />
           </CatalogVariant>
           <CatalogVariant
-            n={15}
+            n={14}
             sub={4}
             title="Status"
             description="Borde semántico del frame."
@@ -888,14 +951,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={16}
+          n={15}
           title="Checkbox"
           does="Selección binaria con label y status BRAND."
           doesNot="No es Switch. No agrupa opciones (no es radio)."
           solves="Aceptar términos u opciones puntuales en un form."
         >
           <CatalogVariant
-            n={16}
+            n={15}
             sub={1}
             title="Default"
             description="Status primary."
@@ -907,7 +970,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={16}
+            n={15}
             sub={2}
             title="Status"
             description="Todas las semánticas, checked."
@@ -927,14 +990,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={17}
+          n={16}
           title="Switch"
           does="Interruptor on/off con label y status BRAND."
           doesNot="No es Checkbox. No cambia el tema de la app."
           solves="Preferencias inmediatas: notificaciones, keep awake, etc."
         >
           <CatalogVariant
-            n={17}
+            n={16}
             sub={1}
             title="Default"
             description="Status primary."
@@ -946,7 +1009,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={17}
+            n={16}
             sub={2}
             title="Status"
             description="Todas las semánticas, on."
@@ -966,7 +1029,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={18}
+          n={17}
           title="Tabs"
           does="Paneles con trigger de texto. Un tab activo."
           doesNot="No es SegmentedTabs nativo. No persiste ruta."
@@ -989,14 +1052,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={19}
+          n={18}
           title="Accordion"
           does="Lista colapsable. type single o multiple."
           doesNot="No es Dialog. No navega. El contenido es string."
           solves="FAQ o detalle largo sin ocupar la pantalla entera."
         >
           <CatalogVariant
-            n={19}
+            n={18}
             sub={1}
             title="Single"
             description="Un ítem abierto a la vez."
@@ -1017,7 +1080,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={19}
+            n={18}
             sub={2}
             title="Multiple"
             description="Varios ítems abiertos a la vez."
@@ -1041,7 +1104,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={20}
+          n={19}
           title="Breadcrumb"
           does="Ruta de migas: Home / Lab / UI."
           doesNot="No navega al tap. No es Header."
@@ -1053,7 +1116,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={21}
+          n={20}
           title="Combobox"
           does="Select in-place: value + options + onChange."
           doesNot="No es Input libre. No busca remoto."
@@ -1071,7 +1134,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={22}
+          n={21}
           title="MultiStep"
           does="Wizard con MultiStep.Step, header y onComplete."
           doesNot="No persiste el flujo. No es Tabs."
@@ -1091,14 +1154,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={23}
+          n={22}
           title="Dialog"
           does="Modal compuesto: Header, Title, Content, Footer."
           doesNot="No es Drawer ni Toast. closeOnOutside es false por defecto."
           solves="Confirmar, formularios cortos o bloqueo de contexto."
         >
           <CatalogVariant
-            n={23}
+            n={22}
             sub={1}
             title="Default"
             description="Compound: Dialog.Header, Dialog.Title, Dialog.Content, Dialog.Footer. Overlay. Tap fuera no cierra."
@@ -1106,7 +1169,7 @@ const Home: FC = () => {
             <Button label="Open dialog" onPress={() => setDialogOpen(true)} />
           </CatalogVariant>
           <CatalogVariant
-            n={23}
+            n={22}
             sub={2}
             title="Form locked"
             description="closeOnOutside false + Input."
@@ -1120,7 +1183,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={24}
+          n={23}
           title="Drawer"
           does="Sheet inferior con título y onOpenChange."
           doesNot="No es Dialog centrado. No es bottom-sheet de Gorhom."
@@ -1134,7 +1197,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={25}
+          n={24}
           title="Toast"
           does="Aviso nativo (Android Toast / iOS Alert) vía showToast."
           doesNot="No es un componente montado. No encola UI custom."
@@ -1150,7 +1213,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={26}
+          n={25}
           title="device-lab"
           does="Hook que agrega chips de batería, red, OS, brillo, sensores."
           doesNot="No escribe settings. No sustituye cada módulo device."
@@ -1161,7 +1224,6 @@ const Home: FC = () => {
               <Chip
                 key={item.id}
                 label={item.label}
-                size="sm"
                 status={item.status ?? 'default'}
               />
             ))}
@@ -1169,7 +1231,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={27}
+          n={26}
           title="biometrics"
           does="Pide Face ID / huella con el copy de metadata."
           doesNot="No guarda PIN. No es login por sí mismo."
@@ -1198,14 +1260,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={28}
+          n={27}
           title="camera"
           does="Captura foto/video, galería y escáner de códigos."
           doesNot="No persiste en backend. No es el componente Image."
           solves="Tickets, KYC, cobro QR y adjuntos desde el device."
         >
           <CatalogVariant
-            n={28}
+            n={27}
             sub={1}
             title="openCamera"
             description="Modal de captura. facing back."
@@ -1234,7 +1296,7 @@ const Home: FC = () => {
             </View>
           </CatalogVariant>
           <CatalogVariant
-            n={28}
+            n={27}
             sub={2}
             title="pickImage"
             description="Elige de la galería con permiso incluido."
@@ -1253,7 +1315,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={28}
+            n={27}
             sub={3}
             title="openScanner"
             description="Viewfinder QR / barcode."
@@ -1283,7 +1345,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={29}
+          n={28}
           title="document-picker"
           does="Abre el selector de archivos del sistema."
           doesNot="No sube al backend. No previsualiza PDF."
@@ -1304,7 +1366,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={30}
+          n={29}
           title="clipboard"
           does="Copia un string al portapapeles del sistema."
           doesNot="No comparte archivos. No lee contactos."
@@ -1322,7 +1384,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={31}
+          n={30}
           title="location"
           does="Pide permiso y devuelve lat, lng y accuracy."
           doesNot="No dibuja mapa. No trackea en background."
@@ -1348,7 +1410,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={32}
+          n={31}
           title="speech"
           does="TTS del sistema. Si ya habla, detiene."
           doesNot="No transcribe. No es el audio-recorder."
@@ -1365,7 +1427,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={33}
+          n={32}
           title="mail"
           does="Abre el composer de correo de soporte."
           doesNot="No envía solo. No es inbox in-app."
@@ -1385,7 +1447,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={34}
+          n={33}
           title="brightness"
           does="Fija el brillo de pantalla en porcentaje."
           doesNot="No restaura al salir. No lee sensores."
@@ -1403,7 +1465,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={35}
+          n={34}
           title="keep-awake"
           does="Impide que la pantalla se apague mientras está activo."
           doesNot="No cambia brillo. No es lock de orientación."
@@ -1426,7 +1488,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={36}
+          n={35}
           title="contacts"
           does="Pide permiso y cuenta contactos accesibles."
           doesNot="No lista ni elige un contacto. No envía SMS."
@@ -1450,14 +1512,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={37}
+          n={36}
           title="orientation"
           does="Bloquea portrait o libera la rotación."
           doesNot="No lee sensores de movimiento. No es keep-awake."
           solves="Forzar vertical en cobro o cine en un video."
         >
           <CatalogVariant
-            n={37}
+            n={36}
             sub={1}
             title="lockPortrait"
             description="PORTRAIT_UP."
@@ -1472,7 +1534,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={37}
+            n={36}
             sub={2}
             title="unlockOrientation"
             description="Todas las orientaciones."
@@ -1489,14 +1551,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={38}
+          n={37}
           title="haptics"
           does="Feedback háptico: impacto, éxito, warning."
           doesNot="No reproduce audio. No es un botón."
           solves="Confirmar tap o pago con el motor de vibración."
         >
           <CatalogVariant
-            n={38}
+            n={37}
             sub={1}
             title="hapticImpact"
             description="Impacto medio."
@@ -1510,7 +1572,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={38}
+            n={37}
             sub={2}
             title="hapticSuccess"
             description="Notificación de éxito."
@@ -1524,7 +1586,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={38}
+            n={37}
             sub={3}
             title="hapticWarning"
             description="Notificación de advertencia."
@@ -1540,7 +1602,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={39}
+          n={38}
           title="sharing"
           does="Abre el share sheet nativo con un archivo local."
           doesNot="No genera el archivo. No copia texto (eso es clipboard)."

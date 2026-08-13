@@ -1,8 +1,6 @@
 import { type FC } from 'react'
 import { TextInput, type TextInputProps, View } from 'react-native'
 
-import { cva, type VariantProps } from 'class-variance-authority'
-
 import BRAND, {
   type BrandSize,
   type BrandSizeMap,
@@ -13,56 +11,80 @@ import { useMcVar } from '@theme'
 
 import { cn } from '@/lib/utils'
 
-const inputShell = cva(
-  cn(
-    'w-full border px-4 text-base text-foreground',
-    BRAND.radius.variants.control,
-  ),
-  {
-    variants: {
-      variant: {
-        default: `${BRAND.colors.variants.default.border} bg-background`,
-        outline: `${BRAND.colors.variants.default.border} bg-transparent`,
-        filled: 'border-transparent bg-card',
-        ghost: `rounded-none border-0 border-b ${BRAND.colors.variants.default.border} bg-transparent px-0`,
-      },
-      size: {
-        xs: 'h-8 py-0',
-        sm: 'h-9 py-0',
-        md: 'h-11 py-0',
-        lg: 'h-12 py-0',
-        xl: 'h-14 py-0',
-      } satisfies BrandSizeMap<string>,
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: BRAND.sizes.defaultVariant,
-    },
-  },
-)
+type InputVariant = 'default' | 'outline' | 'filled' | 'ghost'
 
-interface Props extends TextInputProps, VariantProps<typeof inputShell> {
+const INPUT_SIZES = {
+  xs: cn(BRAND.sizes.variants.xs.height, BRAND.sizes.variants.xs.text, 'py-0'),
+  sm: cn(BRAND.sizes.variants.sm.height, BRAND.sizes.variants.sm.text, 'py-0'),
+  md: cn(BRAND.sizes.variants.md.height, BRAND.sizes.variants.md.text, 'py-0'),
+  lg: cn(BRAND.sizes.variants.lg.height, BRAND.sizes.variants.lg.text, 'py-0'),
+  xl: cn(BRAND.sizes.variants.xl.height, BRAND.sizes.variants.xl.text, 'py-0'),
+} satisfies BrandSizeMap<string>
+
+const resolveInputClasses = (
+  variant: InputVariant,
+  status: BrandStatus,
+  size: BrandSize,
+) => {
+  const tone = BRAND.colors.variants[status]
+  const defaultTone = BRAND.colors.variants.default
+  const semantic = status !== 'default'
+
+  if (variant === 'ghost') {
+    return cn(
+      'w-full rounded-none border-0 border-b bg-transparent px-0 py-0 text-foreground',
+      BRAND.sizes.variants.md.text,
+      'h-10',
+      semantic ? tone.border : defaultTone.border,
+    )
+  }
+
+  if (variant === 'filled') {
+    return cn(
+      'w-full border-0 py-0 text-foreground',
+      BRAND.radius.variants.control,
+      INPUT_SIZES[size],
+      semantic ? tone.soft : 'bg-card',
+    )
+  }
+
+  if (variant === 'outline') {
+    return cn(
+      'w-full border bg-transparent py-0 text-foreground',
+      BRAND.radius.variants.control,
+      INPUT_SIZES[size],
+      semantic ? tone.border : defaultTone.border,
+    )
+  }
+
+  return cn(
+    'w-full border bg-background py-0 text-foreground',
+    BRAND.radius.variants.control,
+    INPUT_SIZES[size],
+    semantic ? tone.border : defaultTone.border,
+  )
+}
+
+interface Props extends TextInputProps {
   label?: string
   className?: string
+  variant?: InputVariant
   status?: BrandStatus
   size?: BrandSize
 }
 
 /**
- * Input — campo de texto con status y size BRAND.
+ * Input — campo de texto con variant, status y size BRAND.
  *
- * @param label - Etiqueta
- * @param label.label
- * @param label.className
- * @param label.variant
- * @param status - Variante semántica. @default 'default'
- * @param label.status
- * @param size - Tamaño BRAND. @default 'md'
+ * @param label - Etiqueta opcional
+ * @param variant - Estilo visual. @default 'default'
+ * @param status - Tono semántico BRAND. @default 'default'
+ * @param size - Escala BRAND. @default 'md'
+ * @param className - Clases NativeWind extra
  *
- * @param label.size
  * @example
- * import Input from '@components/input';
- * <Input label="Monto" status="brand" />
+ * import Input from '@components/input'
+ * <Input label="Monto" variant="filled" status="success" size="sm" />
  */
 const Input: FC<Props> = ({
   label,
@@ -73,8 +95,6 @@ const Input: FC<Props> = ({
   ...props
 }) => {
   const placeholderColor = useMcVar(BRAND.native.textSecondary)
-  const isGhost = variant === 'ghost'
-  const tone = BRAND.colors.variants[status]
 
   return (
     <View className="gap-2">
@@ -84,12 +104,7 @@ const Input: FC<Props> = ({
         </Text.Label>
       )}
       <TextInput
-        className={cn(
-          inputShell({ variant, size: isGhost ? undefined : size }),
-          isGhost && 'h-11',
-          status !== 'default' && tone.border,
-          className,
-        )}
+        className={cn(resolveInputClasses(variant, status, size), className)}
         placeholderTextColor={placeholderColor}
         {...props}
       />
@@ -97,8 +112,5 @@ const Input: FC<Props> = ({
   )
 }
 
-export type { Props as InputProps }
-/**
- *
- */
+export type { InputVariant, Props as InputProps }
 export default Input

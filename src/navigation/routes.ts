@@ -28,6 +28,13 @@ export const routes = {
     title: 'Register',
     showInNav: false,
   },
+  about: {
+    href: '/about',
+    auth: 'public',
+    title: 'About',
+    icon: 'info.circle.fill',
+    showInNav: true,
+  },
   explore: {
     href: '/explore',
     auth: 'private',

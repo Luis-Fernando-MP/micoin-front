@@ -1,14 +1,28 @@
 import { type FC } from 'react'
 
-import { Stack } from 'expo-router'
+import { Tabs } from 'expo-router'
 
 const PublicLayout: FC = () => {
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="login" options={{ title: 'Login' }} />
-      <Stack.Screen name="register" options={{ title: 'Register' }} />
-    </Stack>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { display: 'none' },
+        lazy: true,
+        freezeOnBlur: true,
+      }}
+    >
+      <Tabs.Screen name="index" />
+      <Tabs.Screen name="about" />
+      <Tabs.Screen
+        name="login"
+        options={{ href: null, headerShown: true, title: 'Login' }}
+      />
+      <Tabs.Screen
+        name="register"
+        options={{ href: null, headerShown: true, title: 'Register' }}
+      />
+    </Tabs>
   )
 }
 

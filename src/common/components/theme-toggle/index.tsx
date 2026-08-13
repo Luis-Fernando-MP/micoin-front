@@ -1,77 +1,49 @@
-import { type FC, useEffect } from 'react'
-import { Pressable, View } from 'react-native'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated'
+import { type FC } from 'react'
+import { useColorScheme as useSystemColorScheme, View } from 'react-native'
 
-import BRAND from '@components/shared/brand'
-import { BRAND_THEMES, useMcVar, useTheme } from '@theme'
+import Button from '@components/button'
+import { BRAND_THEMES, resolveTheme } from '@theme'
 import { useThemeStore } from '@theme/store'
+import { type ThemeAppearance } from '@theme/themes'
 
 import { cn } from '@/lib/utils'
 
-const SLOT = 36
-const KNOB_INSET = 4
-const APPEARANCES = Object.keys(BRAND_THEMES) as (keyof typeof BRAND_THEMES)[]
+const APPEARANCES = Object.keys(BRAND_THEMES) as ThemeAppearance[]
 
 /**
  * ThemeToggle — selector de apariencias de BRAND_THEMES.
  *
- * El control se suscribe al store; el padre no pasa el esquema por props.
- *
- * @param props - Sin props; el control lee el store de tema
+ * Botones icon-only; el activo usa variant outline sin animaciones.
  *
  * @example
  * import ThemeToggle from '@components/theme-toggle'
  * <ThemeToggle />
  */
 const ThemeToggle: FC = () => {
-  const colorScheme = useTheme((state) => state.colorScheme)
+  const preference = useThemeStore((state) => state.preference)
   const setPreference = useThemeStore((state) => state.setPreference)
-  const translateX = useSharedValue(
-    KNOB_INSET + SLOT * APPEARANCES.indexOf(colorScheme),
-  )
-  const iconColor = useMcVar(BRAND.native.textPrimary)
-
-  useEffect(() => {
-    translateX.value = withSpring(
-      KNOB_INSET + SLOT * APPEARANCES.indexOf(colorScheme),
-      { damping: 15, stiffness: 150 },
-    )
-  }, [colorScheme, translateX])
-
-  const knobStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }))
+  const systemScheme = useSystemColorScheme()
+  const activeAppearance = resolveTheme(preference, systemScheme).colorScheme
 
   return (
-    <View className="relative h-10 flex-row rounded-full bg-card p-1">
+    <View className="flex-row gap-1 rounded-full bg-card p-1">
       {APPEARANCES.map((appearance) => {
-        const Icon = BRAND_THEMES[appearance].icon
+        const active = appearance === activeAppearance
+
         return (
-          <Pressable
+          <Button
             key={appearance}
+            icon={BRAND_THEMES[appearance].icon}
+            size="xs"
+            variant={active ? 'outline' : 'ghost'}
             onPress={() => setPreference(appearance)}
             accessibilityLabel={BRAND_THEMES[appearance].label}
-            className="z-10 h-9 w-9 items-center justify-center"
-          >
-            <Icon size={16} color={iconColor} />
-          </Pressable>
+            className={cn('h-9 w-9 px-0', active && 'bg-background')}
+          />
         )
       })}
-      <Animated.View
-        style={knobStyle}
-        className={cn(
-          'absolute h-9 w-9 rounded-full border border-border bg-background',
-        )}
-      />
     </View>
   )
 }
 
-/**
- *
- */
 export default ThemeToggle

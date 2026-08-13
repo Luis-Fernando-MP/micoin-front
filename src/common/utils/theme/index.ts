@@ -1,5 +1,6 @@
 export { useMcVar } from './hooks/use-mc-var'
-export { useTheme } from './hooks/use-theme'
+export { resolveTheme } from './resolve-theme'
+export type { ThemeResolved } from './resolve-theme'
 export { default } from './provider'
 export {
   BRAND_THEMES,

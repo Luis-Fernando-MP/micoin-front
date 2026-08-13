@@ -1,20 +1,25 @@
-import { type FC, type ReactNode, useEffect } from 'react'
-import { View } from 'react-native'
+import { memo, type FC, type ReactNode } from 'react'
+import { useColorScheme as useSystemColorScheme, View } from 'react-native'
 
+import {
+  DarkTheme,
+  ThemeProvider as NavigationThemeProvider,
+} from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
-import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native'
-import { colorScheme as nativewindColorScheme } from 'nativewind'
 
-import { useNavTheme } from '@components/nav/theme'
+import { resolveTheme } from '@theme'
+import { useThemeStore } from '@theme/store'
 import { ThemeSystem } from '@theme/themes'
 
 import { cn } from '@/lib/utils'
 
-import { useTheme } from './hooks/use-theme'
-
 interface Props {
   children: ReactNode
 }
+
+const ThemeShell = memo(({ children }: { children: ReactNode }) => children)
+
+ThemeShell.displayName = 'ThemeShell'
 
 /**
  * ThemeProvider
@@ -26,23 +31,18 @@ interface Props {
  * <ThemeProvider>{children}</ThemeProvider>
  */
 const ThemeProvider: FC<Props> = ({ children }) => {
-  const colorScheme = useTheme((state) => state.colorScheme)
-  const theme = useTheme((state) => state.theme)
-  const navTheme = useNavTheme()
-  const nativeScheme = theme.system ?? ThemeSystem.Dark
+  const preference = useThemeStore((state) => state.preference)
+  const systemScheme = useSystemColorScheme()
+  const { colorScheme, theme } = resolveTheme(preference, systemScheme)
   let statusBarStyle: ThemeSystem = ThemeSystem.Light
   if (theme.system === ThemeSystem.Light) {
     statusBarStyle = ThemeSystem.Dark
   }
 
-  useEffect(() => {
-    nativewindColorScheme.set(nativeScheme)
-  }, [nativeScheme])
-
   return (
-    <NavigationThemeProvider value={navTheme}>
+    <NavigationThemeProvider value={DarkTheme}>
       <View className={cn('flex-1 bg-background', colorScheme)}>
-        {children}
+        <ThemeShell>{children}</ThemeShell>
         <StatusBar style={statusBarStyle} />
       </View>
     </NavigationThemeProvider>

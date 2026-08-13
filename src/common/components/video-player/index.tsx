@@ -40,7 +40,7 @@ const VideoPlayer: FC<Props> = ({ uri = DEMO, height = 180 }) => {
         player={player}
         style={{ width: '100%', height, borderRadius: 16 }}
         className={cn(BRAND.radius.variants.surface)}
-        allowsFullscreen
+        fullscreenOptions={{ enable: true }}
         nativeControls
       />
       <Text className="text-xs text-secondary">

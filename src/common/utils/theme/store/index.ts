@@ -25,6 +25,7 @@ export const useThemeStore = create<ThemeState>()(
     {
       name: 'micoin-theme',
       storage: createJSONStorage(() => AsyncStorage),
+      partialize: (state) => ({ preference: state.preference }),
     },
   ),
 )

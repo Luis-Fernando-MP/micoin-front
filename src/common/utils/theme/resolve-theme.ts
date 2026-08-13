@@ -1,6 +1,3 @@
-import { useColorScheme as useSystemColorScheme } from 'react-native'
-
-import { useThemeStore } from '@theme/store'
 import {
   BRAND_THEMES,
   SYSTEM_PREFERENCE,
@@ -11,7 +8,6 @@ import {
 } from '@theme/themes'
 
 type ThemeResolved = {
-  preference: ThemePreference
   colorScheme: ThemeAppearance
   theme: ThemeEntry
 }
@@ -31,33 +27,28 @@ const appearanceFromSystem = (osDark: boolean): ThemeAppearance => {
 }
 
 /**
- * useTheme — estado resuelto del catálogo BRAND_THEMES con selector mínimo.
+ * resolveTheme — resuelve apariencia activa del catálogo BRAND_THEMES.
  *
- * Acciones del store: `useThemeStore((s) => s.setPreference)`.
- *
- * @param selector - Campo o proyección del estado resuelto
+ * @param preference - Preferencia persistida
+ * @param systemScheme - Esquema del sistema (`light` / `dark`)
  *
  * @example
- * import { useTheme } from '@theme'
- * import { useThemeStore } from '@theme/store'
- * const colorScheme = useTheme((s) => s.colorScheme)
- * const setPreference = useThemeStore((s) => s.setPreference)
+ * resolveTheme('dark', 'light')
  */
-const useTheme = <T>(selector: (state: ThemeResolved) => T): T => {
-  const preference = useThemeStore((state) => state.preference)
-  const systemScheme = useSystemColorScheme()
-
+const resolveTheme = (
+  preference: ThemePreference,
+  systemScheme: 'light' | 'dark' | null | undefined,
+): ThemeResolved => {
   let colorScheme = appearanceFromSystem(systemScheme === ThemeSystem.Dark)
   if (preference !== SYSTEM_PREFERENCE && preference in BRAND_THEMES) {
-    colorScheme = preference
+    colorScheme = preference as ThemeAppearance
   }
 
-  return selector({
-    preference,
+  return {
     colorScheme,
     theme: BRAND_THEMES[colorScheme],
-  })
+  }
 }
 
-export { useTheme }
+export { resolveTheme }
 export type { ThemeResolved }

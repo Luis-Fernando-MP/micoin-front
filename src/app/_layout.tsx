@@ -4,6 +4,7 @@ import '../global.css'
 import { type FC, Fragment, type ReactNode } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { Stack } from 'expo-router'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
@@ -50,21 +51,23 @@ const RootNavigator: FC = () => {
 
 const RootLayout: FC = () => {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <KeyboardProvider>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <BottomSheetModalProvider>
-              <StripeGate>
-                <RootNavigator />
-                <PortalHost />
-                <CameraHost />
-              </StripeGate>
-            </BottomSheetModalProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </KeyboardProvider>
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <KeyboardProvider>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider>
+              <BottomSheetModalProvider>
+                <StripeGate>
+                  <RootNavigator />
+                  <PortalHost />
+                  <CameraHost />
+                </StripeGate>
+              </BottomSheetModalProvider>
+            </ThemeProvider>
+          </QueryClientProvider>
+        </KeyboardProvider>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   )
 }
 

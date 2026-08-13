@@ -2,6 +2,8 @@ export const mcVars = {
   background: '--mc-background',
   card: '--mc-card',
   cardHover: '--mc-card-hover',
+  border: '--mc-border',
+  overlay: '--mc-overlay',
   semanticBgWarning: '--mc-semantic-bg-warning',
   semanticTextWarning: '--mc-semantic-text-warning',
   semanticBgError: '--mc-semantic-bg-error',
@@ -14,6 +16,8 @@ export const mcVars = {
   textSecondary: '--mc-text-secondary',
   primary: '--mc-primary',
   primaryBackground: '--mc-primary-background',
+  primaryForeground: '--mc-primary-foreground',
   brand: '--mc-brand',
   brandBackground: '--mc-brand-background',
+  brandForeground: '--mc-brand-foreground',
 } as const;

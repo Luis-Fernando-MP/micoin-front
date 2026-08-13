@@ -1,0 +1,57 @@
+import { router } from 'expo-router';
+import { ArrowLeft } from 'lucide-react-native';
+import { type FC, type ReactNode } from 'react';
+import { Pressable, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { Text } from '@/common/components/text';
+import { cn } from '@/lib/utils';
+import { useMcVar } from '@/theme/hooks/use-theme-var';
+
+interface Props {
+  title: string;
+  showBackButton?: boolean;
+  rightComponents?: ReactNode[];
+  className?: string;
+}
+
+const Header: FC<Props> = ({
+  title,
+  showBackButton = false,
+  rightComponents = [],
+  className,
+}) => {
+  const insets = useSafeAreaInsets();
+  const iconColor = useMcVar('textPrimary', '#000000');
+  const hasRight = rightComponents.length > 0;
+
+  return (
+    <View
+      style={{ paddingTop: insets.top }}
+      className={cn(
+        'w-full flex-row items-center justify-between bg-background px-5 pb-2',
+        className
+      )}
+    >
+      <View className="min-w-0 flex-1 flex-row items-center">
+        {showBackButton && (
+          <Pressable onPress={() => router.back()} className="mr-3 py-3">
+            <ArrowLeft size={22} color={iconColor} />
+          </Pressable>
+        )}
+        <Text className="py-3 text-lg font-bold" numberOfLines={1}>
+          {title}
+        </Text>
+      </View>
+      {hasRight && (
+        <View className="flex-row items-center justify-end gap-4">
+          {rightComponents.map((component, index) => (
+            <View key={index}>{component}</View>
+          ))}
+        </View>
+      )}
+    </View>
+  );
+};
+
+export { Header };

@@ -2,8 +2,8 @@ import { Link } from 'expo-router';
 import { type FC } from 'react';
 import { View } from 'react-native';
 
-import { Button } from '@/common/button';
-import { Text } from '@/common/text';
+import { Button } from '@/common/components/button';
+import { Text } from '@/common/components/text';
 
 const Modal: FC = () => {
   return (

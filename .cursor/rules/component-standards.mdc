@@ -1,18 +1,28 @@
 ---
-description: Estándar de componentes React/RN, render y colores MiCoin
+description: Estándar de componentes React/RN, render, colores y deps MiCoin
 globs: src/**/*.{ts,tsx}
 alwaysApply: true
 ---
 
 # Estándar de código MiCoin
 
+## Versiones
+
+Últimas estables **compatibles con Expo SDK 54 / Expo Go**. Migraciones de stack antes de features. `pnpm exec expo install` para nativos. No subir de SDK si rompe Expo Go del dispositivo.
+
 ## Componentes
 
-Arrow functions + `FC`. Extiende props nativas de React Native cuando aplique (`ViewProps`, `PressableProps`, `TextProps`, etc.).
+Path: `src/common/components/{name}/index.tsx`. Shared: `src/common/components/shared/`.
+
+Metadata de producto: `src/common/metadata`.
+
+Arrow + `FC`. Extiende props RN (`ViewProps`, `PressableProps`, …).
 
 ```tsx
 interface Props extends ViewProps {
   className?: string;
+  status?: Status;
+  size?: Size;
 }
 
 const Card: FC<Props> = ({ className, ...props }) => {
@@ -22,39 +32,31 @@ const Card: FC<Props> = ({ className, ...props }) => {
 export { Card };
 ```
 
-Sin props:
+## Size / radius
 
-```tsx
-const Home: FC = () => {
-  return <View className="flex-1 bg-background" />;
-};
+- `size`: `sm | md | lg` vía `@/common/components/shared/size` (Button, Chip, Input).
+- Radius: `--mc-radius` 16px (control), `--mc-radius-surface` 20px. Classes `rounded-control` / `rounded-surface` / `rounded-full`.
+- Icons: Lucide via `@/common/components/icon`.
+- Images: `expo-image` via `@/common/components/image` (no Unpic en native).
 
-export { Home };
-```
+## Render
 
-## Render y control de flujo
+Sin comentarios. Evitar `else` (early return). En JSX usar `&&`, no ternarias. Valores variables: calcular antes del `return`.
 
-- Sin comentarios en código de componentes.
-- Evitar `else`; preferir early return.
-- En JSX no usar ternarias; usar `&&`.
-- Valores de texto/atributos que cambian: calcularlos antes del `return`, no con ternaria en JSX.
+## Colores / status
 
-```tsx
-{error && <Text className="text-semantic-error-text">{error}</Text>}
-{label && <Text>{label}</Text>}
-{!label && children}
-```
+Solo `--mc-*`. `status`: `default | primary | brand | warning | error | info | success` vía `@/common/components/shared/status`.
 
-## Colores
+- Primary: UI cotidiana (Vercel B/N) + `text-primary-foreground`
+- Brand: highlights dorados (raro) + `text-brand-foreground` (siempre oscuro sobre oro)
+- Semánticos: `text-warning`, `bg-error-bg`, …
 
-Solo tokens `--mc-*` vía clases del design system.
+Prohibido: `text-red-200`, `text-black`, hex en UI (salvo overlays nativos).
 
-- **Primary** (`text-primary`, `bg-primary-background`): UI cotidiana estilo Vercel (botones, selección).
-- **Brand** (`text-brand`, `bg-brand-background`): **solo** highlights de marca (raro). No usar en layouts genéricos.
-- Semánticos: `text-semantic-error-text`, `bg-semantic-success-bg`, …
+## UI
 
-Prohibido: `text-red-200`, `bg-blue-500`, `text-black`, `bg-white`, hex/rgb inline en UI.
+Look Vercel/Geist. Motion intencional (Reanimated / `FadeIn`). Design in code.
 
-## Hooks / utilidades
+## Hooks
 
-Arrow functions. Sin `FC` (no son componentes).
+Arrow functions. Sin `FC`.

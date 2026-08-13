@@ -31,8 +31,8 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "image": "./assets/images/logo/logo-lg.png",
+          "imageWidth": 180,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
@@ -40,7 +40,56 @@
           }
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-local-authentication",
+      "expo-document-picker",
+      "expo-image-picker",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow MiCoin to access your camera.",
+          "microphonePermission": "Allow MiCoin to access your microphone.",
+          "recordAudioAndroid": true,
+          "barcodeScannerEnabled": true
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow MiCoin to use your location."
+        }
+      ],
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow MiCoin to access your contacts."
+        }
+      ],
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "Allow MiCoin to access your calendar."
+        }
+      ],
+      "expo-mail-composer",
+      "expo-localization",
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow MiCoin to save receipts to your photos.",
+          "savePhotosPermission": "Allow MiCoin to save receipts to your photos."
+        }
+      ],
+      "expo-sqlite",
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.micoin",
+          "enableGooglePay": false
+        }
+      ],
+      "expo-audio",
+      "expo-video"
     ],
     "experiments": {
       "typedRoutes": true,

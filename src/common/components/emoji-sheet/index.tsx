@@ -1,0 +1,44 @@
+import { type BottomSheetModal } from '@gorhom/bottom-sheet';
+import { Smile } from 'lucide-react-native';
+import { type FC, useRef, useState } from 'react';
+import { View } from 'react-native';
+
+import { AppBottomSheetModal } from '@/common/components/bottom-sheet';
+import { Button } from '@/common/components/button';
+import { EmojiPicker } from '@/common/components/emoji-picker';
+import { Text } from '@/common/components/text';
+
+interface Props {
+  onSelect?: (emoji: string) => void;
+}
+
+const EmojiSheet: FC<Props> = ({ onSelect }) => {
+  const ref = useRef<BottomSheetModal>(null);
+  const [emoji, setEmoji] = useState('✨');
+
+  return (
+    <View className="gap-2">
+      <Button
+        size="sm"
+        icon={Smile}
+        label={`Elegir emoji ${emoji}`}
+        onPress={() => ref.current?.present()}
+      />
+      <AppBottomSheetModal ref={ref} snapPoints={['70%', '90%']}>
+        <View className="gap-2 pt-1">
+          <Text className="text-base font-semibold">Reaccionar</Text>
+          <EmojiPicker
+            height={320}
+            onSelect={(value) => {
+              setEmoji(value);
+              onSelect?.(value);
+              ref.current?.dismiss();
+            }}
+          />
+        </View>
+      </AppBottomSheetModal>
+    </View>
+  );
+};
+
+export { EmojiSheet };

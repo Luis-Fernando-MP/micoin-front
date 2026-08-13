@@ -4,7 +4,7 @@ Mobile wallet/app built with Expo (SDK 54), Expo Router, NativeWind, and Better 
 
 ## Platform
 
-adaptive (iOS, Android, Web)
+adaptive
 
 ## Audience
 

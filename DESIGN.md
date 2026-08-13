@@ -1,43 +1,37 @@
 # MiCoin design
 
-Native-first. Color tokens live in `src/global.css` as `--mc-*`. Tailwind aliases in `tailwind.config.js` reuse them.
+Native-first. Tokens in `src/global.css` (`--mc-*`). UI in `src/common/components/{name}`. Shared: `shared/status`, `shared/size`, `shared/radius`. Product copy: `common/metadata`.
 
-## Color tokens (`--mc-*`)
+## Look
 
-| Variable | Role |
-|----------|------|
-| `--mc-background` | Page background |
-| `--mc-card` | Cards, secondary surfaces, outline buttons |
-| `--mc-card-hover` | Hover/pressed, borders, dividers |
-| `--mc-text-primary` | Main text |
-| `--mc-text-secondary` | Secondary text, placeholders |
-| `--mc-primary` | UI accent Vercel-style (black light / white dark) — CTAs, links, selection |
-| `--mc-primary-background` | Primary button fill (same Vercel contrast pair) |
-| `--mc-brand` | Gold de marca — **solo highlights especiales** |
-| `--mc-brand-background` | Fondo brand — **solo superficies destacadas de marca** |
-| `--mc-semantic-bg-*` / `--mc-semantic-text-*` | Warning, error, info, success |
+Vercel/Geist: monochrome primary, brand gold only for highlights (texto brand siempre `brand-foreground` oscuro). Motion con Reanimated (`FadeIn`).
 
-### Primary vs brand
+## Radius
 
-- **Primary**: uso cotidiano (botones default, toggle seleccionado, nav chrome).
-- **Brand**: raro — logo moments, badge premium, KPI hero, etc. No pintar pantallas enteras con gold.
+- `--mc-radius` / control: **16px** (`rounded-control`)
+- surface: **20px** (`rounded-surface`)
+- pills: `rounded-full`
 
-Nunca usar paleta Tailwind cruda (`text-red-200`, `text-black`, …).
+## Size
 
-Component conventions: `.cursor/rules/component-standards.mdc`.
+`sm | md | lg` en Button, Chip, Input.
 
-## Brand logo
+## Status
 
-`BrandLogo` carga SVG de `assets/images/logo/` (`sm` / `md` / `lg`). PNG para icon/splash/favicon.
+`default | primary | brand | warning | error | info | success`
 
-## Tailwind aliases
+## Stack
 
-- `bg-background`, `text-foreground`, `text-secondary`
-- `bg-card`, `bg-card-hover`, `border-card-hover`
-- `bg-primary-background`, `text-primary`, `border-primary`
-- `bg-brand-background`, `text-brand`, `border-brand` (uso especial)
-- `text-semantic-error-text`, …
+Expo SDK **54** / Expo Go. `expo-camera` para captura con filtros ligeros.
 
-## Type / Layout / Motion
+## Structure
 
-System UI. Screens in `src/presentation/{vista}`. Shared UI in `src/common`. Short functional motion.
+- `common/components/*` — UI kit
+- `common/device/*` — biometrics, files, camera
+- `common/metadata` — nombre, tagline, prompts
+- `common/core/*` — HTTP / GraphQL / React Query
+- `presentation/*` — screens
+
+## Conventions
+
+See `.cursor/rules/component-standards.mdc`.

@@ -7,7 +7,10 @@ const useTheme = () => {
   const setPreference = useThemeStore((state) => state.setPreference);
   const systemScheme = useSystemColorScheme();
 
-  let colorScheme: 'light' | 'dark' = systemScheme ?? 'light';
+  let colorScheme: 'light' | 'dark' = 'light';
+  if (systemScheme === 'dark') {
+    colorScheme = 'dark';
+  }
   if (preference !== 'system') {
     colorScheme = preference;
   }

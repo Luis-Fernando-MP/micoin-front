@@ -4,6 +4,7 @@ import { TextInput, type TextInputProps, View } from 'react-native';
 
 import BRAND, {
   type BrandSize,
+  type BrandSizeMap,
   type BrandStatus,
 } from '@/common/components/shared/brand';
 import Text from '@/common/components/text';
@@ -28,7 +29,8 @@ const inputShell = cva(
         sm: 'h-9 py-0',
         md: 'h-11 py-0',
         lg: 'h-12 py-0',
-      },
+        xl: 'h-14 py-0',
+      } satisfies BrandSizeMap<string>,
     },
     defaultVariants: {
       variant: 'default',
@@ -69,7 +71,11 @@ const Input: FC<Props> = ({
 
   return (
     <View className="gap-2">
-      {label && <Text className={cn('text-sm', tone.text)}>{label}</Text>}
+      {label && (
+        <Text.Label status={status === 'default' ? undefined : status}>
+          {label}
+        </Text.Label>
+      )}
       <TextInput
         className={cn(
           inputShell({ variant, size: isGhost ? undefined : size }),

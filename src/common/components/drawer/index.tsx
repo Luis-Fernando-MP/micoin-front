@@ -87,7 +87,9 @@ const Drawer: FC<Props> = ({
             <View className="h-1 w-10 rounded-full bg-border" />
           </View>
           {title && (
-            <Text className="mb-3 text-base font-semibold">{title}</Text>
+            <Text.Title size="sm" className="mb-3">
+              {title}
+            </Text.Title>
           )}
           {children}
         </Animated.View>

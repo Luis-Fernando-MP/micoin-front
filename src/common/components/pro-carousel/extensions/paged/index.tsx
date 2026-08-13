@@ -39,8 +39,8 @@ const PagedCarousel: FC<Props> = ({ data = DEFAULT, height = 160 }) => {
           BRAND.radius.variants.surface
         )}
       >
-        <Text className="text-lg font-semibold">{item.title}</Text>
-        <Text className="mt-1 text-sm text-secondary">{item.body}</Text>
+        <Text.Title>{item.title}</Text.Title>
+        <Text.Subtitle className="mt-1">{item.body}</Text.Subtitle>
       </View>
     ),
     []

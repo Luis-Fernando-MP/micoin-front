@@ -23,9 +23,11 @@ Sin renders innecesarios: `memo` en ítems de lista, `useCallback` en handlers d
 import Avatar from '@/common/components/avatar';
 import Maps from '@/common/components/maps';
 import Charts from '@/common/components/charts';
+import Text from '@/common/components/text';
 
 <Maps.RoutePlanner />
 <Charts.AreaChart data={[12, 22, 31]} />
+<Text.Title>Movimientos</Text.Title>
 ```
 
 Ver `AGENTS.md` y `.cursor/rules/component-standards.mdc`.

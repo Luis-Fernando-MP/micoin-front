@@ -14,10 +14,10 @@ const Explore: FC = () => {
     <View className="flex-1 bg-background">
       <View className="flex-1 gap-4 p-5">
         <BrandLogo size="sm" />
-        <Text className="text-3xl font-bold">Explore</Text>
-        <Text className="text-secondary">
+        <Text.Title size="xl">Explore</Text.Title>
+        <Text.Subtitle>
           This screen is private. You only see it with a session.
-        </Text>
+        </Text.Subtitle>
         <Card className="gap-3">
           <Link href="/modal" asChild>
             <Button label="Open modal" />

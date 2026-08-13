@@ -62,9 +62,9 @@ const RichOverflowSheet: FC<Props> = ({
       />
       <AppBottomSheetModal ref={ref} snapPoints={['42%', '65%']}>
         <View className="gap-3 pt-2">
-          <Text className="text-lg font-semibold">{title}</Text>
+          <Text.Title>{title}</Text.Title>
           {typeof description === 'string' ? (
-            <Text className="text-sm text-secondary">{description}</Text>
+            <Text.Subtitle>{description}</Text.Subtitle>
           ) : (
             description
           )}

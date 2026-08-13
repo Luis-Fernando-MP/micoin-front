@@ -51,9 +51,9 @@ const Header: FC<Props> = ({
             <ArrowLeft size={22} color={iconColor} />
           </Pressable>
         )}
-        <Text className="py-3 text-lg font-bold" numberOfLines={1}>
+        <Text.Title className="py-3" numberOfLines={1}>
           {title}
-        </Text>
+        </Text.Title>
       </View>
       {hasRight && (
         <View className="flex-row items-center justify-end gap-4">

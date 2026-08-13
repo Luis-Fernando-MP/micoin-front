@@ -295,7 +295,7 @@ const ENTRIES: Entry[] = [
         }
       >
         <View className="items-center rounded-control border border-border bg-card px-4 py-3">
-          <Text className="font-medium">Pulsa aquí</Text>
+          <Text.Highlight>Pulsa aquí</Text.Highlight>
         </View>
       </PressableScale>
     ),

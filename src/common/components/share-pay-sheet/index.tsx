@@ -46,10 +46,10 @@ const SharePaySheetRoot: FC<Props> = ({
       />
       <AppBottomSheetModal ref={ref} snapPoints={['55%', '80%']}>
         <View className="gap-3 pt-2">
-          <Text className="text-lg font-semibold">Cobrar {amountLabel}</Text>
-          <Text className="text-sm text-secondary">
+          <Text.Title>Cobrar {amountLabel}</Text.Title>
+          <Text.Subtitle>
             Comparte el link o muestra el QR de {metadata.name}.
-          </Text>
+          </Text.Subtitle>
           <View className="items-center py-2">
             <QrCode value={link} size={160} />
           </View>

@@ -44,11 +44,15 @@ Fuente de verdad: `src/common/components/shared/brand.ts`.
 
 ```ts
 import BRAND, { type BrandStatus, type BrandSize, type BrandRadius } from '@/common/components/shared/brand';
+
+type BrandSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 ```
+
+`BRAND.sizes` y `BRAND.type.title` satisfacen `Record<BrandSize, …>`. Si se agrega un step, se agrega al type primero. Radius no usa esta escala (`none | sm | control | surface | pill`).
 
 Props comunes del kit: `status?: BrandStatus`, `size?: BrandSize`, `radius?: BrandRadius`, `className?`.
 
-Leer `BRAND.colors`, `BRAND.sizes`, `BRAND.radius`, `BRAND.native` directo. Prohibido wrappers (`status.ts`, `size.ts`, `radius.ts`) y hardcodear `text-red-*`, hex de UI o `rounded-lg` arbitrario. APIs nativas (Skia, Lucide color, QR): `useMcVar(BRAND.native.brand)`, sin fallback hex.
+Leer `BRAND.colors`, `BRAND.sizes`, `BRAND.radius`, `BRAND.type`, `BRAND.native` directo. Prohibido wrappers (`status.ts`, `size.ts`, `radius.ts`), barrels (`shared/index.ts`) y hardcodear `text-red-*`, hex de UI o `rounded-lg` arbitrario. APIs nativas (Skia, Lucide color, QR): `useMcVar(BRAND.native.brand)`, sin fallback hex. Copy de UI: `Text.Title` / `Text.Subtitle` / `Text.Caption`, no `className="text-lg font-semibold"`.
 
 ## JSDoc
 
@@ -85,10 +89,13 @@ Decoradores `@param` y `@example` obligatorios. `@default` en la descripción de
 ```tsx
 import Maps from '@/common/components/maps';
 import Charts from '@/common/components/charts';
+import Text from '@/common/components/text';
 
 <Maps coordinate={sv} />
 <Maps.RoutePlanner origin={a} destination={b} />
 <Charts.AreaChart data={[12, 22, 31]} />
+<Text.Title>Movimientos</Text.Title>
+<Text.Subtitle>Hoy · 10:24</Text.Subtitle>
 ```
 
 Las extensiones viven en `extensions/` y se adjuntan al default. El consumidor no las importa sueltas.
@@ -102,6 +109,8 @@ Las extensiones viven en `extensions/` y se adjuntan al default. El consumidor n
 - Clases de status/size/radius fuera de BRAND
 - `renderItem` inline inestable en listas largas
 - Importar `extensions/` suelto (`import AreaChart from '.../extensions/area'`)
+- Barrel `shared/index.ts` o `from '@/common/components/shared'`
+- `className="text-lg font-semibold"` en copy de UI cuando existe `Text.Title`
 - `export { Component }` como export principal
 
 ## Expo

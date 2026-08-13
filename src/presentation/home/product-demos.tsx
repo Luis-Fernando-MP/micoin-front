@@ -53,7 +53,7 @@ const LocalAlertDemo: FC = () => (
 const PayQrDemo: FC = () => (
   <View className="items-center gap-2">
     <QrCode value={PAY_LINK} size={148} />
-    <Text className="text-center text-xs text-secondary">{PAY_LINK}</Text>
+    <Text.Caption className="text-center">{PAY_LINK}</Text.Caption>
   </View>
 );
 
@@ -81,9 +81,9 @@ const ScannerDemo: FC = () => {
         }}
       />
       {scanLabel && (
-        <Text className="text-sm text-secondary" numberOfLines={2}>
+        <Text.Subtitle numberOfLines={2}>
           {scanLabel}
-        </Text>
+        </Text.Subtitle>
       )}
     </View>
   );
@@ -171,9 +171,9 @@ const ReceiptDemo: FC = () => {
     <View className="gap-2">
       <ViewShot ref={receiptRef} options={{ format: 'png', quality: 0.9 }}>
         <View className="gap-1 rounded-control border border-border bg-background p-4">
-          <Text className="font-semibold">{metadata.name}</Text>
-          <Text className="text-sm text-secondary">Recibo demo</Text>
-          <Text className="text-lg font-bold">$12.50</Text>
+          <Text.Title size="sm">{metadata.name}</Text.Title>
+          <Text.Subtitle>Recibo demo</Text.Subtitle>
+          <Text.Title>$12.50</Text.Title>
         </View>
       </ViewShot>
       <Button
@@ -210,12 +210,12 @@ const LedgerDemo: FC = () => {
       />
       <View className="gap-1">
         {expenses.map((item) => (
-          <Text key={item.id} className="text-sm text-secondary">
+          <Text.Subtitle key={item.id}>
             {item.title} · ${item.amount.toFixed(2)}
-          </Text>
+          </Text.Subtitle>
         ))}
         {!expenses.length && (
-          <Text className="text-sm text-secondary">Sin gastos aún</Text>
+          <Text.Subtitle>Sin gastos aún</Text.Subtitle>
         )}
       </View>
     </View>
@@ -292,9 +292,9 @@ const StripeCardDemo: FC = () => {
 
   if (!hasKey) {
     return (
-      <Text className="text-sm text-secondary">
+      <Text.Subtitle>
         Define EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY en .env para ver CardField.
-      </Text>
+      </Text.Subtitle>
     );
   }
 

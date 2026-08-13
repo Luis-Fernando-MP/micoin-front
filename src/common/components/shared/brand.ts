@@ -13,6 +13,9 @@ import { mcVars } from '@/theme/css-vars';
 
 type NativeToken = keyof typeof mcVars;
 
+type BrandSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type BrandSizeMap<T> = Record<BrandSize, T>;
+
 const BRAND_COLORS = {
   default: {
     text: 'text-foreground',
@@ -106,7 +109,13 @@ const BRAND_SIZES = {
   sm: { height: 'h-9 px-3', text: 'text-sm', icon: 14, chip: 'px-2.5 py-1' },
   md: { height: 'h-10 px-4', text: 'text-sm', icon: 16, chip: 'px-3 py-1.5' },
   lg: { height: 'h-12 px-5', text: 'text-base', icon: 18, chip: 'px-3.5 py-2' },
-} as const;
+  xl: { height: 'h-14 px-6', text: 'text-lg', icon: 20, chip: 'px-4 py-2.5' },
+} as const satisfies BrandSizeMap<{
+  height: string;
+  text: string;
+  icon: number;
+  chip: string;
+}>;
 
 const BRAND_NATIVE = {
   background: 'background' as NativeToken,
@@ -119,6 +128,24 @@ const BRAND_NATIVE = {
   primaryForeground: 'primaryForeground' as NativeToken,
   brand: 'brand' as NativeToken,
   brandForeground: 'brandForeground' as NativeToken,
+} as const;
+
+const BRAND_TYPE = {
+  body: 'text-base',
+  paragraph: 'text-base leading-relaxed',
+  subtitle: 'text-sm',
+  caption: 'text-xs',
+  label: 'text-xs font-medium',
+  highlight: 'text-base font-medium',
+  title: {
+    xs: 'text-sm font-semibold',
+    sm: 'text-base font-semibold',
+    md: 'text-lg font-semibold',
+    lg: 'text-2xl font-bold',
+    xl: 'text-3xl font-bold',
+  } satisfies BrandSizeMap<string>,
+  defaultTitleSize: 'md' as const,
+  muted: 'text-secondary',
 } as const;
 
 const BRAND = {
@@ -134,14 +161,21 @@ const BRAND = {
     variants: BRAND_SIZES,
     defaultVariant: 'md' as const,
   },
+  type: BRAND_TYPE,
   native: BRAND_NATIVE,
 } as const;
 
 type BrandStatus = keyof typeof BRAND_COLORS;
-type BrandSize = keyof typeof BRAND_SIZES;
 type BrandRadius = keyof typeof BRAND_RADIUS;
 type Brand = typeof BRAND;
 
-export type { Brand, BrandRadius, BrandSize, BrandStatus, NativeToken };
+export type {
+  Brand,
+  BrandRadius,
+  BrandSize,
+  BrandSizeMap,
+  BrandStatus,
+  NativeToken,
+};
 export { BRAND };
 export default BRAND;

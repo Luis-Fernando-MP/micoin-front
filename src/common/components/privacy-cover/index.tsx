@@ -38,10 +38,10 @@ const PrivacyCover: FC<Props> = ({
       )}
     >
       <View className="gap-0.5">
-        <Text className="text-xs text-secondary">{label}</Text>
-        <Text className="text-2xl font-bold">
+        <Text.Caption>{label}</Text.Caption>
+        <Text.Title size="lg">
           {hidden ? '••••••' : amount}
-        </Text>
+        </Text.Title>
       </View>
       <Icon icon={hidden ? EyeOff : Eye} size={20} />
     </Pressable>

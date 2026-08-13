@@ -8,7 +8,7 @@ import Text from '@/common/components/text';
 const Modal: FC = () => {
   return (
     <View className="flex-1 items-center justify-center gap-4 bg-background p-5">
-      <Text className="text-2xl font-bold">Private modal</Text>
+      <Text.Title size="lg">Private modal</Text.Title>
       <Link href="/" dismissTo asChild>
         <Button variant="outline" label="Back home" />
       </Link>

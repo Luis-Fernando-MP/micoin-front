@@ -43,8 +43,8 @@ const TrayNotifyMockRoot: FC<Props> = ({
       >
         <Icon icon={Bell} size={18} />
         <View className="flex-1 gap-0.5">
-          <Text className="text-sm font-semibold">{title}</Text>
-          <Text className="text-xs text-secondary">{body}</Text>
+          <Text.Title size="xs">{title}</Text.Title>
+          <Text.Caption>{body}</Text.Caption>
         </View>
       </View>
       <Button
@@ -59,9 +59,9 @@ const TrayNotifyMockRoot: FC<Props> = ({
           })
         }
       />
-      <Text className="text-xs text-secondary">
+      <Text.Caption>
         Fase 2: expo-notifications + Dev Client (no en Expo Go).
-      </Text>
+      </Text.Caption>
     </View>
   );
 };

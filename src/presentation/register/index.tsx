@@ -42,7 +42,7 @@ const Register: FC = () => {
         <BrandLogo size="md" />
       </View>
       <Card className="gap-4">
-        <Text className="text-2xl font-bold">Create account</Text>
+        <Text.Title size="lg">Create account</Text.Title>
         <Input label="Name" value={name} onChangeText={setName} />
         <Input
           label="Email"

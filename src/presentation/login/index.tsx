@@ -41,7 +41,7 @@ const Login: FC = () => {
         <BrandLogo size="md" />
       </View>
       <Card className="gap-4">
-        <Text className="text-2xl font-bold">Login</Text>
+        <Text.Title size="lg">Login</Text.Title>
         <Input
           label="Email"
           autoCapitalize="none"

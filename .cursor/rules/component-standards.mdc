@@ -14,7 +14,7 @@ Prioridad #1: ver `AGENTS.md`. Piezas black-box en `src/common`.
 
 ## Black-box
 
-Path: `src/common/components/{name}/index.tsx`. Extensions: `{name}/extensions/{domain}/index.tsx` adjuntas al default (`<Charts.AreaChart />`). Shared: solo `brand.ts` (única fuente de verdad). Reusable UI no vive en `shared/` (`fade-in` → `components/fade-in`).
+Path: `src/common/components/{name}/index.tsx`. Extensions: `{name}/extensions/{domain}/index.tsx` adjuntas al default (`<Charts.AreaChart />`). Shared: solo `brand.ts` (única fuente de verdad). Importar `@/common/components/shared/brand`, nunca un barrel `shared/index`. Reusable UI no vive en `shared/` (`fade-in` → `components/fade-in`).
 
 No crear `hooks/`, `store/` ni `extensions/` vacíos.
 
@@ -51,11 +51,11 @@ import Card from '@/common/components/card';
 
 Importar de `@/common/components/shared/brand`. Props comunes: `status?: BrandStatus`, `size?: BrandSize`, `radius?: BrandRadius`, `className?`.
 
-Leer `BRAND.colors / sizes / radius / native` directo. Prohibido wrappers `status.ts`, `size.ts`, `radius.ts`. Prohibido hardcodear colores Tailwind, hex de UI o radius fuera del contrato. Nativos: `useMcVar(BRAND.native.brand)`.
+Leer `BRAND.colors / sizes / radius / type / native` directo. Prohibido wrappers `status.ts`, `size.ts`, `radius.ts` y barrel `shared/index.ts`. Prohibido hardcodear colores Tailwind, hex de UI o radius fuera del contrato. Nativos: `useMcVar(BRAND.native.brand)`. Copy: `Text.Title`, no `text-lg font-semibold` suelto.
 
 ## Size / radius
 
-- `size`: `xs | sm | md | lg` vía `BRAND.sizes`.
+- `size`: `BrandSize` = `xs | sm | md | lg | xl`. Mapas en BRAND con `satisfies BrandSizeMap`.
 - Radius: `none | sm | control | surface | pill` vía `BRAND.radius`.
 - Icons: Lucide via `@/common/components/icon`.
 - Images: `expo-image` via `@/common/components/image`.

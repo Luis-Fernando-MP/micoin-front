@@ -36,8 +36,8 @@ const MovementOverflowMenu: FC<Props> = ({
     <View className="gap-2">
       <View className="flex-row items-center justify-between">
         <View>
-          <Text className="font-medium">{title}</Text>
-          <Text className="text-xs text-secondary">{subtitle}</Text>
+          <Text.Highlight>{title}</Text.Highlight>
+          <Text.Caption>{subtitle}</Text.Caption>
         </View>
         <Button
           size="sm"
@@ -49,8 +49,8 @@ const MovementOverflowMenu: FC<Props> = ({
       </View>
       <AppBottomSheetModal ref={ref} snapPoints={['45%']}>
         <View className="gap-3 pt-2">
-          <Text className="text-lg font-semibold">Detalle del movimiento</Text>
-          <Text className="text-sm text-secondary">{detail}</Text>
+          <Text.Title>Detalle del movimiento</Text.Title>
+          <Text.Subtitle>{detail}</Text.Subtitle>
           <Button
             size="sm"
             variant="outline"

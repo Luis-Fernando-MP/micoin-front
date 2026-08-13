@@ -1,6 +1,6 @@
 import { type FC, type ReactNode } from 'react';
 import { View } from 'react-native';
-import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
+import BRAND from '@/common/components/shared/brand';
 
 import Chip from '@/common/components/chip';
 import Text from '@/common/components/text';
@@ -34,9 +34,9 @@ const LabModule: FC<Props> = ({
       )}
     >
       <View className="gap-1.5">
-        <Text className="text-base font-semibold">
+        <Text.Title size="sm">
           {id} · {title}
-        </Text>
+        </Text.Title>
         {pack && <Chip label={pack} size="sm" status="info" />}
         <Text className="text-sm text-secondary">
           <Text className="font-medium text-primary">Qué hace: </Text>

@@ -15,29 +15,27 @@ const SkiaGallery: FC = () => {
   return (
     <View className="gap-5">
       <View>
-        <Text className="mb-1 text-xs font-medium text-secondary">
-          Sparkline
-        </Text>
+        <Text.Label className="mb-1">Sparkline</Text.Label>
         <Charts />
       </View>
       <View>
-        <Text className="mb-1 text-xs font-medium text-secondary">Barras</Text>
+        <Text.Label className="mb-1">Barras</Text.Label>
         <Charts.BarChart />
       </View>
       <View>
-        <Text className="mb-1 text-xs font-medium text-secondary">Donut</Text>
+        <Text.Label className="mb-1">Donut</Text.Label>
         <Charts.DonutChart />
       </View>
       <View>
-        <Text className="mb-1 text-xs font-medium text-secondary">Área</Text>
+        <Text.Label className="mb-1">Área</Text.Label>
         <Charts.AreaChart />
       </View>
       <View>
-        <Text className="mb-1 text-xs font-medium text-secondary">Gauge</Text>
+        <Text.Label className="mb-1">Gauge</Text.Label>
         <Charts.GaugeChart />
       </View>
       <View>
-        <Text className="mb-1 text-xs font-medium text-secondary">Heatmap</Text>
+        <Text.Label className="mb-1">Heatmap</Text.Label>
         <Charts.HeatmapChart />
       </View>
     </View>

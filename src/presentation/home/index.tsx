@@ -72,7 +72,7 @@ interface SectionProps {
 const Section: FC<SectionProps> = ({ title, children }) => {
   return (
     <Card className="gap-3">
-      <Text className="text-lg font-semibold">{title}</Text>
+      <Text.Title>{title}</Text.Title>
       <Separator />
       {children}
     </Card>
@@ -125,8 +125,8 @@ const Home: FC = () => {
         <FadeIn>
           <View className="items-start gap-2">
             <BrandLogo size="md" />
-            <Text className="text-3xl font-bold">{metadata.name}</Text>
-            <Text className="text-secondary">{metadata.tagline}</Text>
+            <Text.Title size="xl">{metadata.name}</Text.Title>
+            <Text.Subtitle>{metadata.tagline}</Text.Subtitle>
             <Badge label={statusLabel} status="brand" />
           </View>
         </FadeIn>
@@ -227,9 +227,9 @@ const Home: FC = () => {
             <Image source={{ uri: previewUri }} aspectRatio={3 / 4} />
           )}
           {!previewUri && (
-            <Text className="text-secondary">
+            <Text.Subtitle>
               Captura una foto para verla aquí.
-            </Text>
+            </Text.Subtitle>
           )}
         </Section>
 
@@ -273,12 +273,12 @@ const Home: FC = () => {
               {
                 id: 'one',
                 label: 'One',
-                content: <Text className="text-secondary">Panel one</Text>,
+                content: <Text.Subtitle>Panel one</Text.Subtitle>,
               },
               {
                 id: 'two',
                 label: 'Two',
-                content: <Text className="text-secondary">Panel two</Text>,
+                content: <Text.Subtitle>Panel two</Text.Subtitle>,
               },
             ]}
           />
@@ -555,9 +555,9 @@ const Home: FC = () => {
         onOpenChange={setDrawerOpen}
         title="Drawer"
       >
-        <Text className="mb-4 text-secondary">
+        <Text.Subtitle className="mb-4">
           Sheet inferior para acciones secundarias.
-        </Text>
+        </Text.Subtitle>
         <Button label="Cerrar" onPress={() => setDrawerOpen(false)} />
       </Drawer>
 
@@ -566,9 +566,9 @@ const Home: FC = () => {
           <Dialog.Title>Dialog</Dialog.Title>
         </Dialog.Header>
         <Dialog.Content>
-          <Text className="text-secondary">
+          <Text.Subtitle>
             Overlay activo. closeOnOutside es false por defecto.
-          </Text>
+          </Text.Subtitle>
         </Dialog.Content>
         <Dialog.Footer>
           <Button

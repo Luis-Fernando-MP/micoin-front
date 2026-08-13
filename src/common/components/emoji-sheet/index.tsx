@@ -37,7 +37,7 @@ const EmojiSheet: FC<Props> = ({ onSelect }) => {
       />
       <AppBottomSheetModal ref={ref} snapPoints={['70%', '90%']}>
         <View className="gap-2 pt-1">
-          <Text className="text-base font-semibold">Reaccionar</Text>
+          <Text.Title size="sm">Reaccionar</Text.Title>
           <EmojiPicker
             height={320}
             onSelect={(value) => {

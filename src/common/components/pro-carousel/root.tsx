@@ -36,8 +36,8 @@ const ProCarouselRoot: FC<Props> = ({
           BRAND.radius.variants.surface
         )}
       >
-        <Text className="text-base font-semibold">{item.title}</Text>
-        <Text className="text-sm text-secondary">{item.body}</Text>
+        <Text.Title size="sm">{item.title}</Text.Title>
+        <Text.Subtitle>{item.body}</Text.Subtitle>
       </View>
     ),
     []

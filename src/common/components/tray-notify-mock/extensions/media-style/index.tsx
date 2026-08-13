@@ -43,13 +43,13 @@ const MediaStyleNotifyMock: FC<Props> = ({
           <Icon icon={Music2} size={18} tone="onBrand" />
         </View>
         <View className="flex-1">
-          <Text className="text-sm font-semibold">{title}</Text>
-          <Text className="text-xs text-secondary">{body}</Text>
+          <Text.Title size="xs">{title}</Text.Title>
+          <Text.Caption>{body}</Text.Caption>
         </View>
       </View>
-      <Text className="text-xs text-secondary">
+      <Text.Caption>
         Fase 2: MediaSession nativo + Dev Client.
-      </Text>
+      </Text.Caption>
     </View>
   );
 };

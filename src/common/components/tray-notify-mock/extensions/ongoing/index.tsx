@@ -36,14 +36,14 @@ const OngoingNotifyMock: FC<Props> = ({
       >
         <Icon icon={Radio} size={18} />
         <View className="flex-1">
-          <Text className="text-sm font-semibold">{title}</Text>
-          <Text className="text-xs text-secondary">{body}</Text>
+          <Text.Title size="xs">{title}</Text.Title>
+          <Text.Caption>{body}</Text.Caption>
         </View>
-        <Text className="text-xs text-brand">LIVE</Text>
+        <Text.Caption status="brand">LIVE</Text.Caption>
       </View>
-      <Text className="text-xs text-secondary">
+      <Text.Caption>
         Fase 2: foreground service / ongoing notification en Dev Client.
-      </Text>
+      </Text.Caption>
     </View>
   );
 };

@@ -96,12 +96,12 @@ const MultiStep: FC<MultiStepProps> = ({
   return (
     <View className={cn('w-full gap-4', className)}>
       {headerTitle && (
-        <Text className="text-2xl font-bold">{headerTitle}</Text>
+        <Text.Title size="lg">{headerTitle}</Text.Title>
       )}
       {step?.props.title && (
-        <Text className="text-secondary">
+        <Text.Subtitle>
           {index + 1}/{steps.length} · {step.props.title}
-        </Text>
+        </Text.Subtitle>
       )}
       <View className="min-h-20 rounded-control border border-border bg-card p-4">
         {step}

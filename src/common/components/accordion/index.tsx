@@ -69,12 +69,12 @@ const Accordion: FC<Props> = ({
               onPress={() => toggle(item.id)}
               className="flex-row items-center justify-between px-4 py-3"
             >
-              <Text className="font-semibold">{item.title}</Text>
+              <Text.Title size="sm">{item.title}</Text.Title>
               <ChevronDown size={18} color={iconColor} />
             </Pressable>
             {isOpen && (
               <View className="border-t border-border px-4 py-3">
-                <Text className="text-secondary">{item.content}</Text>
+                <Text.Subtitle>{item.content}</Text.Subtitle>
               </View>
             )}
           </View>

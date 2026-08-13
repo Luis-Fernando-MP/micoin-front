@@ -1,5 +1,5 @@
-import { type FC } from 'react'
-import { View } from 'react-native'
+import { type FC, type ReactNode } from 'react'
+import { Pressable, type PressableProps, View } from 'react-native'
 
 import { ChevronRight } from 'lucide-react-native'
 
@@ -9,8 +9,12 @@ import { useMcVar } from '@theme'
 
 import { cn } from '@/lib/utils'
 
+type BreadcrumbSlot = string | ReactNode
+
 type Crumb = {
-  label: string
+  id: string
+  content: BreadcrumbSlot
+  onPress?: PressableProps['onPress']
 }
 
 interface Props {
@@ -18,18 +22,32 @@ interface Props {
   className?: string
 }
 
+const renderSlot = (slot: BreadcrumbSlot, textClass: string) => {
+  if (typeof slot === 'string') {
+    return <Text className={textClass}>{slot}</Text>
+  }
+
+  return slot
+}
+
 /**
- * Breadcrumb — pieza reutilizable del kit MiCoin.
+ * Breadcrumb — ruta de migas con slots flexibles y tap opcional por ítem.
  *
- * Caja negra lista para conectar en cualquier pantalla.
+ * Cada ítem acepta string o ReactNode. `onPress` en ítems intermedios
+ * permite navegar o cambiar vista; el último ítem no dispara tap.
  *
- * @param props - Ver BreadcrumbProps / Props del archivo
+ * @param items - Migas con id, content y onPress opcional
+ * @param className - Clases NativeWind extra
  *
- * @param props.items
- * @param props.className
  * @example
- * import Breadcrumb from '@components/breadcrumb';
- * <Breadcrumb />
+ * import Breadcrumb from '@components/breadcrumb'
+ * <Breadcrumb
+ *   items={[
+ *     { id: 'home', content: 'Home', onPress: () => go('/') },
+ *     { id: 'lab', content: <Chip label="Lab" />, onPress: () => go('/lab') },
+ *     { id: 'ui', content: 'UI' },
+ *   ]}
+ * />
  */
 const Breadcrumb: FC<Props> = ({ items, className }) => {
   const iconColor = useMcVar(BRAND.native.textSecondary)
@@ -38,21 +56,28 @@ const Breadcrumb: FC<Props> = ({ items, className }) => {
     <View className={cn('flex-row flex-wrap items-center gap-1', className)}>
       {items.map((item, index) => {
         const isLast = index === items.length - 1
+        const textClass = cn(
+          'text-sm',
+          isLast && 'font-semibold text-foreground',
+          !isLast && 'text-secondary',
+        )
+        const slot = renderSlot(item.content, textClass)
+        const pressable = !isLast && item.onPress
 
         return (
           <View
-            key={`${item.label}-${index}`}
+            key={item.id}
             className="flex-row items-center gap-1"
           >
-            <Text
-              className={cn(
-                'text-sm',
-                isLast && 'font-semibold text-foreground',
-                !isLast && 'text-secondary',
-              )}
-            >
-              {item.label}
-            </Text>
+            {pressable && (
+              <Pressable
+                onPress={item.onPress}
+                className="active:opacity-90"
+              >
+                {slot}
+              </Pressable>
+            )}
+            {!pressable && slot}
             {!isLast && <ChevronRight size={14} color={iconColor} />}
           </View>
         )
@@ -61,7 +86,9 @@ const Breadcrumb: FC<Props> = ({ items, className }) => {
   )
 }
 
-/**
- *
- */
+export type {
+  BreadcrumbSlot,
+  Crumb as BreadcrumbItem,
+  Props as BreadcrumbProps,
+}
 export default Breadcrumb

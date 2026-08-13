@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import { type FC, type ReactNode } from 'react'
 import { Pressable, type PressableProps, View } from 'react-native'
 
 import BRAND, { type BrandStatus } from '@components/shared/brand'
@@ -9,7 +9,8 @@ import { cn } from '@/lib/utils'
 type ChipVariant = 'solid' | 'soft' | 'outline'
 
 interface Props {
-  label: string
+  label?: string
+  children?: ReactNode
   className?: string
   status?: BrandStatus
   variant?: ChipVariant
@@ -49,7 +50,8 @@ const resolveChipStyle = (
  *
  * No requiere onPress; opcional para filtros o toggles.
  *
- * @param label - Texto
+ * @param label - Texto corto; alternativa a children
+ * @param children - Contenido; string hereda tipografía del chip o ReactNode libre
  * @param variant - Relleno. @default 'soft'
  * @param status - Tono semántico. @default 'default'
  * @param selected - Resalta como primary solid. @default false
@@ -59,10 +61,12 @@ const resolveChipStyle = (
  * @example
  * import Chip from '@components/chip'
  * <Chip label="OK" status="success" />
+ * <Chip variant="soft">Hoy</Chip>
  * <Chip label="Hoy" selected onPress={() => {}} />
  */
 const Chip: FC<Props> = ({
   label,
+  children,
   className,
   variant = 'soft',
   status = BRAND.colors.defaultVariant,
@@ -71,21 +75,26 @@ const Chip: FC<Props> = ({
 }) => {
   const { shell, text } = resolveChipStyle(variant, status, selected)
   const rootClass = cn(shell, onPress && 'active:opacity-90', className)
+  const body = (
+    <>
+      {label && <Text className={text}>{label}</Text>}
+      {!label && typeof children === 'string' && (
+        <Text className={text}>{children}</Text>
+      )}
+      {!label && typeof children !== 'string' && children}
+    </>
+  )
 
   if (onPress) {
     return (
       <Pressable onPress={onPress} className={rootClass}>
-        <Text className={text}>{label}</Text>
+        {body}
       </Pressable>
     )
   }
 
-  return (
-    <View className={rootClass}>
-      <Text className={text}>{label}</Text>
-    </View>
-  )
+  return <View className={rootClass}>{body}</View>
 }
 
-export type { ChipVariant, Props as ChipProps }
+export type { Props as ChipProps, ChipVariant }
 export default Chip

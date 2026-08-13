@@ -109,13 +109,49 @@ const Home: FC = () => {
         <CatalogCard
           n={19}
           title="Breadcrumb"
-          does="Ruta de migas: Home / Lab / UI."
-          doesNot="No navega al tap. No es Header."
-          solves="Orientar al usuario en jerarquías profundas."
+          does="Ruta de migas: content string o ReactNode; onPress por ítem."
+          doesNot="No es Header. El último ítem no dispara tap."
+          solves="Orientar y navegar jerarquías profundas."
         >
-          <Breadcrumb
-            items={[{ label: 'Home' }, { label: 'Lab' }, { label: 'UI' }]}
-          />
+          <CatalogVariant
+            n={19}
+            sub={1}
+            title="Strings + onPress"
+            description="Migas clicables hasta el ítem actual."
+          >
+            <Breadcrumb
+              items={[
+                { id: 'home', content: 'Home', onPress: () => {} },
+                { id: 'lab', content: 'Lab', onPress: () => {} },
+                {
+                  id: 'ui',
+                  content: (
+                    <Chip variant="solid" status="brand">
+                      UI nodelo
+                    </Chip>
+                  ),
+                },
+              ]}
+            />
+          </CatalogVariant>
+          <CatalogVariant
+            n={19}
+            sub={2}
+            title="ReactNode"
+            description="Chip u otro componente como miga."
+          >
+            <Breadcrumb
+              items={[
+                { id: 'home', content: 'Home', onPress: () => {} },
+                {
+                  id: 'lab',
+                  content: <Chip label="Lab" variant="soft" />,
+                  onPress: () => {},
+                },
+                { id: 'ui', content: 'UI' },
+              ]}
+            />
+          </CatalogVariant>
         </CatalogCard>
 
         <CatalogCard

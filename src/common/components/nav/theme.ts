@@ -6,7 +6,7 @@ import { useMcVar, useTheme } from '@theme/hooks'
 /**
  * useNavTheme — paleta de React Navigation alineada a tokens BRAND.
  *
- * @returns Tema claro u oscuro con colores `--mc-*` resueltos
+ * @returns Tema light, gray o dark con colores `--mc-*` resueltos
  *
  * @example
  * import { useNavTheme } from '@components/nav/theme'
@@ -22,7 +22,7 @@ const useNavTheme = (): Theme => {
   const notification = useMcVar(BRAND.colors.variants.error.native)
 
   let base = DefaultTheme
-  if (colorScheme === 'dark') {
+  if (colorScheme !== 'light') {
     base = DarkTheme
   }
 

@@ -17,7 +17,7 @@ Alias de TypeScript:
 - `@theme` → `src/common/utils/theme` (store, hooks, provider)
 - `@assets` → `assets`
 
-Tema de React Navigation: `@components/nav/theme`. El layout solo monta `ThemeProvider`; StatusBar y `colorScheme` viven en el controlador.
+Tema: `light` | `gray` | `dark` (+ `system`). `gray` es el carbón Vercel (`#111`); `dark` es OLED. React Navigation: `@components/nav/theme`. El layout solo monta `ThemeProvider`; StatusBar y `colorScheme` viven en el controlador.
 
 ## Black-box
 

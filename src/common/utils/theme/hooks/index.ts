@@ -3,14 +3,14 @@ import { useColorScheme as useSystemColorScheme } from 'react-native'
 import { useUnstableNativeVariable } from 'nativewind'
 
 import { mcVars } from '@theme/css-vars'
-import { useThemeStore } from '@theme/store'
+import { type ThemeAppearance, useThemeStore } from '@theme/store'
 
 type McVarKey = keyof typeof mcVars
 
 /**
  * useTheme — lee la preferencia persistida y resuelve el esquema efectivo.
  *
- * @returns Preferencia, setter, `colorScheme` y estilo de StatusBar
+ * @returns Preferencia, setter, `colorScheme` (light | gray | dark) y estilo de StatusBar
  *
  * @example
  * import { useTheme } from '@theme'
@@ -21,7 +21,7 @@ const useTheme = () => {
   const setPreference = useThemeStore((state) => state.setPreference)
   const systemScheme = useSystemColorScheme()
 
-  let colorScheme: 'light' | 'dark' = 'light'
+  let colorScheme: ThemeAppearance = 'light'
   if (systemScheme === 'dark') {
     colorScheme = 'dark'
   }
@@ -30,8 +30,21 @@ const useTheme = () => {
   }
 
   let statusBarStyle: 'light' | 'dark' = 'dark'
-  if (colorScheme === 'dark') {
+  if (colorScheme !== 'light') {
     statusBarStyle = 'light'
+  }
+
+  let themeClass: 'dark' | 'gray' | undefined
+  if (colorScheme === 'dark') {
+    themeClass = 'dark'
+  }
+  if (colorScheme === 'gray') {
+    themeClass = 'gray'
+  }
+
+  let nativeColorScheme: 'light' | 'dark' = 'light'
+  if (colorScheme !== 'light') {
+    nativeColorScheme = 'dark'
   }
 
   return {
@@ -39,6 +52,8 @@ const useTheme = () => {
     setPreference,
     colorScheme,
     statusBarStyle,
+    themeClass,
+    nativeColorScheme,
   }
 }
 

@@ -18,6 +18,8 @@ interface Props {
 /**
  * ThemeProvider — aplica preferencia de tema, NativeWind, React Navigation y StatusBar.
  *
+ * Esquemas: `light`, `gray` (carbón Vercel) y `dark` (OLED).
+ *
  * @param children - Árbol de la app
  *
  * @example
@@ -25,17 +27,16 @@ interface Props {
  * <ThemeProvider>{children}</ThemeProvider>
  */
 const ThemeProvider: FC<Props> = ({ children }) => {
-  const { colorScheme, statusBarStyle } = useTheme()
+  const { statusBarStyle, themeClass, nativeColorScheme } = useTheme()
   const navTheme = useNavTheme()
-  const isDark = colorScheme === 'dark'
 
   useEffect(() => {
-    nativewindColorScheme.set(colorScheme)
-  }, [colorScheme])
+    nativewindColorScheme.set(nativeColorScheme)
+  }, [nativeColorScheme])
 
   return (
     <NavigationThemeProvider value={navTheme}>
-      <View className={cn('flex-1 bg-background', isDark && 'dark')}>
+      <View className={cn('flex-1 bg-background', themeClass)}>
         {children}
         <StatusBar style={statusBarStyle} />
       </View>

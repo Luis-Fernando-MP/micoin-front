@@ -30,6 +30,34 @@
     --mc-radius-surface: 20px;
   }
 
+  .gray:root,
+  .gray {
+    --mc-background: #111111;
+    --mc-card: #1a1a1a;
+    --mc-card-hover: #262626;
+    --mc-border: #2e2e2e;
+    --mc-overlay: rgba(0, 0, 0, 0.56);
+    --mc-semantic-bg-warning: #1a1608;
+    --mc-semantic-text-warning: #e3b341;
+    --mc-semantic-bg-error: #1c1010;
+    --mc-semantic-text-error: #e57373;
+    --mc-semantic-bg-info: #0d1520;
+    --mc-semantic-text-info: #52a8ff;
+    --mc-semantic-bg-success: #0d1a14;
+    --mc-semantic-text-success: #3ecf8e;
+    --mc-text-primary: #fafafa;
+    --mc-text-secondary: #8a8a8a;
+    --mc-primary: #fafafa;
+    --mc-primary-background: #fafafa;
+    --mc-primary-foreground: #111111;
+    --mc-brand: #d4a84b;
+    --mc-brand-background: #c49a42;
+    --mc-brand-foreground: #171717;
+    --mc-radius: 16px;
+    --mc-radius-control: 16px;
+    --mc-radius-surface: 20px;
+  }
+
   .dark:root,
   .dark {
     --mc-background: #000000;

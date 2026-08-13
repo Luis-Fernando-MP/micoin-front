@@ -3,12 +3,13 @@ import { View } from 'react-native'
 
 import { useRouter } from 'expo-router'
 
+import BrandLogo from '@components/brand-logo'
+import Button from '@components/button'
+import Card from '@components/card'
+import Input from '@components/input'
+import Text from '@components/text'
+
 import { signUp } from '@/auth/client'
-import BrandLogo from '@/common/components/brand-logo'
-import Button from '@/common/components/button'
-import Card from '@/common/components/card'
-import Input from '@/common/components/input'
-import Text from '@/common/components/text'
 
 const Register: FC = () => {
   const router = useRouter()

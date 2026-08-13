@@ -4,9 +4,10 @@ import { Pressable, type PressableProps } from 'react-native'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { type LucideIcon } from 'lucide-react-native'
 
-import Icon from '@/common/components/icon'
-import BRAND, { type BrandSize } from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import Icon from '@components/icon'
+import BRAND, { type BrandSize } from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
@@ -87,7 +88,7 @@ interface Props
  *
  * @param label.icon
  * @example
- * import Button from '@/common/components/button';
+ * import Button from '@components/button';
  * <Button label="Pagar" variant="brand" size="sm" />
  */
 const Button: FC<Props> = ({

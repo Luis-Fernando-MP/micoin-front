@@ -1,9 +1,10 @@
 import { type FC, type ReactNode } from 'react'
 import { View } from 'react-native'
 
-import Chip from '@/common/components/chip'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import Chip from '@components/chip'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 interface Props {

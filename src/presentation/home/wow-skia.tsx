@@ -1,14 +1,14 @@
 import { type FC } from 'react'
 import { View } from 'react-native'
 
-import Charts from '@/common/components/charts'
-import Text from '@/common/components/text'
+import Charts from '@components/charts'
+import Text from '@components/text'
 
 /**
  * SkiaGallery — monta Charts + extensions para el lab.
  *
  * @example
- * import SkiaGallery from '@/presentation/home/wow-skia';
+ * import SkiaGallery from '@views/home/wow-skia';
  * <SkiaGallery />
  */
 const SkiaGallery: FC = () => {

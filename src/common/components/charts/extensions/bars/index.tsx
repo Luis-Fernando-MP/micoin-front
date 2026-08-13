@@ -3,8 +3,8 @@ import { View } from 'react-native'
 
 import { Canvas, Group, Rect } from '@shopify/react-native-skia'
 
-import BRAND from '@/common/components/shared/brand'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import BRAND from '@components/shared/brand'
+import { useMcVar } from '@theme'
 
 interface Props {
   data?: number[]
@@ -28,7 +28,7 @@ const DEFAULT = [40, 65, 35, 80, 55, 90, 48]
  *
  * @param data.height
  * @example
- * import Charts from '@/common/components/charts';
+ * import Charts from '@components/charts';
  * <Charts.BarChart data={[40, 65, 80]} highlightIndex={2} />
  */
 const BarChart: FC<Props> = ({

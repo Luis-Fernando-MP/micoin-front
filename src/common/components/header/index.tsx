@@ -5,10 +5,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { ArrowLeft } from 'lucide-react-native'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 interface Props {
   title: string
@@ -29,7 +30,7 @@ interface Props {
  * @param props.rightComponents
  * @param props.className
  * @example
- * import Header from '@/common/components/header';
+ * import Header from '@components/header';
  * <Header />
  */
 const Header: FC<Props> = ({

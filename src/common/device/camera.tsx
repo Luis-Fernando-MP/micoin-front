@@ -16,8 +16,9 @@ import {
   Zap,
 } from 'lucide-react-native'
 
-import Icon from '@/common/components/icon'
-import Text from '@/common/components/text'
+import Icon from '@components/icon'
+import Text from '@components/text'
+
 import { hapticImpact } from '@/common/device/haptics'
 import { cn } from '@/lib/utils'
 

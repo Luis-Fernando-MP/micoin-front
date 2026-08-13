@@ -3,8 +3,8 @@ import { View } from 'react-native'
 
 import { Canvas, Rect } from '@shopify/react-native-skia'
 
-import BRAND from '@/common/components/shared/brand'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import BRAND from '@components/shared/brand'
+import { useMcVar } from '@theme'
 
 interface Props {
   cells?: number
@@ -20,7 +20,7 @@ interface Props {
  *
  * @param cells.columns
  * @example
- * import Charts from '@/common/components/charts';
+ * import Charts from '@components/charts';
  * <Charts.HeatmapChart cells={28} />
  */
 const HeatmapChart: FC<Props> = ({ cells = 28, columns = 7 }) => {

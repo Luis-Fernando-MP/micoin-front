@@ -10,8 +10,8 @@ import {
 
 import { Canvas, Group, RoundedRect } from '@shopify/react-native-skia'
 
-import BRAND from '@/common/components/shared/brand'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import BRAND from '@components/shared/brand'
+import { useMcVar } from '@theme'
 
 interface Props {
   bars?: number
@@ -32,7 +32,7 @@ interface Props {
  * @param props.height
  * @param props.active
  * @example
- * import WaveformBars from '@/common/components/waveform-bars';
+ * import WaveformBars from '@components/waveform-bars';
  * <WaveformBars />
  */
 const WaveformBars: FC<Props> = ({

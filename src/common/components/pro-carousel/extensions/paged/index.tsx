@@ -2,9 +2,10 @@ import { type FC, memo, useCallback } from 'react'
 import { Dimensions, View } from 'react-native'
 import { Carousel } from 'react-native-reanimated-carousel'
 
-import type { Slide } from '@/common/components/pro-carousel/root'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import type { Slide } from '@components/pro-carousel/root'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -29,7 +30,7 @@ const WIDTH = Dimensions.get('window').width - 64
  *
  * @param data.height
  * @example
- * import ProCarousel from '@/common/components/pro-carousel';
+ * import ProCarousel from '@components/pro-carousel';
  * <ProCarousel.PagedCarousel />
  */
 const PagedCarousel: FC<Props> = ({ data = DEFAULT, height = 160 }) => {

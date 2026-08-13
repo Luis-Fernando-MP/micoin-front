@@ -3,10 +3,11 @@ import { Pressable, View } from 'react-native'
 
 import { ChevronDown } from 'lucide-react-native'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 type Item = {
   id: string
@@ -31,7 +32,7 @@ interface Props {
  * @param props.type
  * @param props.className
  * @example
- * import Accordion from '@/common/components/accordion';
+ * import Accordion from '@components/accordion';
  * <Accordion />
  */
 const Accordion: FC<Props> = ({ items, type = 'single', className }) => {

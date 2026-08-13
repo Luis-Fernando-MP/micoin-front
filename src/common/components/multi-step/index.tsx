@@ -8,8 +8,9 @@ import {
 } from 'react'
 import { View } from 'react-native'
 
-import Button from '@/common/components/button'
-import Text from '@/common/components/text'
+import Button from '@components/button'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 type StepProps = {
@@ -55,7 +56,7 @@ const isStepElement = (child: ReactNode): child is ReactElement<StepProps> => {
  * @param children.onClose
  * @param children.className
  * @example
- * import MultiStep from '@/common/components/multi-step';
+ * import MultiStep from '@components/multi-step';
  * <MultiStep><MultiStep.Step title="One">…</MultiStep.Step></MultiStep>
  */
 const MultiStep: FC<MultiStepProps> = ({

@@ -1,8 +1,9 @@
 import { type FC } from 'react'
 import { View } from 'react-native'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND, { type BrandStatus } from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -24,7 +25,7 @@ interface Props {
  *
  * @param label.status
  * @example
- * import Badge from '@/common/components/badge';
+ * import Badge from '@components/badge';
  * <Badge label="OK" status="success" />
  */
 const Badge: FC<Props> = ({

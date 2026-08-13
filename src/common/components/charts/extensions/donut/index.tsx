@@ -3,10 +3,10 @@ import { View } from 'react-native'
 
 import { Canvas, Path, Skia } from '@shopify/react-native-skia'
 
-import Button from '@/common/components/button'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import Button from '@components/button'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
 
 interface Props {
   value?: number
@@ -22,7 +22,7 @@ interface Props {
  *
  * @param value.interactive
  * @example
- * import Charts from '@/common/components/charts';
+ * import Charts from '@components/charts';
  * <Charts.DonutChart value={0.5} />
  */
 const DonutChart: FC<Props> = ({ value = 0.72, interactive = true }) => {

@@ -1,12 +1,12 @@
 import { type FC } from 'react'
 
-import PagedCarousel from '@/common/components/pro-carousel/extensions/paged'
-import StackCarousel from '@/common/components/pro-carousel/extensions/stack'
+import PagedCarousel from '@components/pro-carousel/extensions/paged'
+import StackCarousel from '@components/pro-carousel/extensions/stack'
 import Root, {
   type LayoutMode,
   type ProCarouselProps,
   type Slide,
-} from '@/common/components/pro-carousel/root'
+} from '@components/pro-carousel/root'
 
 /**
  * ProCarousel — carrusel Reanimated con layout parallax o stack.
@@ -18,7 +18,7 @@ import Root, {
  * @param mode - Layout. @default 'parallax'
  *
  * @example
- * import ProCarousel from '@/common/components/pro-carousel';
+ * import ProCarousel from '@components/pro-carousel';
  * <ProCarousel data={slides} />
  * <ProCarousel.StackCarousel />
  * <ProCarousel.PagedCarousel />

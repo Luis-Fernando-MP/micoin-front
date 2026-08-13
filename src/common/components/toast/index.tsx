@@ -1,6 +1,6 @@
 import { Alert, Platform, ToastAndroid } from 'react-native'
 
-import type { BrandStatus } from '@/common/components/shared/brand'
+import type { BrandStatus } from '@components/shared/brand'
 
 type ToastPayload = {
   title: string
@@ -18,7 +18,7 @@ type ToastPayload = {
  *
  * @param title.message
  * @example
- * import { showToast } from '@/common/components/toast';
+ * import { showToast } from '@components/toast';
  * showToast({ title: 'Listo', status: 'success' });
  */
 const showToast = ({ title, message }: ToastPayload) => {

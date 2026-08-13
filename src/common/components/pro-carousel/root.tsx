@@ -2,8 +2,9 @@ import { type FC, memo, useCallback } from 'react'
 import { Dimensions, View } from 'react-native'
 import { Carousel } from 'react-native-reanimated-carousel'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 type Slide = { title: string; body: string }

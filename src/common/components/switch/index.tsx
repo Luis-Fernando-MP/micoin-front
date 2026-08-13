@@ -6,8 +6,9 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND, { type BrandStatus } from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -31,7 +32,7 @@ interface Props {
  *
  * @param checked.status
  * @example
- * import Switch from '@/common/components/switch';
+ * import Switch from '@components/switch';
  * <Switch checked={on} onCheckedChange={setOn} />
  */
 const Switch: FC<Props> = ({

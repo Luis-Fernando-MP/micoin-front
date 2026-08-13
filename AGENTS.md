@@ -4,10 +4,20 @@ Prioridad #1 del repo: piezas reutilizables en `src/common`.
 
 ## Estilo
 
-- Sin punto y coma. Imports: librerías arriba, `@/` abajo, relativos de carpeta (`./`) al final. Prohibido `../`.
+- Sin punto y coma. Imports: librerías arriba, alias de proyecto (`@components`, `@views`, `@core`, `@theme`, `@assets`, `@/`) abajo, relativos de carpeta (`./`) al final. Prohibido `../`.
 - Constantes y tipos arriba; el componente abajo. Pieza React: `export default`.
 - Sin comentarios narrativos ni `//` en bloques. JSDoc en español en piezas/métodos reutilizables de `src/common` (`@param`, `@example`).
 - `pnpm lint` / `pnpm lint:fix` · `pnpm format` / `pnpm format:fix`.
+
+Alias de TypeScript:
+
+- `@components` → `src/common/components`
+- `@views` → `src/presentation`
+- `@core` → `src/common/core`
+- `@theme` → `src/common/utils/theme` (store, hooks, provider)
+- `@assets` → `assets`
+
+Tema de React Navigation: `@components/nav/theme`. El layout solo monta `ThemeProvider`; StatusBar y `colorScheme` viven en el controlador.
 
 ## Black-box
 
@@ -40,7 +50,7 @@ export default Avatar;
 ```
 
 ```tsx
-import Avatar from '@/common/components/avatar'
+import Avatar from '@components/avatar'
 ```
 
 Named export solo para tipos, hooks, store, helpers y subpartes compuestas (`Dialog.Header` adjunto al default). Prohibido `export { Avatar }` como export principal.
@@ -54,7 +64,7 @@ import BRAND, {
   type BrandStatus,
   type BrandSize,
   type BrandRadius,
-} from '@/common/components/shared/brand'
+} from '@components/shared/brand'
 
 type BrandSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 ```
@@ -79,7 +89,7 @@ Leer `BRAND.colors`, `BRAND.sizes`, `BRAND.radius`, `BRAND.type`, `BRAND.native`
  * @param status - Variante semántica BRAND. @default 'default'
  *
  * @example
- * import Avatar from '@/common/components/avatar';
+ * import Avatar from '@components/avatar';
  * <Avatar uri={user.photo} fallback="LM" size={48} status="brand" />
  */
 ```
@@ -98,9 +108,9 @@ Decoradores `@param` y `@example` obligatorios. `@default` en la descripción de
 ## Ejemplo Maps
 
 ```tsx
-import Maps from '@/common/components/maps';
-import Charts from '@/common/components/charts';
-import Text from '@/common/components/text';
+import Maps from '@components/maps'
+import Charts from '@components/charts'
+import Text from '@components/text'
 
 <Maps coordinate={sv} />
 <Maps.RoutePlanner origin={a} destination={b} />
@@ -121,7 +131,7 @@ Las extensiones viven en `extensions/` y se adjuntan al default. El consumidor n
 - Clases de status/size/radius fuera de BRAND
 - `renderItem` inline inestable en listas largas
 - Importar `extensions/` suelto (`import AreaChart from '.../extensions/area'`)
-- Barrel `shared/index.ts` o `from '@/common/components/shared'`
+- Barrel `shared/index.ts` o `from '@components/shared'`
 - `className="text-lg font-semibold"` en copy de UI cuando existe `Text.Title`
 - `export { Component }` como export principal
 

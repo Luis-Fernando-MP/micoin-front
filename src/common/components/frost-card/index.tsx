@@ -8,10 +8,11 @@ import {
 } from 'expo-glass-effect'
 import { LinearGradient } from 'expo-linear-gradient'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 /**
  * FrostCard — pieza reutilizable del kit MiCoin.
@@ -21,7 +22,7 @@ import { useMcVar } from '@/theme/hooks/use-theme-var'
  * @param props - Ver FrostCardProps / Props del archivo
  *
  * @example
- * import FrostCard from '@/common/components/frost-card';
+ * import FrostCard from '@components/frost-card';
  * <FrostCard />
  */
 const FrostCard: FC = () => {

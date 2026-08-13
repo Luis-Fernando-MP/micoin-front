@@ -3,9 +3,10 @@ import { Pressable, View } from 'react-native'
 
 import { Check, ChevronDown } from 'lucide-react-native'
 
-import Icon from '@/common/components/icon'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import Icon from '@components/icon'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 type Option = {
@@ -34,7 +35,7 @@ interface Props {
  * @param props.placeholder
  * @param props.className
  * @example
- * import Combobox from '@/common/components/combobox';
+ * import Combobox from '@components/combobox';
  * <Combobox />
  */
 const Combobox: FC<Props> = ({

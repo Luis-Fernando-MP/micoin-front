@@ -3,8 +3,9 @@ import { View } from 'react-native'
 
 import { Image as ExpoImage } from 'expo-image'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND, { type BrandStatus } from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -36,7 +37,7 @@ interface Props {
  *
  * @param uri.status
  * @example
- * import Avatar from '@/common/components/avatar';
+ * import Avatar from '@components/avatar';
  * <Avatar uri={user.photo} fallback="LM" size={48} status="brand" />
  */
 const Avatar: FC<Props> = ({

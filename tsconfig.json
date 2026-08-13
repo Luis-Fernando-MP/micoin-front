@@ -4,7 +4,14 @@
     "strict": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@/assets/*": ["./assets/*"]
+      "@/assets/*": ["./assets/*"],
+      "@assets/*": ["./assets/*"],
+      "@components/*": ["./src/common/components/*"],
+      "@views/*": ["./src/presentation/*"],
+      "@core": ["./src/common/core/index.ts"],
+      "@core/*": ["./src/common/core/*"],
+      "@theme": ["./src/common/utils/theme/index.ts"],
+      "@theme/*": ["./src/common/utils/theme/*"]
     }
   },
   "include": [

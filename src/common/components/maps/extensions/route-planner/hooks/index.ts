@@ -1,4 +1,4 @@
-import { type LatLng } from '@/common/components/maps/types'
+import { type LatLng } from '@components/maps/types'
 
 type PlaceOption = {
   id: string

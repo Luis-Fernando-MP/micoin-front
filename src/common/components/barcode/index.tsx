@@ -4,10 +4,11 @@ import Svg, { Rect } from 'react-native-svg'
 
 import barcodes from 'jsbarcode/src/barcodes'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 type Format = 'CODE128' | 'EAN13' | 'CODE39'
 
@@ -32,7 +33,7 @@ interface Props {
  * @param props.height
  * @param props.barWidth
  * @example
- * import Barcode from '@/common/components/barcode';
+ * import Barcode from '@components/barcode';
  * <Barcode />
  */
 const Barcode: FC<Props> = ({

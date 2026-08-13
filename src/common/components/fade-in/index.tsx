@@ -22,7 +22,7 @@ interface Props {
  *
  * @param children.className
  * @example
- * import FadeIn from '@/common/components/fade-in';
+ * import FadeIn from '@components/fade-in';
  * <FadeIn delay={80}>{children}</FadeIn>
  */
 const FadeIn: FC<Props> = ({ children, delay = 0, className }) => {

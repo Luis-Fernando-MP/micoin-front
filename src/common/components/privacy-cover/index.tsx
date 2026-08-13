@@ -3,9 +3,10 @@ import { Pressable, View } from 'react-native'
 
 import { Eye, EyeOff } from 'lucide-react-native'
 
-import Icon from '@/common/components/icon'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import Icon from '@components/icon'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -23,7 +24,7 @@ interface Props {
  * @param props.amount
  * @param props.label
  * @example
- * import PrivacyCover from '@/common/components/privacy-cover';
+ * import PrivacyCover from '@components/privacy-cover';
  * <PrivacyCover />
  */
 const PrivacyCover: FC<Props> = ({

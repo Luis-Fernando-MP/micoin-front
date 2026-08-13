@@ -2,11 +2,12 @@ import { type FC, memo } from 'react'
 import { View, type ViewProps } from 'react-native'
 import MapView, { Marker, type Region } from 'react-native-maps'
 
-import DropPin from '@/common/components/maps/extensions/drop-pin'
-import PlacePins from '@/common/components/maps/extensions/place-pins'
-import RoutePlanner from '@/common/components/maps/extensions/route-planner'
-import { type LatLng } from '@/common/components/maps/types'
-import BRAND from '@/common/components/shared/brand'
+import DropPin from '@components/maps/extensions/drop-pin'
+import PlacePins from '@components/maps/extensions/place-pins'
+import RoutePlanner from '@components/maps/extensions/route-planner'
+import { type LatLng } from '@components/maps/types'
+import BRAND from '@components/shared/brand'
+
 import { cn } from '@/lib/utils'
 
 interface Props extends Omit<ViewProps, 'children'> {
@@ -39,7 +40,7 @@ interface Props extends Omit<ViewProps, 'children'> {
  *
  * @param coordinate.className
  * @example
- * import Maps from '@/common/components/maps';
+ * import Maps from '@components/maps';
  * <Maps coordinate={{ latitude: 13.69, longitude: -89.22 }} title="SV" />
  * <Maps.RoutePlanner />
  */
@@ -81,7 +82,7 @@ const Maps = Object.assign(memo(MapsRoot), {
   DropPin,
 })
 
-export type { LatLng } from '@/common/components/maps/types'
+export type { LatLng } from '@components/maps/types'
 export type { Props as MapsProps }
 /**
  *

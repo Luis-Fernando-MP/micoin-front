@@ -2,9 +2,9 @@ import { type FC, useRef, useState } from 'react'
 import { View } from 'react-native'
 import ConfettiCannon from 'react-native-confetti-cannon'
 
-import Button from '@/common/components/button'
-import BRAND from '@/common/components/shared/brand'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import Button from '@components/button'
+import BRAND from '@components/shared/brand'
+import { useMcVar } from '@theme'
 
 interface Props {
   count?: number
@@ -19,7 +19,7 @@ interface Props {
  *
  * @param props.count
  * @example
- * import ConfettiBurst from '@/common/components/confetti-burst';
+ * import ConfettiBurst from '@components/confetti-burst';
  * <ConfettiBurst />
  */
 const ConfettiBurst: FC<Props> = ({ count = 80 }) => {

@@ -6,7 +6,7 @@ import {
   type EmojiSelection,
 } from 'rn-expo-emoji-picker'
 
-import Text from '@/common/components/text'
+import Text from '@components/text'
 
 interface Props {
   emojis?: string[]
@@ -25,7 +25,7 @@ const DEFAULT = ['👍', '❤️', '😂', '😮', '😢', '🔥']
  * @param props.emojis
  * @param props.onChange
  * @example
- * import EmojiReactionBar from '@/common/components/emoji-reaction-bar';
+ * import EmojiReactionBar from '@components/emoji-reaction-bar';
  * <EmojiReactionBar />
  */
 const EmojiReactionBar: FC<Props> = ({ emojis = DEFAULT, onChange }) => {

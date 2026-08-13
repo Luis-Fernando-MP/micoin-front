@@ -2,9 +2,10 @@ import { type FC, memo, useCallback, useState } from 'react'
 import { View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 
-import { type LatLng } from '@/common/components/maps/types'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import { type LatLng } from '@components/maps/types'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -28,7 +29,7 @@ const SV: LatLng = { latitude: 13.6929, longitude: -89.2182 }
  *
  * @param initialPin.onChange
  * @example
- * import Maps from '@/common/components/maps';
+ * import Maps from '@components/maps';
  * <Maps.DropPin onChange={setPin} />
  */
 const DropPin: FC<Props> = ({ initialPin = SV, height = 180, onChange }) => {

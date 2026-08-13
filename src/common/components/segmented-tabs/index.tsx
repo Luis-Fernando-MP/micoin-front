@@ -3,9 +3,9 @@ import { View } from 'react-native'
 
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
 
 interface Props {
   values?: string[]
@@ -22,7 +22,7 @@ interface Props {
  * @param props.values
  * @param props.onChange
  * @example
- * import SegmentedTabs from '@/common/components/segmented-tabs';
+ * import SegmentedTabs from '@components/segmented-tabs';
  * <SegmentedTabs />
  */
 const SegmentedTabs: FC<Props> = ({

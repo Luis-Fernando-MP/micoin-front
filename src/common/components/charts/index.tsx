@@ -3,13 +3,13 @@ import { View } from 'react-native'
 
 import { Canvas, Path, Skia } from '@shopify/react-native-skia'
 
-import AreaChart from '@/common/components/charts/extensions/area'
-import BarChart from '@/common/components/charts/extensions/bars'
-import DonutChart from '@/common/components/charts/extensions/donut'
-import GaugeChart from '@/common/components/charts/extensions/gauge'
-import HeatmapChart from '@/common/components/charts/extensions/heat'
-import BRAND from '@/common/components/shared/brand'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import AreaChart from '@components/charts/extensions/area'
+import BarChart from '@components/charts/extensions/bars'
+import DonutChart from '@components/charts/extensions/donut'
+import GaugeChart from '@components/charts/extensions/gauge'
+import HeatmapChart from '@components/charts/extensions/heat'
+import BRAND from '@components/shared/brand'
+import { useMcVar } from '@theme'
 
 interface Props {
   data?: number[]
@@ -33,7 +33,7 @@ const DEFAULT = [12, 18, 14, 22, 19, 28, 24, 31, 27, 35]
  *
  * @param data.height
  * @example
- * import Charts from '@/common/components/charts';
+ * import Charts from '@components/charts';
  * <Charts data={[12, 18, 22, 31]} />
  * <Charts.AreaChart data={[12, 22, 31]} />
  */

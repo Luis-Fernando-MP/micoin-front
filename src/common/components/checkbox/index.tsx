@@ -3,10 +3,11 @@ import { Pressable, View } from 'react-native'
 
 import { Check } from 'lucide-react-native'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND, { type BrandStatus } from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 interface Props {
   checked: boolean
@@ -29,7 +30,7 @@ interface Props {
  *
  * @param checked.status
  * @example
- * import Checkbox from '@/common/components/checkbox';
+ * import Checkbox from '@components/checkbox';
  * <Checkbox checked={ok} onCheckedChange={setOk} label="Acepto" />
  */
 const Checkbox: FC<Props> = ({

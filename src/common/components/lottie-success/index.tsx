@@ -3,7 +3,7 @@ import { View } from 'react-native'
 
 import LottieView from 'lottie-react-native'
 
-import Button from '@/common/components/button'
+import Button from '@components/button'
 
 const SUCCESS_URI =
   'https://assets10.lottiefiles.com/packages/lf20_jbrw3hcz.json'
@@ -23,7 +23,7 @@ interface Props {
  * @param props.uri
  * @param props.size
  * @example
- * import LottieSuccess from '@/common/components/lottie-success';
+ * import LottieSuccess from '@components/lottie-success';
  * <LottieSuccess />
  */
 const LottieSuccess: FC<Props> = ({ uri = SUCCESS_URI, size = 120 }) => {

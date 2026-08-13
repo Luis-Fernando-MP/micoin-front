@@ -3,8 +3,9 @@ import { type FC } from 'react'
 import BRAND, {
   type BrandSize,
   type BrandStatus,
-} from '@/common/components/shared/brand'
-import TextRoot, { type TextRootProps } from '@/common/components/text/root'
+} from '@components/shared/brand'
+import TextRoot, { type TextRootProps } from '@components/text/root'
+
 import { cn } from '@/lib/utils'
 
 interface Props extends TextRootProps {
@@ -23,7 +24,7 @@ interface Props extends TextRootProps {
  *
  * @param size.status
  * @example
- * import Text from '@/common/components/text';
+ * import Text from '@components/text';
  * <Text.Title size="md">Movimientos</Text.Title>
  */
 const Title: FC<Props> = ({

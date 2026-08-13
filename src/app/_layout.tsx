@@ -6,17 +6,16 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 
 import { Stack } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { PortalHost } from '@rn-primitives/portal'
 import { StripeProvider } from '@stripe/stripe-react-native'
 import { QueryClientProvider } from '@tanstack/react-query'
 
+import { queryClient } from '@core'
+import ThemeProvider from '@theme'
+
 import { useSession } from '@/auth/use-session'
-import { queryClient } from '@/common/core'
 import { CameraHost } from '@/common/device/camera'
-import { useTheme } from '@/theme/hooks/use-theme'
-import { ThemeProvider } from '@/theme/provider'
 
 export const unstable_settings = {
   anchor: '(public)',
@@ -34,7 +33,6 @@ const StripeGate: FC<{ children: ReactNode }> = ({ children }) => {
 
 const RootLayout: FC = () => {
   const { isAuthenticated, isPending } = useSession()
-  const { colorScheme } = useTheme()
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
@@ -42,11 +40,6 @@ const RootLayout: FC = () => {
       setReady(true)
     }
   }, [isPending])
-
-  let statusStyle: 'light' | 'dark' = 'dark'
-  if (colorScheme === 'dark') {
-    statusStyle = 'light'
-  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -69,7 +62,6 @@ const RootLayout: FC = () => {
                     </Stack.Protected>
                   </Stack>
                 )}
-                <StatusBar style={statusStyle} />
                 <PortalHost />
                 <CameraHost />
               </StripeGate>

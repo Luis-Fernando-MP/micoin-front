@@ -5,13 +5,15 @@ import ViewShot from 'react-native-view-shot'
 import { type AudioPlayer } from 'expo-audio'
 import { CardField } from '@stripe/stripe-react-native'
 
-import Barcode from '@/common/components/barcode'
-import Button from '@/common/components/button'
-import Image from '@/common/components/image'
-import QrCode from '@/common/components/qr-code'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
-import { showToast } from '@/common/components/toast'
+import Barcode from '@components/barcode'
+import Button from '@components/button'
+import Image from '@components/image'
+import QrCode from '@components/qr-code'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { showToast } from '@components/toast'
+import { useMcVar } from '@theme'
+
 import {
   playUri,
   releasePlayer,
@@ -27,7 +29,6 @@ import { setScreenProtected } from '@/common/device/screen-capture'
 import { shareFile } from '@/common/device/sharing'
 import { sendPaymentSms } from '@/common/device/sms'
 import { metadata } from '@/common/metadata'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 const PAY_LINK = 'micoin://pay?amount=12.50'
 const BARCODE_VALUE = '5901234123457'

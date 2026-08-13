@@ -1,7 +1,8 @@
 import { type FC, type ReactNode, useState } from 'react'
 import { Pressable, View } from 'react-native'
 
-import Text from '@/common/components/text'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 type Tab = {
@@ -27,7 +28,7 @@ interface Props {
  * @param props.defaultTab
  * @param props.className
  * @example
- * import Tabs from '@/common/components/tabs';
+ * import Tabs from '@components/tabs';
  * <Tabs />
  */
 const Tabs: FC<Props> = ({ tabs, defaultTab, className }) => {

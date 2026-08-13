@@ -1,7 +1,8 @@
 import { type FC } from 'react'
 import { Text as RNText, type TextProps as RNTextProps } from 'react-native'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
+import BRAND, { type BrandStatus } from '@components/shared/brand'
+
 import { cn } from '@/lib/utils'
 
 interface Props extends RNTextProps {

@@ -2,10 +2,11 @@ import { type FC, memo, useCallback, useState } from 'react'
 import { View } from 'react-native'
 import MapView, { Marker, type Region } from 'react-native-maps'
 
-import Button from '@/common/components/button'
-import { type LatLng } from '@/common/components/maps/types'
-import BRAND from '@/common/components/shared/brand'
-import { showToast } from '@/common/components/toast'
+import Button from '@components/button'
+import { type LatLng } from '@components/maps/types'
+import BRAND from '@components/shared/brand'
+import { showToast } from '@components/toast'
+
 import { getLocationSnapshot } from '@/common/device/location'
 import { cn } from '@/lib/utils'
 
@@ -48,7 +49,7 @@ const DEFAULT_PINS: Pin[] = [
  *
  * @param pins.showUser
  * @example
- * import Maps from '@/common/components/maps';
+ * import Maps from '@components/maps';
  * <Maps.PlacePins pins={atms} />
  */
 const PlacePins: FC<Props> = ({

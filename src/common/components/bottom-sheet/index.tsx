@@ -9,8 +9,8 @@ import {
   BottomSheetView,
 } from '@gorhom/bottom-sheet'
 
-import BRAND from '@/common/components/shared/brand'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import BRAND from '@components/shared/brand'
+import { useMcVar } from '@theme'
 
 type Props = {
   children: ReactNode
@@ -25,7 +25,7 @@ type Props = {
  * @param props - Ver AppBottomSheetModalProps / Props del archivo
  *
  * @example
- * import AppBottomSheetModal from '@/common/components/bottom-sheet';
+ * import AppBottomSheetModal from '@components/bottom-sheet';
  * <AppBottomSheetModal />
  */
 const AppBottomSheetModal = forwardRef<BottomSheetModal, Props>(

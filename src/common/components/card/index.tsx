@@ -1,7 +1,8 @@
 import { type FC } from 'react'
 import { View, type ViewProps } from 'react-native'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
+import BRAND, { type BrandStatus } from '@components/shared/brand'
+
 import { cn } from '@/lib/utils'
 
 interface Props extends ViewProps {
@@ -18,7 +19,7 @@ interface Props extends ViewProps {
  *
  * @param status.status
  * @example
- * import Card from '@/common/components/card';
+ * import Card from '@components/card';
  * <Card status="brand">…</Card>
  */
 const Card: FC<Props> = ({

@@ -10,17 +10,18 @@ import {
 import { Pressable, View } from 'react-native'
 import MapView, { Marker, Polyline } from 'react-native-maps'
 
-import Button from '@/common/components/button'
-import Input from '@/common/components/input'
+import Button from '@components/button'
+import Input from '@components/input'
 import {
   fetchOsrmRoute,
   type PlaceOption,
   searchNominatim,
-} from '@/common/components/maps/extensions/route-planner/hooks'
-import { type LatLng } from '@/common/components/maps/types'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
-import { showToast } from '@/common/components/toast'
+} from '@components/maps/extensions/route-planner/hooks'
+import { type LatLng } from '@components/maps/types'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { showToast } from '@components/toast'
+
 import { getLocationSnapshot } from '@/common/device/location'
 import { cn } from '@/lib/utils'
 
@@ -204,7 +205,7 @@ const PlaceAutocomplete: FC<{
  *
  * @param origin.onRoute
  * @example
- * import Maps from '@/common/components/maps';
+ * import Maps from '@components/maps';
  * <Maps.RoutePlanner />
  */
 const RoutePlanner: FC<Props> = ({

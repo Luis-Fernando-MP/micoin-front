@@ -18,7 +18,7 @@ interface Props {
  * @param props.children
  * @param props.onPress
  * @example
- * import PressableScale from '@/common/components/pressable-scale';
+ * import PressableScale from '@components/pressable-scale';
  * <PressableScale />
  */
 const PressableScale: FC<Props> = ({ children, onPress }) => {

@@ -33,7 +33,14 @@ module.exports = defineConfig([
           groups: [
             ['^\\u0000'],
             ['^react$', '^react-native$', '^react-native-'],
-            ['^expo', '^@expo', '^@?\\w'],
+            [
+              '^expo',
+              '^@expo',
+              '^(?!@assets|@components|@views|@core|@theme|@/)@?\\w',
+            ],
+            [
+              '^@(assets|components|views|core|theme)(/.*)?$',
+            ],
             ['^@/'],
             ['^\\./'],
           ],

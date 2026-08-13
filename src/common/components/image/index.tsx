@@ -3,7 +3,8 @@ import { type DimensionValue, View } from 'react-native'
 
 import { Image as ExpoImage, type ImageProps } from 'expo-image'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
+import BRAND, { type BrandStatus } from '@components/shared/brand'
+
 import { cn } from '@/lib/utils'
 
 interface Props extends Omit<ImageProps, 'style'> {

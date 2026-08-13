@@ -3,13 +3,14 @@ import { View } from 'react-native'
 
 import { Bell } from 'lucide-react-native'
 
-import Button from '@/common/components/button'
-import Icon from '@/common/components/icon'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
-import { showToast } from '@/common/components/toast'
-import MediaStyle from '@/common/components/tray-notify-mock/extensions/media-style'
-import Ongoing from '@/common/components/tray-notify-mock/extensions/ongoing'
+import Button from '@components/button'
+import Icon from '@components/icon'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { showToast } from '@components/toast'
+import MediaStyle from '@components/tray-notify-mock/extensions/media-style'
+import Ongoing from '@components/tray-notify-mock/extensions/ongoing'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -28,7 +29,7 @@ interface Props {
  *
  * @param title.body
  * @example
- * import TrayNotifyMock from '@/common/components/tray-notify-mock';
+ * import TrayNotifyMock from '@components/tray-notify-mock';
  * <TrayNotifyMock />
  * <TrayNotifyMock.Ongoing />
  */

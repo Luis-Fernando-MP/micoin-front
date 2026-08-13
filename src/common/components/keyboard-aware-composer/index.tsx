@@ -2,9 +2,9 @@ import { type FC, useState } from 'react'
 import { View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
-import Button from '@/common/components/button'
-import Input from '@/common/components/input'
-import Text from '@/common/components/text'
+import Button from '@components/button'
+import Input from '@components/input'
+import Text from '@components/text'
 
 interface Props {
   onSend?: (text: string) => void
@@ -19,7 +19,7 @@ interface Props {
  *
  * @param props.onSend
  * @example
- * import KeyboardAwareComposer from '@/common/components/keyboard-aware-composer';
+ * import KeyboardAwareComposer from '@components/keyboard-aware-composer';
  * <KeyboardAwareComposer />
  */
 const KeyboardAwareComposer: FC<Props> = ({ onSend }) => {

@@ -8,10 +8,10 @@ import Animated, {
 
 import { Moon, Sun } from 'lucide-react-native'
 
-import BRAND from '@/common/components/shared/brand'
+import BRAND from '@components/shared/brand'
+import { useMcVar, useTheme } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useTheme } from '@/theme/hooks/use-theme'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 /**
  * ThemeToggle — pieza reutilizable del kit MiCoin.
@@ -21,7 +21,7 @@ import { useMcVar } from '@/theme/hooks/use-theme-var'
  * @param props - Ver ThemeToggleProps / Props del archivo
  *
  * @example
- * import ThemeToggle from '@/common/components/theme-toggle';
+ * import ThemeToggle from '@components/theme-toggle';
  * <ThemeToggle />
  */
 const ThemeToggle: FC = () => {

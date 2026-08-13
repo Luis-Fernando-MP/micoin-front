@@ -4,10 +4,10 @@ import { View } from 'react-native'
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { MoreHorizontal } from 'lucide-react-native'
 
-import AppBottomSheetModal from '@/common/components/bottom-sheet'
-import Button from '@/common/components/button'
-import Text from '@/common/components/text'
-import { showToast } from '@/common/components/toast'
+import AppBottomSheetModal from '@components/bottom-sheet'
+import Button from '@components/button'
+import Text from '@components/text'
+import { showToast } from '@components/toast'
 
 type Action = {
   label: string
@@ -33,7 +33,7 @@ interface Props {
  * @param props.actions
  * @param props.triggerLabel
  * @example
- * import RichOverflowSheet from '@/common/components/rich-overflow-sheet';
+ * import RichOverflowSheet from '@components/rich-overflow-sheet';
  * <RichOverflowSheet />
  */
 const RichOverflowSheet: FC<Props> = ({

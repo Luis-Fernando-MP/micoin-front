@@ -1,7 +1,8 @@
 import { type FC } from 'react'
 
-import BRAND, { type BrandStatus } from '@/common/components/shared/brand'
-import TextRoot, { type TextRootProps } from '@/common/components/text/root'
+import BRAND, { type BrandStatus } from '@components/shared/brand'
+import TextRoot, { type TextRootProps } from '@components/text/root'
+
 import { cn } from '@/lib/utils'
 
 interface Props extends TextRootProps {
@@ -19,7 +20,7 @@ interface Props extends TextRootProps {
  *
  * @param status.status
  * @example
- * import Text from '@/common/components/text';
+ * import Text from '@components/text';
  * <Text.Subtitle>Hoy · 10:24</Text.Subtitle>
  */
 const Subtitle: FC<Props> = ({ className, status, ...props }) => {

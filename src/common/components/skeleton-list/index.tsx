@@ -3,7 +3,8 @@ import { View } from 'react-native'
 
 import { MotiView } from 'moti'
 
-import BRAND from '@/common/components/shared/brand'
+import BRAND from '@components/shared/brand'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -34,7 +35,7 @@ const SkeletonRow: FC = () => (
  * @param props.rows
  * @param props.className
  * @example
- * import SkeletonList from '@/common/components/skeleton-list';
+ * import SkeletonList from '@components/skeleton-list';
  * <SkeletonList />
  */
 const SkeletonList: FC<Props> = ({ rows = 4, className }) => {

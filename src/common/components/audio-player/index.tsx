@@ -8,8 +8,8 @@ import {
 } from 'expo-audio'
 import { Pause, Play } from 'lucide-react-native'
 
-import Button from '@/common/components/button'
-import Text from '@/common/components/text'
+import Button from '@components/button'
+import Text from '@components/text'
 
 const DEMO_URI = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
 
@@ -28,7 +28,7 @@ interface Props {
  * @param props.uri
  * @param props.title
  * @example
- * import AudioPlayer from '@/common/components/audio-player';
+ * import AudioPlayer from '@components/audio-player';
  * <AudioPlayer />
  */
 const AudioPlayer: FC<Props> = ({ uri = DEMO_URI, title = 'Demo track' }) => {

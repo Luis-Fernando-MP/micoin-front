@@ -3,8 +3,8 @@ import { View } from 'react-native'
 
 import { Link } from 'expo-router'
 
-import Button from '@/common/components/button'
-import Text from '@/common/components/text'
+import Button from '@components/button'
+import Text from '@components/text'
 
 const Modal: FC = () => {
   return (

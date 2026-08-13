@@ -2,9 +2,10 @@ import { type FC } from 'react'
 import { View } from 'react-native'
 import QRCodeSvg from 'react-native-qrcode-svg'
 
-import BRAND from '@/common/components/shared/brand'
+import BRAND from '@components/shared/brand'
+import { useMcVar } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 interface Props {
   value: string
@@ -23,7 +24,7 @@ interface Props {
  * @param props.size
  * @param props.className
  * @example
- * import QrCode from '@/common/components/qr-code';
+ * import QrCode from '@components/qr-code';
  * <QrCode />
  */
 const QrCode: FC<Props> = ({ value, size = 160, className }) => {

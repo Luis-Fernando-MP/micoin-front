@@ -3,11 +3,12 @@ import { View } from 'react-native'
 
 import { Pause, Play } from 'lucide-react-native'
 
-import Icon from '@/common/components/icon'
-import PressableScale from '@/common/components/pressable-scale'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
-import WaveformBars from '@/common/components/waveform-bars'
+import Icon from '@components/icon'
+import PressableScale from '@components/pressable-scale'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import WaveformBars from '@components/waveform-bars'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -27,7 +28,7 @@ interface Props {
  * @param props.subtitle
  * @param props.onPress
  * @example
- * import MiniPlayerBar from '@/common/components/mini-player-bar';
+ * import MiniPlayerBar from '@components/mini-player-bar';
  * <MiniPlayerBar />
  */
 const MiniPlayerBar: FC<Props> = ({

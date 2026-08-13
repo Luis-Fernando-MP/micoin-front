@@ -4,9 +4,10 @@ import { StyleSheet, Text, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import MaskedView from '@react-native-masked-view/masked-view'
 
-import BRAND from '@/common/components/shared/brand'
+import BRAND from '@components/shared/brand'
+import { useMcVar } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 interface Props {
   value?: string
@@ -21,7 +22,7 @@ interface Props {
  *
  * @param props.value
  * @example
- * import FoilText from '@/common/components/foil-text';
+ * import FoilText from '@components/foil-text';
  * <FoilText />
  */
 const FoilText: FC<Props> = ({ value = '$1,248.90' }) => {

@@ -3,12 +3,13 @@ import { View } from 'react-native'
 
 import { Link } from 'expo-router'
 
+import BrandLogo from '@components/brand-logo'
+import Button from '@components/button'
+import Card from '@components/card'
+import AppNav from '@components/nav'
+import Text from '@components/text'
+
 import { signOut } from '@/auth/client'
-import BrandLogo from '@/common/components/brand-logo'
-import Button from '@/common/components/button'
-import Card from '@/common/components/card'
-import AppNav from '@/common/components/nav'
-import Text from '@/common/components/text'
 
 const Explore: FC = () => {
   return (

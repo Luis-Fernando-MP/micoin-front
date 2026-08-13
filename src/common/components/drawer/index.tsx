@@ -7,8 +7,9 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -32,7 +33,7 @@ interface Props {
  * @param props.children
  * @param props.className
  * @example
- * import Drawer from '@/common/components/drawer';
+ * import Drawer from '@components/drawer';
  * <Drawer />
  */
 const Drawer: FC<Props> = ({

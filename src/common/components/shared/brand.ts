@@ -9,7 +9,7 @@ import {
   Star,
 } from 'lucide-react-native'
 
-import { mcVars } from '@/theme/css-vars'
+import { mcVars } from '@theme/css-vars'
 
 type NativeToken = keyof typeof mcVars
 

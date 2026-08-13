@@ -7,10 +7,11 @@ import BRAND, {
   type BrandSize,
   type BrandSizeMap,
   type BrandStatus,
-} from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+} from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 const inputShell = cva(
   cn(
@@ -60,7 +61,7 @@ interface Props extends TextInputProps, VariantProps<typeof inputShell> {
  *
  * @param label.size
  * @example
- * import Input from '@/common/components/input';
+ * import Input from '@components/input';
  * <Input label="Monto" status="brand" />
  */
 const Input: FC<Props> = ({

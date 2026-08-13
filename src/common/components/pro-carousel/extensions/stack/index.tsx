@@ -1,8 +1,6 @@
 import { type FC, memo } from 'react'
 
-import Root, {
-  type ProCarouselProps,
-} from '@/common/components/pro-carousel/root'
+import Root, { type ProCarouselProps } from '@components/pro-carousel/root'
 
 /**
  * StackCarousel — tarjetas apiladas horizontales.
@@ -12,7 +10,7 @@ import Root, {
  *
  * @param props
  * @example
- * import ProCarousel from '@/common/components/pro-carousel';
+ * import ProCarousel from '@components/pro-carousel';
  * <ProCarousel.StackCarousel />
  */
 const StackCarousel: FC<Omit<ProCarouselProps, 'mode'>> = (props) => (

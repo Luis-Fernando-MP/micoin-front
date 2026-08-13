@@ -9,6 +9,13 @@ type ThemeState = {
   setPreference: (preference: ThemePreference) => void
 }
 
+/**
+ * Store persistido de preferencia de tema (claro / oscuro / sistema).
+ *
+ * @example
+ * import { useThemeStore } from '@theme/store'
+ * const preference = useThemeStore((state) => state.preference)
+ */
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({

@@ -12,8 +12,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 type DialogContextValue = {
@@ -54,7 +55,7 @@ interface DialogProps {
  * @param open.children
  * @param open.className
  * @example
- * import Dialog from '@/common/components/dialog';
+ * import Dialog from '@components/dialog';
  * <Dialog open={open} onOpenChange={setOpen}><Dialog.Title>Hola</Dialog.Title></Dialog>
  */
 const DialogRoot: FC<DialogProps> = ({

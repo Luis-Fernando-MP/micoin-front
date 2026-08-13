@@ -4,10 +4,10 @@ import { View } from 'react-native'
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { Smile } from 'lucide-react-native'
 
-import AppBottomSheetModal from '@/common/components/bottom-sheet'
-import Button from '@/common/components/button'
-import EmojiPicker from '@/common/components/emoji-picker'
-import Text from '@/common/components/text'
+import AppBottomSheetModal from '@components/bottom-sheet'
+import Button from '@components/button'
+import EmojiPicker from '@components/emoji-picker'
+import Text from '@components/text'
 
 interface Props {
   onSelect?: (emoji: string) => void
@@ -22,7 +22,7 @@ interface Props {
  *
  * @param props.onSelect
  * @example
- * import EmojiSheet from '@/common/components/emoji-sheet';
+ * import EmojiSheet from '@components/emoji-sheet';
  * <EmojiSheet />
  */
 const EmojiSheet: FC<Props> = ({ onSelect }) => {

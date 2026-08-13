@@ -5,12 +5,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { type Href, Link } from 'expo-router'
 import { Home, Send } from 'lucide-react-native'
 
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
+
 import { useSession } from '@/auth/use-session'
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
 import { cn } from '@/lib/utils'
 import { getNavRoutes } from '@/navigation/routes'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 const ICONS = {
   'house.fill': Home,
@@ -18,14 +19,12 @@ const ICONS = {
 } as const
 
 /**
- * AppNav — pieza reutilizable del kit MiCoin.
+ * AppNav — barra de navegación inferior del kit MiCoin.
  *
- * Caja negra lista para conectar en cualquier pantalla.
- *
- * @param props - Ver AppNavProps / Props del archivo
+ * @param props - Sin props; lee sesión y rutas internamente
  *
  * @example
- * import AppNav from '@/common/components/nav';
+ * import AppNav from '@components/nav'
  * <AppNav />
  */
 const AppNav: FC = () => {
@@ -55,6 +54,7 @@ const AppNav: FC = () => {
   )
 }
 
+export { useNavTheme } from './theme'
 /**
  *
  */

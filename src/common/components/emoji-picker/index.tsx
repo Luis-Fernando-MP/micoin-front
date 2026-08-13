@@ -7,9 +7,9 @@ import {
   lightTheme,
 } from 'rn-expo-emoji-picker'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
 
 interface Props {
   height?: number
@@ -26,7 +26,7 @@ interface Props {
  * @param props.height
  * @param props.onSelect
  * @example
- * import EmojiPicker from '@/common/components/emoji-picker';
+ * import EmojiPicker from '@components/emoji-picker';
  * <EmojiPicker />
  */
 const EmojiPicker: FC<Props> = ({ height = 280, onSelect }) => {

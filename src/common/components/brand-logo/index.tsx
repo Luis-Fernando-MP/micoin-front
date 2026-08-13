@@ -3,18 +3,16 @@ import { type ImageStyle, type StyleProp } from 'react-native'
 
 import { Image } from 'expo-image'
 
-import {
-  type BrandSize,
-  type BrandSizeMap,
-} from '@/common/components/shared/brand'
+import { type BrandSize, type BrandSizeMap } from '@components/shared/brand'
+
 import { cn } from '@/lib/utils'
 
 const SOURCES = {
-  xs: require('@/assets/images/logo/logo-sm.svg'),
-  sm: require('@/assets/images/logo/logo-sm.svg'),
-  md: require('@/assets/images/logo/logo-md.svg'),
-  lg: require('@/assets/images/logo/logo-lg.svg'),
-  xl: require('@/assets/images/logo/logo-lg.svg'),
+  xs: require('@assets/images/logo/logo-sm.svg'),
+  sm: require('@assets/images/logo/logo-sm.svg'),
+  md: require('@assets/images/logo/logo-md.svg'),
+  lg: require('@assets/images/logo/logo-lg.svg'),
+  xl: require('@assets/images/logo/logo-lg.svg'),
 } as const satisfies BrandSizeMap<number>
 
 const SIZES = {
@@ -42,7 +40,7 @@ interface Props {
  * @param props.className
  * @param props.style
  * @example
- * import BrandLogo from '@/common/components/brand-logo';
+ * import BrandLogo from '@components/brand-logo';
  * <BrandLogo />
  */
 const BrandLogo: FC<Props> = ({ size = 'md', className, style }) => {

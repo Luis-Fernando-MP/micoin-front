@@ -3,8 +3,9 @@ import { View } from 'react-native'
 
 import { useVideoPlayer, VideoView } from 'expo-video'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 const DEMO =
@@ -25,7 +26,7 @@ interface Props {
  * @param props.uri
  * @param props.height
  * @example
- * import VideoPlayer from '@/common/components/video-player';
+ * import VideoPlayer from '@components/video-player';
  * <VideoPlayer />
  */
 const VideoPlayer: FC<Props> = ({ uri = DEMO, height = 180 }) => {

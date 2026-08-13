@@ -2,8 +2,8 @@ import { type FC } from 'react'
 
 import { type LucideIcon, type LucideProps } from 'lucide-react-native'
 
-import BRAND from '@/common/components/shared/brand'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
+import BRAND from '@components/shared/brand'
+import { useMcVar } from '@theme'
 
 type Tone =
   | 'foreground'
@@ -44,7 +44,7 @@ const toneToNative: Record<Tone, keyof typeof BRAND.native> = {
  * @param icon.size
  * @param icon.strokeWidth
  * @example
- * import Icon from '@/common/components/icon';
+ * import Icon from '@components/icon';
  * import { Camera } from 'lucide-react-native';
  * <Icon icon={Camera} tone="brand" />
  */

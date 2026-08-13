@@ -4,12 +4,13 @@ import { View } from 'react-native'
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { Share2 } from 'lucide-react-native'
 
-import AppBottomSheetModal from '@/common/components/bottom-sheet'
-import Button from '@/common/components/button'
-import QrCode from '@/common/components/qr-code'
-import MovementOverflow from '@/common/components/share-pay-sheet/extensions/movement-overflow'
-import Text from '@/common/components/text'
-import { showToast } from '@/common/components/toast'
+import AppBottomSheetModal from '@components/bottom-sheet'
+import Button from '@components/button'
+import QrCode from '@components/qr-code'
+import MovementOverflow from '@components/share-pay-sheet/extensions/movement-overflow'
+import Text from '@components/text'
+import { showToast } from '@components/toast'
+
 import { copyText } from '@/common/device/clipboard'
 import { metadata } from '@/common/metadata'
 
@@ -29,7 +30,7 @@ interface Props {
  *
  * @param amountLabel.link
  * @example
- * import SharePaySheet from '@/common/components/share-pay-sheet';
+ * import SharePaySheet from '@components/share-pay-sheet';
  * <SharePaySheet amountLabel="$20" link="micoin://pay?amount=20" />
  * <SharePaySheet.MovementOverflow />
  */

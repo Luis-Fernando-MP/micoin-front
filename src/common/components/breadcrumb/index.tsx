@@ -3,10 +3,11 @@ import { View } from 'react-native'
 
 import { ChevronRight } from 'lucide-react-native'
 
-import BRAND from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+import BRAND from '@components/shared/brand'
+import Text from '@components/text'
+import { useMcVar } from '@theme'
+
 import { cn } from '@/lib/utils'
-import { useMcVar } from '@/theme/hooks/use-theme-var'
 
 type Crumb = {
   label: string
@@ -27,7 +28,7 @@ interface Props {
  * @param props.items
  * @param props.className
  * @example
- * import Breadcrumb from '@/common/components/breadcrumb';
+ * import Breadcrumb from '@components/breadcrumb';
  * <Breadcrumb />
  */
 const Breadcrumb: FC<Props> = ({ items, className }) => {

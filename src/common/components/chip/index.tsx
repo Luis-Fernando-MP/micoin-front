@@ -4,8 +4,9 @@ import { Pressable } from 'react-native'
 import BRAND, {
   type BrandSize,
   type BrandStatus,
-} from '@/common/components/shared/brand'
-import Text from '@/common/components/text'
+} from '@components/shared/brand'
+import Text from '@components/text'
+
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -32,7 +33,7 @@ interface Props {
  * @param label.status
  * @param label.onPress
  * @example
- * import Chip from '@/common/components/chip';
+ * import Chip from '@components/chip';
  * <Chip label="Hoy" status="brand" selected />
  */
 const Chip: FC<Props> = ({

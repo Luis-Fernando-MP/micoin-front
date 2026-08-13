@@ -18,7 +18,7 @@ interface Props {
  * @param props.className
  * @param props.orientation
  * @example
- * import Separator from '@/common/components/separator';
+ * import Separator from '@components/separator';
  * <Separator />
  */
 const Separator: FC<Props> = ({ className, orientation = 'horizontal' }) => {

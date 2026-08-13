@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-import { Login } from '@/presentation/login'
+import { Login } from '@views/login'
 
 const LoginRoute: FC = () => {
   return <Login />

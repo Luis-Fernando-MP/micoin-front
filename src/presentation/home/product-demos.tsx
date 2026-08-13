@@ -210,7 +210,7 @@ const TicketPhotoDemo: FC = () => {
           showToast({ title: 'Ticket procesado', status: 'success' })
         }}
       />
-      {ticketUri && <Image source={{ uri: ticketUri }} aspectRatio={4 / 3} />}
+      {ticketUri && <Image source={{ uri: ticketUri }} aspectRatio="4/3" />}
       <Button
         size="sm"
         variant="outline"

@@ -4,43 +4,31 @@ import { ScrollView, View } from 'react-native'
 import { type Href, Link } from 'expo-router'
 import {
   Camera,
-  Check,
   ClipboardCopy,
   FileUp,
   Fingerprint,
-  Info,
   Mail,
   MapPin,
   Moon,
   Share2,
   SunMedium,
   Volume2,
-  Wifi,
 } from 'lucide-react-native'
 
 import Accordion from '@components/accordion'
-import Avatar from '@components/avatar'
-import BrandLogo from '@components/brand-logo'
 import Breadcrumb from '@components/breadcrumb'
 import Button from '@components/button'
-import Card from '@components/card'
 import Checkbox from '@components/checkbox'
 import Chip from '@components/chip'
 import Combobox from '@components/combobox'
 import Dialog from '@components/dialog'
 import Drawer from '@components/drawer'
-import FadeIn from '@components/fade-in'
 import Header from '@components/header'
-import Icon from '@components/icon'
-import Image from '@components/image'
+import Image, { IMAGE_ASPECTS, type ImageAspect } from '@components/image'
 import Input from '@components/input'
 import MultiStep from '@components/multi-step'
 import AppNav from '@components/nav'
-import Separator from '@components/separator'
-import BRAND, {
-  type BrandSize,
-  type BrandStatus,
-} from '@components/shared/brand'
+import { type BrandSize, type BrandStatus } from '@components/shared/brand'
 import Switch from '@components/switch'
 import Tabs from '@components/tabs'
 import Text from '@components/text'
@@ -65,7 +53,6 @@ import { LabCatalog } from '@views/home/lab-catalog'
 
 import { useSession } from '@/auth/use-session'
 import { metadata } from '@/common/metadata'
-import { cn } from '@/lib/utils'
 
 const STATUSES: BrandStatus[] = [
   'default',
@@ -86,6 +73,8 @@ const IMAGE_DEMO =
   'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80'
 
 const FILTERS = ['Hoy', 'Semana', 'Mes'] as const
+
+const IMAGE_ASPECT_KEYS = Object.keys(IMAGE_ASPECTS.variants) as ImageAspect[]
 
 const KIT_LAST = 38
 
@@ -120,836 +109,6 @@ const Home: FC = () => {
         contentContainerClassName="gap-4 p-5 pb-8"
         keyboardShouldPersistTaps="handled"
       >
-        <Text.Title size="lg">Catálogo numerado</Text.Title>
-        <Text.Caption>
-          Cada pieza de common/components o common/device en su Card. Di qué
-          número se queda y cuál se va. Sesión: {statusLabel}.
-        </Text.Caption>
-
-        <CatalogCard
-          n={1}
-          title="Card"
-          does="Superficie con padding, radius surface y tono BRAND."
-          doesNot="No es layout, lista ni contenedor de navegación."
-          solves="Agrupar un bloque de contenido con borde y fondo semántico."
-        >
-          <CatalogVariant
-            n={1}
-            sub={1}
-            title="Default"
-            description="Tono neutro del kit."
-          >
-            <Card>
-              <Text.Caption>Contenido</Text.Caption>
-            </Card>
-          </CatalogVariant>
-
-          <CatalogVariant
-            n={1}
-            sub={2}
-            title="Status"
-            description="Variantes semánticas del borde y fondo suave."
-          >
-            <View className="gap-2">
-              {STATUSES.map((status) => (
-                <Card key={status} status={status}>
-                  <Text.Caption>{status}</Text.Caption>
-                </Card>
-              ))}
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={2}
-          title="Text"
-          does="Tipografía del design system con roles, size y status BRAND."
-          doesNot="No sustituye Input ni Chip. No es un editor rico."
-          solves="Copy de UI sin hardcodear text-lg / font-semibold."
-        >
-          <CatalogVariant
-            n={2}
-            sub={1}
-            title="Body"
-            description="Text() — párrafo por defecto."
-          >
-            <Text>Saldo disponible</Text>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={2}
-            title="Body · status"
-            description="Todas las semánticas BRAND."
-          >
-            <View className="gap-1">
-              {STATUSES.map((status) => (
-                <Text key={status} status={status}>
-                  Body {status}
-                </Text>
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={3}
-            title="Title xs"
-            description="Text.Title size xs — text-sm font-semibold."
-          >
-            <Text.Title size="xs">Movimientos</Text.Title>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={4}
-            title="Title sm"
-            description="Text.Title size sm — text-base font-semibold."
-          >
-            <Text.Title size="sm">Movimientos</Text.Title>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={5}
-            title="Title md"
-            description="Text.Title size md — default. text-lg font-semibold."
-          >
-            <Text.Title size="md">Movimientos</Text.Title>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={6}
-            title="Title lg"
-            description="Text.Title size lg — text-2xl font-bold."
-          >
-            <Text.Title size="lg">Movimientos</Text.Title>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={7}
-            title="Title xl"
-            description="Text.Title size xl — text-3xl font-bold."
-          >
-            <Text.Title size="xl">Movimientos</Text.Title>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={8}
-            title="Title · status"
-            description="Text.Title md en cada semántica."
-          >
-            <View className="gap-1">
-              {STATUSES.map((status) => (
-                <Text.Title key={status} size="md" status={status}>
-                  Title {status}
-                </Text.Title>
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={9}
-            title="Subtitle"
-            description="Text.Subtitle — apoyo muted bajo un título."
-          >
-            <Text.Subtitle>Hoy · 10:24</Text.Subtitle>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={10}
-            title="Subtitle · status"
-            description="Con status deja de ser muted y usa BRAND."
-          >
-            <View className="gap-1">
-              {STATUSES.map((status) => (
-                <Text.Subtitle key={status} status={status}>
-                  Subtitle {status}
-                </Text.Subtitle>
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={11}
-            title="Paragraph"
-            description="Text.Paragraph — lectura con leading relajado."
-          >
-            <Text.Paragraph>{metadata.description}</Text.Paragraph>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={12}
-            title="Paragraph · status"
-            description="Cuerpo largo teñido."
-          >
-            <View className="gap-2">
-              {STATUSES.map((status) => (
-                <Text.Paragraph key={status} status={status}>
-                  Paragraph {status}
-                </Text.Paragraph>
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={13}
-            title="Caption"
-            description="Text.Caption — meta y hints muted."
-          >
-            <Text.Caption>Mock de bandeja</Text.Caption>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={14}
-            title="Caption · status"
-            description="Hints semánticos."
-          >
-            <View className="gap-1">
-              {STATUSES.map((status) => (
-                <Text.Caption key={status} status={status}>
-                  Caption {status}
-                </Text.Caption>
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={15}
-            title="Label"
-            description="Text.Label — eyebrow de campo o sección."
-          >
-            <Text.Label>Monto</Text.Label>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={16}
-            title="Label · status"
-            description="Etiqueta teñida junto al Input."
-          >
-            <View className="gap-1">
-              {STATUSES.map((status) => (
-                <Text.Label key={status} status={status}>
-                  Label {status}
-                </Text.Label>
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={17}
-            title="Highlight"
-            description="Text.Highlight — énfasis, no es una caja."
-          >
-            <Text.Highlight>$12.50</Text.Highlight>
-          </CatalogVariant>
-          <CatalogVariant
-            n={2}
-            sub={18}
-            title="Highlight · status"
-            description="Monto o CTA tipográfico teñido."
-          >
-            <View className="gap-1">
-              {STATUSES.map((status) => (
-                <Text.Highlight key={status} status={status}>
-                  Highlight {status}
-                </Text.Highlight>
-              ))}
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={3}
-          title="Icon"
-          does="Pinta un glifo Lucide con tono BRAND nativo."
-          doesNot="No es botón. No gestiona press ni badge."
-          solves="Iconografía consistente sin hex ni color suelto."
-        >
-          <CatalogVariant
-            n={3}
-            sub={1}
-            title="foreground"
-            description="Tono por defecto. textPrimary."
-          >
-            <Icon icon={Check} />
-          </CatalogVariant>
-          <CatalogVariant
-            n={3}
-            sub={2}
-            title="secondary"
-            description="Texto secundario."
-          >
-            <Icon icon={Info} tone="secondary" />
-          </CatalogVariant>
-          <CatalogVariant
-            n={3}
-            sub={3}
-            title="primary"
-            description="Token primary."
-          >
-            <Icon icon={Wifi} tone="primary" />
-          </CatalogVariant>
-          <CatalogVariant
-            n={3}
-            sub={4}
-            title="brand"
-            description="Token brand (oro)."
-          >
-            <Icon icon={Camera} tone="brand" />
-          </CatalogVariant>
-          <CatalogVariant
-            n={3}
-            sub={5}
-            title="background"
-            description="Sobre superficie invertida."
-          >
-            <View
-              className={cn(
-                'self-start p-3',
-                BRAND.colors.variants.primary.background,
-              )}
-            >
-              <Icon icon={Check} tone="background" />
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={3}
-            sub={6}
-            title="onPrimary"
-            description="Glifo sobre fondo primary. Lo usa Button default."
-          >
-            <View
-              className={cn(
-                'self-start p-3',
-                BRAND.colors.variants.primary.background,
-              )}
-            >
-              <Icon icon={Check} tone="onPrimary" />
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={3}
-            sub={7}
-            title="onBrand"
-            description="Glifo sobre fondo brand. Lo usa Button brand."
-          >
-            <View
-              className={cn(
-                'self-start p-3',
-                BRAND.colors.variants.brand.background,
-              )}
-            >
-              <Icon icon={Check} tone="onBrand" />
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={4}
-          title="Chip"
-          does="Etiqueta compacta semántica (soft, solid, outline). onPress opcional."
-          doesNot="No es Button ni Tab. No navega por sí solo."
-          solves="Estado, filtros y tags con la misma forma pill del kit."
-        >
-          <CatalogVariant
-            n={4}
-            sub={1}
-            title="Soft · status"
-            description="Relleno suave por semántica BRAND."
-          >
-            <View className="flex-row flex-wrap gap-2">
-              {STATUSES.map((status) => (
-                <Chip key={status} label={status} status={status} />
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={4}
-            sub={2}
-            title="Solid · status"
-            description="Fondo lleno en cada semántica."
-          >
-            <View className="flex-row flex-wrap gap-2">
-              {STATUSES.map((status) => (
-                <Chip
-                  key={status}
-                  label={status}
-                  status={status}
-                  variant="solid"
-                />
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={4}
-            sub={3}
-            title="Outline · status"
-            description="Solo borde en cada semántica."
-          >
-            <View className="flex-row flex-wrap gap-2">
-              {STATUSES.map((status) => (
-                <Chip
-                  key={status}
-                  label={status}
-                  status={status}
-                  variant="outline"
-                />
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={4}
-            sub={4}
-            title="Filtro"
-            description="onPress + selected; sin press es estático."
-          >
-            <View className="flex-row flex-wrap items-center gap-2">
-              {FILTERS.map((item) => (
-                <Chip
-                  key={item}
-                  label={item}
-                  selected={filter === item}
-                  onPress={() => setFilter(item)}
-                />
-              ))}
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={5}
-          title="BrandLogo"
-          does="Muestra el isotipo SVG en escala BRAND (xs–xl)."
-          doesNot="No incluye wordmark ni tagline. No es Avatar."
-          solves="Identidad de marca lista en splash, header o empty state."
-        >
-          <CatalogVariant n={5} sub={1} title="xs" description="28 px.">
-            <BrandLogo size="xs" />
-          </CatalogVariant>
-          <CatalogVariant n={5} sub={2} title="sm" description="40 px.">
-            <BrandLogo size="sm" />
-          </CatalogVariant>
-          <CatalogVariant
-            n={5}
-            sub={3}
-            title="md"
-            description="96 px. Default."
-          >
-            <BrandLogo size="md" />
-          </CatalogVariant>
-          <CatalogVariant n={5} sub={4} title="lg" description="160 px.">
-            <BrandLogo size="lg" />
-          </CatalogVariant>
-          <CatalogVariant n={5} sub={5} title="xl" description="200 px.">
-            <BrandLogo size="xl" />
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={6}
-          title="FadeIn"
-          does="Anima entrada con fade y translateY. Delay opcional."
-          doesNot="No orquesta listas ni gestos. No es un player."
-          solves="Primera pintura suave sin que el consumidor toque Reanimated."
-        >
-          <FadeIn>
-            <Text.Subtitle>Este bloque entra con fade.</Text.Subtitle>
-          </FadeIn>
-        </CatalogCard>
-
-        <CatalogCard
-          n={7}
-          title="Separator"
-          does="Línea divisoria horizontal o vertical."
-          doesNot="No es layout spacer con gap. No tiene texto."
-          solves="Cortar bloques visuales dentro de una Card o form."
-        >
-          <CatalogVariant
-            n={7}
-            sub={1}
-            title="Horizontal"
-            description="Ancho completo, 1 px."
-          >
-            <View className="gap-3">
-              <Text.Caption>Bloque superior</Text.Caption>
-              <Separator />
-              <Text.Caption>Bloque inferior</Text.Caption>
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={7}
-            sub={2}
-            title="Vertical"
-            description="Alto del contenedor."
-          >
-            <View className="h-8 flex-row items-center gap-3">
-              <Text.Caption>A</Text.Caption>
-              <Separator orientation="vertical" />
-              <Text.Caption>B</Text.Caption>
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={8}
-          title="Header"
-          does="Barra superior con título, back opcional y slot derecho."
-          doesNot="No es Tab bar. No gestiona rutas ni tema por props."
-          solves="Chrome de pantalla. El ejemplo en vivo es la barra de esta page."
-        >
-          <Text.Caption>
-            Instancia viva: título {metadata.name} + ThemeToggle a la derecha.
-          </Text.Caption>
-        </CatalogCard>
-
-        <CatalogCard
-          n={9}
-          title="AppNav"
-          does="Tab bar inferior. Lee sesión y rutas internamente."
-          doesNot="No es Header. No recibe items por props."
-          solves="Navegación primaria. El ejemplo en vivo es la barra de abajo."
-        >
-          <Text.Caption>Instancia viva al pie de esta pantalla.</Text.Caption>
-        </CatalogCard>
-
-        <CatalogCard
-          n={10}
-          title="ThemeToggle"
-          does="Cambia apariencia BRAND_THEMES. Se suscribe al store solo."
-          doesNot="No recibe colorScheme por props. No es un Switch genérico."
-          solves="El usuario elige tema sin que el padre redistribuya estado."
-        >
-          <ThemeToggle />
-        </CatalogCard>
-
-        <CatalogCard
-          n={11}
-          title="Button"
-          does="Control de acción con size, variant, status semántico e icono Lucide."
-          doesNot="No es Link. No dispara device APIs por sí mismo."
-          solves="CTA, outline, ghost, brand y semánticos con la escala BRAND."
-        >
-          <CatalogVariant
-            n={11}
-            sub={1}
-            title="Size"
-            description="Escala BRAND xs–xl e icon."
-          >
-            <View className="flex-row flex-wrap items-center gap-2">
-              {SIZES.map((size) => (
-                <Button key={size} size={size} label={size} />
-              ))}
-              <Button icon={Camera} size="icon" variant="outline" />
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={11}
-            sub={2}
-            title="Variant"
-            description="default, outline, ghost, brand."
-          >
-            <View className="gap-2">
-              <Button label="Default" />
-              <Button variant="outline" label="Outline" />
-              <Button variant="ghost" label="Ghost" />
-              <Button variant="brand" label="Brand" />
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={11}
-            sub={3}
-            title="Solid · status"
-            description="Fondo lleno en cada semántica BRAND."
-          >
-            <View className="flex-row flex-wrap gap-2">
-              {STATUSES.map((status) => (
-                <Button key={status} status={status} label={status} />
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={11}
-            sub={4}
-            title="Outline · status"
-            description="Borde y texto semántico sobre background."
-          >
-            <View className="flex-row flex-wrap gap-2">
-              {STATUSES.map((status) => (
-                <Button
-                  key={status}
-                  status={status}
-                  variant="outline"
-                  label={status}
-                />
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={11}
-            sub={5}
-            title="Ghost · status"
-            description="Sin borde; texto e icono semánticos."
-          >
-            <View className="flex-row flex-wrap gap-2">
-              {STATUSES.map((status) => (
-                <Button
-                  key={status}
-                  status={status}
-                  variant="ghost"
-                  label={status}
-                />
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={11}
-            sub={6}
-            title="Icon · outline & ghost"
-            description="size icon con cada status semántico."
-          >
-            <View className="gap-2">
-              <View className="flex-row flex-wrap gap-2">
-                {STATUSES.map((status) => (
-                  <Button
-                    key={`outline-${status}`}
-                    icon={BRAND.colors.variants[status].icon}
-                    status={status}
-                    variant="outline"
-                    size="icon"
-                    accessibilityLabel={status}
-                  />
-                ))}
-              </View>
-              <View className="flex-row flex-wrap gap-2">
-                {STATUSES.map((status) => (
-                  <Button
-                    key={`ghost-${status}`}
-                    icon={BRAND.colors.variants[status].icon}
-                    status={status}
-                    variant="ghost"
-                    size="icon"
-                    accessibilityLabel={status}
-                  />
-                ))}
-              </View>
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={11}
-            sub={7}
-            title="Con icono"
-            description="Lucide a la izquierda del label."
-          >
-            <View className="flex-row flex-wrap gap-2">
-              <Button icon={Camera} label="Camera" size="sm" />
-              <Button
-                icon={FileUp}
-                variant="outline"
-                label="Upload"
-                size="sm"
-              />
-              <Button icon={Share2} variant="brand" label="Share" size="sm" />
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={11}
-            sub={8}
-            title="Disabled"
-            description="Bloquea press y baja opacidad."
-          >
-            <View className="flex-row flex-wrap gap-2">
-              <Button disabled label="Solid" />
-              <Button disabled variant="outline" label="Outline" />
-              <Button disabled variant="ghost" label="Ghost" />
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={12}
-          title="Input"
-          does="Campo de texto con label, variant, size y status BRAND."
-          doesNot="No es Combobox ni OTP. No valida reglas de negocio."
-          solves="Formularios con el mismo radius y padding que Button."
-        >
-          <CatalogVariant
-            n={12}
-            sub={1}
-            title="Default"
-            description="Borde + fondo background."
-          >
-            <Input
-              label="Default"
-              variant="default"
-              placeholder="Default"
-              value={inputValue}
-              onChangeText={setInputValue}
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={12}
-            sub={2}
-            title="Outline"
-            description="Transparente. Status info."
-          >
-            <Input
-              label="Outline"
-              variant="outline"
-              status="info"
-              placeholder="Outline"
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={12}
-            sub={3}
-            title="Filled"
-            description="Sin borde; card o soft semántico."
-          >
-            <Input
-              label="Filled"
-              variant="filled"
-              status="success"
-              placeholder="Filled"
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={12}
-            sub={4}
-            title="Ghost"
-            description="Solo border-b; sin caja ni radius."
-          >
-            <Input
-              label="Ghost"
-              variant="ghost"
-              status="warning"
-              placeholder="Ghost"
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={12}
-            sub={5}
-            title="Error"
-            description="Status error sobre variant default."
-          >
-            <Input
-              label="Error"
-              variant="default"
-              status="error"
-              placeholder="Error"
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={12}
-            sub={6}
-            title="Size"
-            description="Altura, padding y text-* de BRAND.sizes."
-          >
-            <View className="gap-2">
-              {SIZES.map((size) => (
-                <Input key={size} label={size} size={size} placeholder={size} />
-              ))}
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={13}
-          title="Avatar"
-          does="Imagen circular con fallback de iniciales si falla la carga."
-          doesNot="No es BrandLogo. No recorta galería. No es picker."
-          solves="Identidad de usuario/comercio sin gestionar onError."
-        >
-          <CatalogVariant
-            n={13}
-            sub={1}
-            title="Fallback"
-            description="Sin uri: iniciales."
-          >
-            <Avatar fallback="MC" status="brand" size={48} />
-          </CatalogVariant>
-          <CatalogVariant
-            n={13}
-            sub={2}
-            title="Con foto"
-            description="uri remota."
-          >
-            <Avatar uri={AVATAR_DEMO} fallback="JD" size={48} />
-          </CatalogVariant>
-          <CatalogVariant
-            n={13}
-            sub={3}
-            title="Status"
-            description="Borde semántico. Mismo size 48."
-          >
-            <View className="flex-row flex-wrap items-center gap-3">
-              {STATUSES.map((status) => (
-                <Avatar
-                  key={status}
-                  fallback={status.slice(0, 2).toUpperCase()}
-                  status={status}
-                  size={48}
-                />
-              ))}
-            </View>
-          </CatalogVariant>
-          <CatalogVariant
-            n={13}
-            sub={4}
-            title="Size"
-            description="Diámetro en px: 32 / 40 / 48 / 64 / 80."
-          >
-            <View className="flex-row flex-wrap items-end gap-3">
-              <Avatar uri={AVATAR_DEMO} fallback="XS" size={32} />
-              <Avatar uri={AVATAR_DEMO} fallback="SM" size={40} />
-              <Avatar uri={AVATAR_DEMO} fallback="MD" size={48} />
-              <Avatar uri={AVATAR_DEMO} fallback="LG" size={64} />
-              <Avatar uri={AVATAR_DEMO} fallback="XL" size={80} />
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={14}
-          title="Image"
-          does="Frame expo-image con aspect ratio, radius y status de borde."
-          doesNot="No abre cámara ni galería. No recorta ni comprime."
-          solves="Mostrar fotos de producto o tickets con recorte listo."
-        >
-          <CatalogVariant
-            n={14}
-            sub={1}
-            title="16:9"
-            description="Default. Producto / hero."
-          >
-            <Image source={{ uri: IMAGE_DEMO }} aspectRatio={16 / 9} />
-          </CatalogVariant>
-          <CatalogVariant n={14} sub={2} title="1:1" description="Cuadrado.">
-            <Image source={{ uri: IMAGE_DEMO }} aspectRatio={1} />
-          </CatalogVariant>
-          <CatalogVariant
-            n={14}
-            sub={3}
-            title="4:3"
-            description="Ticket / documento."
-          >
-            <Image source={{ uri: IMAGE_DEMO }} aspectRatio={4 / 3} />
-          </CatalogVariant>
-          <CatalogVariant
-            n={14}
-            sub={4}
-            title="Status"
-            description="Borde semántico del frame."
-          >
-            <View className="gap-2">
-              {STATUSES.map((status) => (
-                <Image
-                  key={status}
-                  source={{ uri: IMAGE_DEMO }}
-                  aspectRatio={16 / 9}
-                  status={status}
-                />
-              ))}
-            </View>
-          </CatalogVariant>
-        </CatalogCard>
-
         <CatalogCard
           n={15}
           title="Checkbox"
@@ -972,8 +131,33 @@ const Home: FC = () => {
           <CatalogVariant
             n={15}
             sub={2}
+            title="Outline"
+            description="Borde semántico; check con color native."
+          >
+            <View className="gap-2">
+              <Checkbox
+                checked={checked}
+                onCheckedChange={setChecked}
+                label="Accept terms"
+                variant="outline"
+              />
+              {STATUSES.map((status) => (
+                <Checkbox
+                  key={status}
+                  checked
+                  onCheckedChange={() => undefined}
+                  label={status}
+                  status={status}
+                  variant="outline"
+                />
+              ))}
+            </View>
+          </CatalogVariant>
+          <CatalogVariant
+            n={15}
+            sub={3}
             title="Status"
-            description="Todas las semánticas, checked."
+            description="Todas las semánticas, default checked."
           >
             <View className="gap-2">
               {STATUSES.map((status) => (
@@ -1291,7 +475,7 @@ const Home: FC = () => {
                 }}
               />
               {previewUri && (
-                <Image source={{ uri: previewUri }} aspectRatio={3 / 4} />
+                <Image source={{ uri: previewUri }} aspectRatio="3/4" />
               )}
             </View>
           </CatalogVariant>

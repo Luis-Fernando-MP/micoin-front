@@ -1,10 +1,5 @@
-import { type FC, useEffect } from 'react'
+import { type FC } from 'react'
 import { Pressable, View } from 'react-native'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated'
 
 import BRAND, { type BrandStatus } from '@components/shared/brand'
 import Text from '@components/text'
@@ -20,20 +15,17 @@ interface Props {
 }
 
 /**
- * Switch — interruptor con status BRAND.
+ * Switch — interruptor on/off con status BRAND.
  *
- * @param checked - Estado
- * @param checked.checked
- * @param onCheckedChange - Callback
- * @param checked.onCheckedChange
- * @param checked.label
- * @param checked.className
- * @param status - Variante semántica. @default 'primary'
+ * @param checked - Estado activo
+ * @param onCheckedChange - Callback al togglear
+ * @param label - Texto opcional
+ * @param status - Tono semántico del track activo. @default 'primary'
+ * @param className - Clases NativeWind extra
  *
- * @param checked.status
  * @example
- * import Switch from '@components/switch';
- * <Switch checked={on} onCheckedChange={setOn} />
+ * import Switch from '@components/switch'
+ * <Switch checked={on} onCheckedChange={setOn} label="Notificaciones" />
  */
 const Switch: FC<Props> = ({
   checked,
@@ -42,18 +34,7 @@ const Switch: FC<Props> = ({
   className,
   status = 'primary',
 }) => {
-  const translateX = useSharedValue(checked ? 20 : 2)
-
-  useEffect(() => {
-    translateX.value = withSpring(checked ? 20 : 2, {
-      damping: 15,
-      stiffness: 160,
-    })
-  }, [checked, translateX])
-
-  const knobStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }))
+  const tone = BRAND.colors.variants[status]
 
   return (
     <Pressable
@@ -62,13 +43,15 @@ const Switch: FC<Props> = ({
     >
       <View
         className={cn(
-          'h-7 w-12 justify-center rounded-full bg-card-hover',
-          checked && BRAND.colors.variants[status].background,
+          'h-7 w-11 flex-row items-center rounded-full px-0.5 transition-colors duration-200 ease-out',
+          checked ? tone.background : 'bg-card-hover',
         )}
       >
-        <Animated.View
-          style={knobStyle}
-          className="h-5 w-5 rounded-full bg-background"
+        <View
+          className={cn(
+            'h-5 w-5 rounded-full bg-background transition-transform duration-200 ease-out',
+            checked ? 'translate-x-5' : 'translate-x-0',
+          )}
         />
       </View>
       {label && <Text>{label}</Text>}
@@ -77,7 +60,4 @@ const Switch: FC<Props> = ({
 }
 
 export type { Props as SwitchProps }
-/**
- *
- */
 export default Switch

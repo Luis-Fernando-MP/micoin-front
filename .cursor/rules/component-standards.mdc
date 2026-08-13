@@ -88,7 +88,7 @@ Estado mínimo en el core. `useCallback` / `memo` en listas. Keys estables. Cons
 
 El hijo más bajo que usa el dato se suscribe. El padre no importa el store para pasarlo por props: si el padre escucha, un cambio re-renderiza a todos los hijos.
 
-Selector mínimo: `useThemeStore((s) => s.preference)`, no el state entero. El `ThemeProvider` sí se suscribe porque aplica `dark` / StatusBar; no reparte `colorScheme` hacia abajo.
+Selector mínimo: `useThemeStore((s) => s.preference)`, `useTheme((s) => s.colorScheme)`. Acciones: `useThemeStore((s) => s.setPreference)`. El `ThemeProvider` sí se suscribe porque aplica clase / StatusBar; no reparte estado a los children.
 
 ## UI
 

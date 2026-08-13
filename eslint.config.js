@@ -38,9 +38,7 @@ module.exports = defineConfig([
               '^@expo',
               '^(?!@assets|@components|@views|@core|@theme|@/)@?\\w',
             ],
-            [
-              '^@(assets|components|views|core|theme)(/.*)?$',
-            ],
+            ['^@(assets|components|views|core|theme)(/.*)?$'],
             ['^@/'],
             ['^\\.\\./'],
             ['^\\./'],

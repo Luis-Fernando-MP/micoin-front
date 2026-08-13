@@ -4,7 +4,7 @@ Native-first. Tokens in `src/global.css` (`--mc-*`). UI in `src/common/component
 
 ## Look
 
-Vercel/Geist: monochrome primary, brand gold only for highlights (texto brand siempre `brand-foreground` oscuro). Temas `light`, `gray` (carbón `#111`) y `dark` (OLED). Motion con Reanimated (`FadeIn`).
+Vercel/Geist: monochrome primary, brand gold only for highlights (texto brand siempre `brand-foreground` oscuro). Temas: `BRAND_THEMES` + clases en `global.css`. Motion con Reanimated (`FadeIn`).
 
 ## Radius
 

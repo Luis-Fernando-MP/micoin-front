@@ -9,9 +9,9 @@ import {
   Star,
 } from 'lucide-react-native'
 
-import { mcVars } from '@theme/css-vars'
+import { THEME_VARIABLES } from '@theme/themes'
 
-type NativeToken = keyof typeof mcVars
+type NativeToken = keyof typeof THEME_VARIABLES
 
 type BrandSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type BrandSizeMap<T> = Record<BrandSize, T>

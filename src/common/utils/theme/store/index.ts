@@ -2,8 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-export type ThemeAppearance = 'light' | 'gray' | 'dark'
-export type ThemePreference = ThemeAppearance | 'system'
+import { SYSTEM_PREFERENCE, type ThemePreference } from '@theme/themes'
 
 type ThemeState = {
   preference: ThemePreference
@@ -11,7 +10,7 @@ type ThemeState = {
 }
 
 /**
- * Store persistido de preferencia de tema (claro / gray / oscuro / sistema).
+ * Store persistido de preferencia de tema (apariencia del catálogo o sistema).
  *
  * @example
  * import { useThemeStore } from '@theme/store'
@@ -20,7 +19,7 @@ type ThemeState = {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
-      preference: 'system',
+      preference: SYSTEM_PREFERENCE,
       setPreference: (preference) => set({ preference }),
     }),
     {
@@ -29,3 +28,5 @@ export const useThemeStore = create<ThemeState>()(
     },
   ),
 )
+
+export type { ThemePreference }

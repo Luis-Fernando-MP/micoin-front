@@ -17,7 +17,7 @@ Alias de TypeScript:
 - `@theme` → `src/common/utils/theme` (store, hooks, provider)
 - `@assets` → `assets`
 
-Tema: `light` | `gray` | `dark` (+ `system`). `gray` es el carbón Vercel (`#111`); `dark` es OLED. React Navigation: `@components/nav/theme`. El layout solo monta `ThemeProvider`; StatusBar y `colorScheme` viven en el controlador.
+Tema: `BRAND_THEMES` en `src/common/utils/theme/themes.ts` (`icon` + `system`). Colores en `global.css` (clase = nombre del tema). Un tema nuevo = entrada + bloque CSS. El provider pone la clase en el padre.
 
 ## Black-box
 
@@ -115,11 +115,14 @@ Selector mínimo (un campo, no el state entero):
 
 ```tsx
 const preference = useThemeStore((state) => state.preference)
+const colorScheme = useTheme((state) => state.colorScheme)
+const setPreference = useThemeStore((state) => state.setPreference)
 ```
 
-Mal — el padre se suscribe y prop-drillea:
+Mal — destructuring todo el hook o el store:
 
 ```tsx
+const { colorScheme, setPreference } = useTheme()
 const Home = () => {
   const { colorScheme } = useTheme()
   return <ThemeToggle colorScheme={colorScheme} />
@@ -130,7 +133,8 @@ Bien — el hijo más bajo escucha solo:
 
 ```tsx
 const ThemeToggle = () => {
-  const { colorScheme, setPreference } = useTheme()
+  const colorScheme = useTheme((state) => state.colorScheme)
+  const setPreference = useThemeStore((state) => state.setPreference)
   return …
 }
 ```

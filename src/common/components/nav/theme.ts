@@ -1,19 +1,23 @@
 import { DarkTheme, DefaultTheme, type Theme } from '@react-navigation/native'
 
 import BRAND from '@components/shared/brand'
-import { useMcVar, useTheme } from '@theme/hooks'
+import { useMcVar } from '@theme/hooks/use-mc-var'
+import { useTheme } from '@theme/hooks/use-theme'
+import { ThemeSystem } from '@theme/themes'
 
 /**
  * useNavTheme — paleta de React Navigation alineada a tokens BRAND.
  *
- * @returns Tema light, gray o dark con colores `--mc-*` resueltos
+ * Usa `theme.system` del catálogo: light → DefaultTheme, resto → DarkTheme.
+ *
+ * @returns Tema con colores `--mc-*` resueltos
  *
  * @example
  * import { useNavTheme } from '@components/nav/theme'
  * const navTheme = useNavTheme()
  */
 const useNavTheme = (): Theme => {
-  const { colorScheme } = useTheme()
+  const theme = useTheme((state) => state.theme)
   const primary = useMcVar(BRAND.native.primary)
   const background = useMcVar(BRAND.native.background)
   const card = useMcVar(BRAND.native.card)
@@ -21,10 +25,8 @@ const useNavTheme = (): Theme => {
   const border = useMcVar(BRAND.native.border)
   const notification = useMcVar(BRAND.colors.variants.error.native)
 
-  let base = DefaultTheme
-  if (colorScheme !== 'light') {
-    base = DarkTheme
-  }
+  const chrome = theme.system ?? ThemeSystem.Dark
+  const base = chrome === ThemeSystem.Light ? DefaultTheme : DarkTheme
 
   return {
     ...base,

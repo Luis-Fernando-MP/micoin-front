@@ -6,19 +6,18 @@ import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/nati
 import { colorScheme as nativewindColorScheme } from 'nativewind'
 
 import { useNavTheme } from '@components/nav/theme'
+import { ThemeSystem } from '@theme/themes'
 
 import { cn } from '@/lib/utils'
 
-import { useTheme } from './hooks'
+import { useTheme } from './hooks/use-theme'
 
 interface Props {
   children: ReactNode
 }
 
 /**
- * ThemeProvider — aplica preferencia de tema, NativeWind, React Navigation y StatusBar.
- *
- * Esquemas: `light`, `gray` (carbón Vercel) y `dark` (OLED).
+ * ThemeProvider — pone la clase del tema en el padre (`light` | `gray` | `dark`).
  *
  * @param children - Árbol de la app
  *
@@ -27,16 +26,22 @@ interface Props {
  * <ThemeProvider>{children}</ThemeProvider>
  */
 const ThemeProvider: FC<Props> = ({ children }) => {
-  const { statusBarStyle, themeClass, nativeColorScheme } = useTheme()
+  const colorScheme = useTheme((state) => state.colorScheme)
+  const theme = useTheme((state) => state.theme)
   const navTheme = useNavTheme()
+  const nativeScheme = theme.system ?? ThemeSystem.Dark
+  let statusBarStyle: ThemeSystem = ThemeSystem.Light
+  if (theme.system === ThemeSystem.Light) {
+    statusBarStyle = ThemeSystem.Dark
+  }
 
   useEffect(() => {
-    nativewindColorScheme.set(nativeColorScheme)
-  }, [nativeColorScheme])
+    nativewindColorScheme.set(nativeScheme)
+  }, [nativeScheme])
 
   return (
     <NavigationThemeProvider value={navTheme}>
-      <View className={cn('flex-1 bg-background', themeClass)}>
+      <View className={cn('flex-1 bg-background', colorScheme)}>
         {children}
         <StatusBar style={statusBarStyle} />
       </View>

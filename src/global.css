@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root,
+  .light {
     --mc-background: #ffffff;
     --mc-card: #fafafa;
     --mc-card-hover: #f2f2f2;
@@ -30,7 +31,6 @@
     --mc-radius-surface: 20px;
   }
 
-  .gray:root,
   .gray {
     --mc-background: #111111;
     --mc-card: #1a1a1a;
@@ -53,12 +53,8 @@
     --mc-brand: #d4a84b;
     --mc-brand-background: #c49a42;
     --mc-brand-foreground: #171717;
-    --mc-radius: 16px;
-    --mc-radius-control: 16px;
-    --mc-radius-surface: 20px;
   }
 
-  .dark:root,
   .dark {
     --mc-background: #000000;
     --mc-card: #0a0a0a;
@@ -81,8 +77,5 @@
     --mc-brand: #e8c06a;
     --mc-brand-background: #d4a84b;
     --mc-brand-foreground: #171717;
-    --mc-radius: 16px;
-    --mc-radius-control: 16px;
-    --mc-radius-surface: 20px;
   }
 }

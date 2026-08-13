@@ -6,29 +6,18 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated'
 
-import { Moon, Square, Sun } from 'lucide-react-native'
-
 import BRAND from '@components/shared/brand'
-import { type ThemeAppearance, useMcVar, useTheme } from '@theme'
+import { BRAND_THEMES, useMcVar, useTheme } from '@theme'
+import { useThemeStore } from '@theme/store'
 
 import { cn } from '@/lib/utils'
 
 const SLOT = 36
 const KNOB_INSET = 4
-const KNOB_X = {
-  light: KNOB_INSET,
-  gray: KNOB_INSET + SLOT,
-  dark: KNOB_INSET + SLOT * 2,
-} as const
-
-const OPTIONS = [
-  { appearance: 'light' as const, icon: Sun },
-  { appearance: 'gray' as const, icon: Square },
-  { appearance: 'dark' as const, icon: Moon },
-]
+const APPEARANCES = Object.keys(BRAND_THEMES) as (keyof typeof BRAND_THEMES)[]
 
 /**
- * ThemeToggle — selector light / gray / dark del kit MiCoin.
+ * ThemeToggle — selector de apariencias de BRAND_THEMES.
  *
  * El control se suscribe al store; el padre no pasa el esquema por props.
  *
@@ -39,33 +28,33 @@ const OPTIONS = [
  * <ThemeToggle />
  */
 const ThemeToggle: FC = () => {
-  const { colorScheme, setPreference } = useTheme()
-  const translateX = useSharedValue(KNOB_X[colorScheme])
+  const colorScheme = useTheme((state) => state.colorScheme)
+  const setPreference = useThemeStore((state) => state.setPreference)
+  const translateX = useSharedValue(
+    KNOB_INSET + SLOT * APPEARANCES.indexOf(colorScheme),
+  )
   const iconColor = useMcVar(BRAND.native.textPrimary)
 
   useEffect(() => {
-    translateX.value = withSpring(KNOB_X[colorScheme], {
-      damping: 15,
-      stiffness: 150,
-    })
+    translateX.value = withSpring(
+      KNOB_INSET + SLOT * APPEARANCES.indexOf(colorScheme),
+      { damping: 15, stiffness: 150 },
+    )
   }, [colorScheme, translateX])
 
   const knobStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
   }))
 
-  const onSelect = (appearance: ThemeAppearance) => {
-    setPreference(appearance)
-  }
-
   return (
     <View className="relative h-10 flex-row rounded-full bg-card p-1">
-      {OPTIONS.map((option) => {
-        const Icon = option.icon
+      {APPEARANCES.map((appearance) => {
+        const Icon = BRAND_THEMES[appearance].icon
         return (
           <Pressable
-            key={option.appearance}
-            onPress={() => onSelect(option.appearance)}
+            key={appearance}
+            onPress={() => setPreference(appearance)}
+            accessibilityLabel={BRAND_THEMES[appearance].label}
             className="z-10 h-9 w-9 items-center justify-center"
           >
             <Icon size={16} color={iconColor} />

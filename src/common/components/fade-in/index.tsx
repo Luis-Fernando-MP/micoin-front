@@ -11,6 +11,17 @@ interface Props {
   className?: string;
 }
 
+/**
+ * FadeIn — entrada con fade y translateY.
+ *
+ * @param children - Contenido
+ * @param delay - Retraso en ms. @default 0
+ * @param className - Clases NativeWind extra
+ *
+ * @example
+ * import FadeIn from '@/common/components/fade-in';
+ * <FadeIn delay={80}>{children}</FadeIn>
+ */
 const FadeIn: FC<Props> = ({ children, delay = 0, className }) => {
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(8);
@@ -36,4 +47,5 @@ const FadeIn: FC<Props> = ({ children, delay = 0, className }) => {
   );
 };
 
-export { FadeIn };
+export type { Props as FadeInProps };
+export default FadeIn;

@@ -3,25 +3,23 @@ import { type LucideIcon } from 'lucide-react-native';
 import { type FC, type ReactNode } from 'react';
 import { Pressable, type PressableProps } from 'react-native';
 
-import { Icon } from '@/common/components/icon';
-import { radius } from '@/common/components/shared/radius';
-import {
-  controlHeight,
-  controlText,
-  type Size,
-} from '@/common/components/shared/size';
-import { Text } from '@/common/components/text';
+import Icon from '@/common/components/icon';
+import BRAND, { type BrandSize } from '@/common/components/shared/brand';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  cn('flex-row items-center justify-center gap-2', radius.control),
+  cn(
+    'flex-row items-center justify-center gap-2',
+    BRAND.radius.variants.control
+  ),
   {
     variants: {
       variant: {
-        default: 'bg-primary-background active:opacity-90',
-        outline: 'border border-border bg-background active:bg-card-hover',
+        default: `${BRAND.colors.variants.primary.background} active:opacity-90`,
+        outline: `border ${BRAND.colors.variants.default.border} bg-background active:bg-card-hover`,
         ghost: 'bg-transparent active:bg-card-hover',
-        brand: 'bg-brand-background active:opacity-90',
+        brand: `${BRAND.colors.variants.brand.background} active:opacity-90`,
       },
       disabled: {
         true: 'opacity-50',
@@ -36,10 +34,10 @@ const buttonVariants = cva(
 const buttonTextVariants = cva('', {
   variants: {
     variant: {
-      default: 'text-primary-foreground',
-      outline: 'text-foreground',
-      ghost: 'text-foreground',
-      brand: 'text-brand-foreground',
+      default: BRAND.colors.variants.primary.foreground,
+      outline: BRAND.colors.variants.default.text,
+      ghost: BRAND.colors.variants.default.text,
+      brand: BRAND.colors.variants.brand.foreground,
     },
   },
   defaultVariants: {
@@ -65,41 +63,53 @@ interface Props
   className?: string;
   label?: string;
   children?: ReactNode;
-  size?: Size;
+  size?: BrandSize;
   icon?: LucideIcon;
 }
 
+/**
+ * Button — control de acción con variantes y tamaños BRAND.
+ *
+ * @param label - Texto del botón
+ * @param variant - Estilo visual. @default 'default'
+ * @param size - Tamaño BRAND. @default 'md'
+ * @param icon - Icono Lucide opcional
+ * @param disabled - Deshabilitado
+ * @param className - Clases NativeWind extra
+ *
+ * @example
+ * import Button from '@/common/components/button';
+ * <Button label="Pagar" variant="brand" size="sm" />
+ */
 const Button: FC<Props> = ({
   className,
   variant = 'default',
   disabled,
   label,
   children,
-  size = 'md',
+  size = BRAND.sizes.defaultVariant,
   icon,
   ...props
 }) => {
+  const sizing = BRAND.sizes.variants[size];
+
   return (
     <Pressable
       className={cn(
         buttonVariants({ variant, disabled: Boolean(disabled) }),
-        controlHeight({ size }),
+        sizing.height,
         className
       )}
       disabled={disabled}
       {...props}
     >
       {icon && (
-        <Icon
-          icon={icon}
-          size={size === 'sm' ? 14 : 16}
-          tone={iconTone(variant)}
-        />
+        <Icon icon={icon} size={sizing.icon} tone={iconTone(variant)} />
       )}
       {label && (
         <Text
           className={cn(
-            controlText({ size }),
+            sizing.text,
             'font-semibold',
             buttonTextVariants({ variant })
           )}
@@ -113,4 +123,4 @@ const Button: FC<Props> = ({
 };
 
 export type { Props as ButtonProps };
-export { Button };
+export default Button;

@@ -3,9 +3,10 @@ import { Home, Send } from 'lucide-react-native';
 import { type FC } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import BRAND from '@/common/components/shared/brand';
 
 import { useSession } from '@/auth/use-session';
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 import { getNavRoutes } from '@/navigation/routes';
 import { useMcVar } from '@/theme/hooks/use-theme-var';
@@ -15,10 +16,21 @@ const ICONS = {
   'paperplane.fill': Send,
 } as const;
 
+/**
+ * AppNav — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver AppNavProps / Props del archivo
+ *
+ * @example
+ * import AppNav from '@/common/components/nav';
+ * <AppNav />
+ */
 const AppNav: FC = () => {
   const insets = useSafeAreaInsets();
   const { isAuthenticated } = useSession();
-  const tabIconSelected = useMcVar('textPrimary', '#000000');
+  const tabIconSelected = useMcVar(BRAND.native.textPrimary);
   const items = getNavRoutes(isAuthenticated);
 
   return (
@@ -42,4 +54,4 @@ const AppNav: FC = () => {
   );
 };
 
-export { AppNav };
+export default AppNav;

@@ -1,3 +1,4 @@
+import BRAND from '@/common/components/shared/brand';
 import {
   Canvas,
   Group,
@@ -22,14 +23,25 @@ interface Props {
   active?: boolean;
 }
 
+/**
+ * WaveformBars — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver WaveformBarsProps / Props del archivo
+ *
+ * @example
+ * import WaveformBars from '@/common/components/waveform-bars';
+ * <WaveformBars />
+ */
 const WaveformBars: FC<Props> = ({
   bars = 24,
   width = 280,
   height = 56,
   active = true,
 }) => {
-  const brand = useMcVar('brand', '#c9a227');
-  const muted = useMcVar('border', '#eaeaea');
+  const brand = useMcVar(BRAND.native.brand);
+  const muted = useMcVar(BRAND.native.border);
   const tick = useSharedValue(0);
 
   useEffect(() => {
@@ -100,4 +112,4 @@ const WaveBar: FC<WaveBarProps> = ({
   );
 };
 
-export { WaveformBars };
+export default WaveformBars;

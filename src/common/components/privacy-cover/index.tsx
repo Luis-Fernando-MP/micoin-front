@@ -1,10 +1,10 @@
 import { Eye, EyeOff } from 'lucide-react-native';
 import { type FC, useState } from 'react';
 import { Pressable, View } from 'react-native';
+import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
 
-import { Icon } from '@/common/components/icon';
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
+import Icon from '@/common/components/icon';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -12,6 +12,17 @@ interface Props {
   label?: string;
 }
 
+/**
+ * PrivacyCover — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver PrivacyCoverProps / Props del archivo
+ *
+ * @example
+ * import PrivacyCover from '@/common/components/privacy-cover';
+ * <PrivacyCover />
+ */
 const PrivacyCover: FC<Props> = ({
   amount = '$1,248.90',
   label = 'Saldo disponible',
@@ -23,7 +34,7 @@ const PrivacyCover: FC<Props> = ({
       onPress={() => setHidden((value) => !value)}
       className={cn(
         'flex-row items-center justify-between border border-border bg-card px-4 py-3',
-        radius.surface
+        BRAND.radius.variants.surface
       )}
     >
       <View className="gap-0.5">
@@ -37,4 +48,4 @@ const PrivacyCover: FC<Props> = ({
   );
 };
 
-export { PrivacyCover };
+export default PrivacyCover;

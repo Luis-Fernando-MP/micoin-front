@@ -3,8 +3,9 @@ import { ArrowLeft } from 'lucide-react-native';
 import { type FC, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import BRAND from '@/common/components/shared/brand';
 
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 import { useMcVar } from '@/theme/hooks/use-theme-var';
 
@@ -15,6 +16,17 @@ interface Props {
   className?: string;
 }
 
+/**
+ * Header — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver HeaderProps / Props del archivo
+ *
+ * @example
+ * import Header from '@/common/components/header';
+ * <Header />
+ */
 const Header: FC<Props> = ({
   title,
   showBackButton = false,
@@ -22,7 +34,7 @@ const Header: FC<Props> = ({
   className,
 }) => {
   const insets = useSafeAreaInsets();
-  const iconColor = useMcVar('textPrimary', '#000000');
+  const iconColor = useMcVar(BRAND.native.textPrimary);
   const hasRight = rightComponents.length > 0;
 
   return (
@@ -54,4 +66,4 @@ const Header: FC<Props> = ({
   );
 };
 
-export { Header };
+export default Header;

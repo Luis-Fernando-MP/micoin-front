@@ -6,9 +6,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
 
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -19,6 +19,17 @@ interface Props {
   className?: string;
 }
 
+/**
+ * Drawer — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver DrawerProps / Props del archivo
+ *
+ * @example
+ * import Drawer from '@/common/components/drawer';
+ * <Drawer />
+ */
 const Drawer: FC<Props> = ({
   open,
   onOpenChange,
@@ -67,7 +78,7 @@ const Drawer: FC<Props> = ({
         <Animated.View
           className={cn(
             'border-t border-border bg-background px-4 pt-3',
-            radius.surface,
+            BRAND.radius.variants.surface,
             className
           )}
           style={[{ paddingBottom: insets.bottom + 16 }, sheetStyle]}
@@ -91,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Drawer };
+export default Drawer;

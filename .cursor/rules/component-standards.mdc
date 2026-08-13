@@ -1,51 +1,72 @@
 ---
-description: Estándar de componentes React/RN, render, colores y deps MiCoin
+description: Estándar de componentes React/RN, black-box, BRAND, JSDoc y deps MiCoin
 globs: src/**/*.{ts,tsx}
 alwaysApply: true
 ---
 
 # Estándar de código MiCoin
 
+Prioridad #1: ver `AGENTS.md`. Piezas black-box en `src/common`.
+
 ## Versiones
 
 Últimas estables **compatibles con Expo SDK 54 / Expo Go**. Migraciones de stack antes de features. `pnpm exec expo install` para nativos. No subir de SDK si rompe Expo Go del dispositivo.
 
-## Componentes
+## Black-box
 
-Path: `src/common/components/{name}/index.tsx`. Shared: `src/common/components/shared/`.
+Path: `src/common/components/{name}/index.tsx`. Extensions: `{name}/extensions/{domain}/index.tsx` adjuntas al default (`<Charts.AreaChart />`). Shared: solo `brand.ts` (única fuente de verdad). Reusable UI no vive en `shared/` (`fade-in` → `components/fade-in`).
 
-Metadata de producto: `src/common/metadata`.
+No crear `hooks/`, `store/` ni `extensions/` vacíos.
 
 Arrow + `FC`. Extiende props RN (`ViewProps`, `PressableProps`, …).
 
-```tsx
-interface Props extends ViewProps {
-  className?: string;
-  status?: Status;
-  size?: Size;
-}
+### Export default
 
+```tsx
+/**
+ * Card — superficie de contenido del design system.
+ *
+ * @param className - Clases NativeWind extra
+ * @param status - Variante semántica BRAND. @default 'default'
+ *
+ * @example
+ * import Card from '@/common/components/card';
+ * <Card status="brand">…</Card>
+ */
 const Card: FC<Props> = ({ className, ...props }) => {
   return <View className={cn('bg-card', className)} {...props} />;
 };
 
-export { Card };
+export type { Props as CardProps };
+export default Card;
 ```
+
+Named export solo para tipos, hooks, store y subpartes compuestas.
+
+```tsx
+import Card from '@/common/components/card';
+```
+
+## BRAND
+
+Importar de `@/common/components/shared/brand`. Props comunes: `status?: BrandStatus`, `size?: BrandSize`, `radius?: BrandRadius`, `className?`.
+
+Leer `BRAND.colors / sizes / radius / native` directo. Prohibido wrappers `status.ts`, `size.ts`, `radius.ts`. Prohibido hardcodear colores Tailwind, hex de UI o radius fuera del contrato. Nativos: `useMcVar(BRAND.native.brand)`.
 
 ## Size / radius
 
-- `size`: `sm | md | lg` vía `@/common/components/shared/size` (Button, Chip, Input).
-- Radius: `--mc-radius` 16px (control), `--mc-radius-surface` 20px. Classes `rounded-control` / `rounded-surface` / `rounded-full`.
+- `size`: `xs | sm | md | lg` vía `BRAND.sizes`.
+- Radius: `none | sm | control | surface | pill` vía `BRAND.radius`.
 - Icons: Lucide via `@/common/components/icon`.
-- Images: `expo-image` via `@/common/components/image` (no Unpic en native).
+- Images: `expo-image` via `@/common/components/image`.
 
 ## Render
 
-Sin comentarios. Evitar `else` (early return). En JSX usar `&&`, no ternarias. Valores variables: calcular antes del `return`.
+Sin comentarios narrativos. **JSDoc en español** obligatorio en el componente exportado de `src/common` (`@param`, `@example`). Evitar `else` (early return). En JSX usar `&&`, no ternarias. Valores variables: calcular antes del `return`.
 
 ## Colores / status
 
-Solo `--mc-*`. `status`: `default | primary | brand | warning | error | info | success` vía `@/common/components/shared/status`.
+Solo `--mc-*`. `status` vía `BrandStatus`.
 
 - Primary: UI cotidiana (Vercel B/N) + `text-primary-foreground`
 - Brand: highlights dorados (raro) + `text-brand-foreground` (siempre oscuro sobre oro)
@@ -53,10 +74,14 @@ Solo `--mc-*`. `status`: `default | primary | brand | warning | error | info | s
 
 Prohibido: `text-red-200`, `text-black`, hex en UI (salvo overlays nativos).
 
+## Rendimiento
+
+Estado mínimo en el core. `useCallback` / `memo` en listas. Keys estables. Consumir `Charts.AreaChart`, no `extensions/` suelto. Cleanup de players, timers y listeners.
+
 ## UI
 
 Look Vercel/Geist. Motion intencional (Reanimated / `FadeIn`). Design in code.
 
 ## Hooks
 
-Arrow functions. Sin `FC`.
+Arrow functions. Sin `FC`. Named export desde `hooks/index.ts`.

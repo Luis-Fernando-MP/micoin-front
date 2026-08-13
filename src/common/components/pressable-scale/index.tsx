@@ -7,6 +7,17 @@ interface Props {
   onPress?: () => void;
 }
 
+/**
+ * PressableScale — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver PressableScaleProps / Props del archivo
+ *
+ * @example
+ * import PressableScale from '@/common/components/pressable-scale';
+ * <PressableScale />
+ */
 const PressableScale: FC<Props> = ({ children, onPress }) => {
   return (
     <MotiPressable
@@ -24,4 +35,4 @@ const PressableScale: FC<Props> = ({ children, onPress }) => {
   );
 };
 
-export { PressableScale };
+export default PressableScale;

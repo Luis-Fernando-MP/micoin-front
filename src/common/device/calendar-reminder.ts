@@ -45,7 +45,6 @@ const resolveCalendarId = async () => {
 
   return Calendar.createCalendarAsync({
     title: 'MiCoin',
-    color: '#ca9138',
     entityType: Calendar.EntityTypes.EVENT,
     sourceId: 'id' in source ? source.id : undefined,
     source,

@@ -1,7 +1,7 @@
 import { type FC, type ReactNode, useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
 type Tab = {
@@ -16,6 +16,17 @@ interface Props {
   className?: string;
 }
 
+/**
+ * Tabs — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver TabsProps / Props del archivo
+ *
+ * @example
+ * import Tabs from '@/common/components/tabs';
+ * <Tabs />
+ */
 const Tabs: FC<Props> = ({ tabs, defaultTab, className }) => {
   const initial = defaultTab ?? tabs[0]?.id ?? '';
   const [active, setActive] = useState(initial);
@@ -53,4 +64,4 @@ const Tabs: FC<Props> = ({ tabs, defaultTab, className }) => {
   );
 };
 
-export { Tabs };
+export default Tabs;

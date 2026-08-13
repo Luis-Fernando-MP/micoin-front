@@ -1,6 +1,6 @@
 # MiCoin design
 
-Native-first. Tokens in `src/global.css` (`--mc-*`). UI in `src/common/components/{name}`. Shared: `shared/status`, `shared/size`, `shared/radius`. Product copy: `common/metadata`.
+Native-first. Tokens in `src/global.css` (`--mc-*`). UI in `src/common/components/{name}` (black-box, `export default`). Shared contract: `shared/brand.ts` only (`BRAND` colors/radius/sizes/native). No wrappers. Product copy: `common/metadata`. See `AGENTS.md`.
 
 ## Look
 
@@ -14,7 +14,7 @@ Vercel/Geist: monochrome primary, brand gold only for highlights (texto brand si
 
 ## Size
 
-`sm | md | lg` en Button, Chip, Input.
+`xs | sm | md | lg` vía `BRAND.sizes` en Button, Chip, Input.
 
 ## Status
 
@@ -34,4 +34,4 @@ Expo SDK **54** / Expo Go. `expo-camera` para captura con filtros ligeros.
 
 ## Conventions
 
-See `.cursor/rules/component-standards.mdc`.
+See `AGENTS.md` and `.cursor/rules/component-standards.mdc`.

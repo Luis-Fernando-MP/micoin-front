@@ -1,13 +1,24 @@
 import { Alert, Platform, ToastAndroid } from 'react-native';
 
-import type { Status } from '@/common/components/shared/status';
+import type { BrandStatus } from '@/common/components/shared/brand';
 
 type ToastPayload = {
   title: string;
   message?: string;
-  status?: Status;
+  status?: BrandStatus;
 };
 
+/**
+ * showToast — aviso nativo (Android Toast / iOS Alert).
+ *
+ * @param title - Título
+ * @param message - Cuerpo opcional
+ * @param status - Variante semántica BRAND
+ *
+ * @example
+ * import { showToast } from '@/common/components/toast';
+ * showToast({ title: 'Listo', status: 'success' });
+ */
 const showToast = ({ title, message }: ToastPayload) => {
   const body = message?.trim() ? message : undefined;
 

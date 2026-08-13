@@ -1,12 +1,12 @@
 import { Pause, Play } from 'lucide-react-native';
 import { type FC, useState } from 'react';
 import { View } from 'react-native';
+import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
 
-import { Icon } from '@/common/components/icon';
-import { PressableScale } from '@/common/components/pressable-scale';
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
-import { WaveformBars } from '@/common/components/waveform-bars';
+import Icon from '@/common/components/icon';
+import PressableScale from '@/common/components/pressable-scale';
+import Text from '@/common/components/text';
+import WaveformBars from '@/common/components/waveform-bars';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -15,6 +15,17 @@ interface Props {
   onPress?: () => void;
 }
 
+/**
+ * MiniPlayerBar — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver MiniPlayerBarProps / Props del archivo
+ *
+ * @example
+ * import MiniPlayerBar from '@/common/components/mini-player-bar';
+ * <MiniPlayerBar />
+ */
 const MiniPlayerBar: FC<Props> = ({
   title = 'MiCoin Pulse',
   subtitle = 'Now playing',
@@ -32,7 +43,7 @@ const MiniPlayerBar: FC<Props> = ({
       <View
         className={cn(
           'flex-row items-center gap-3 border border-border bg-card px-3 py-2',
-          radius.surface
+          BRAND.radius.variants.surface
         )}
       >
         <Icon icon={playing ? Pause : Play} size={18} />
@@ -50,4 +61,4 @@ const MiniPlayerBar: FC<Props> = ({
   );
 };
 
-export { MiniPlayerBar };
+export default MiniPlayerBar;

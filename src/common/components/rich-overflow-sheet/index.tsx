@@ -3,9 +3,9 @@ import { MoreHorizontal } from 'lucide-react-native';
 import { type FC, type ReactNode, useRef } from 'react';
 import { View } from 'react-native';
 
-import { AppBottomSheetModal } from '@/common/components/bottom-sheet';
-import { Button } from '@/common/components/button';
-import { Text } from '@/common/components/text';
+import AppBottomSheetModal from '@/common/components/bottom-sheet';
+import Button from '@/common/components/button';
+import Text from '@/common/components/text';
 import { showToast } from '@/common/components/toast';
 
 type Action = {
@@ -20,6 +20,17 @@ interface Props {
   triggerLabel?: string;
 }
 
+/**
+ * RichOverflowSheet — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver RichOverflowSheetProps / Props del archivo
+ *
+ * @example
+ * import RichOverflowSheet from '@/common/components/rich-overflow-sheet';
+ * <RichOverflowSheet />
+ */
 const RichOverflowSheet: FC<Props> = ({
   title = 'Acciones',
   description = 'Menú ⋯ con contenido rico (QR, texto, acciones).',
@@ -75,4 +86,4 @@ const RichOverflowSheet: FC<Props> = ({
   );
 };
 
-export { RichOverflowSheet };
+export default RichOverflowSheet;

@@ -1,14 +1,13 @@
-import { type FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { useEffect } from 'react';
 
-import { Text } from '@/common/components/text';
-import { statusBg, type Status } from '@/common/components/shared/status';
+import BRAND, { type BrandStatus } from '@/common/components/shared/brand';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -16,9 +15,20 @@ interface Props {
   onCheckedChange: (checked: boolean) => void;
   label?: string;
   className?: string;
-  status?: Status;
+  status?: BrandStatus;
 }
 
+/**
+ * Switch — interruptor con status BRAND.
+ *
+ * @param checked - Estado
+ * @param onCheckedChange - Callback
+ * @param status - Variante semántica. @default 'primary'
+ *
+ * @example
+ * import Switch from '@/common/components/switch';
+ * <Switch checked={on} onCheckedChange={setOn} />
+ */
 const Switch: FC<Props> = ({
   checked,
   onCheckedChange,
@@ -47,7 +57,7 @@ const Switch: FC<Props> = ({
       <View
         className={cn(
           'h-7 w-12 justify-center rounded-full bg-card-hover',
-          checked && statusBg({ status })
+          checked && BRAND.colors.variants[status].background
         )}
       >
         <Animated.View
@@ -60,4 +70,5 @@ const Switch: FC<Props> = ({
   );
 };
 
-export { Switch };
+export type { Props as SwitchProps };
+export default Switch;

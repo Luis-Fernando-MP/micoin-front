@@ -24,6 +24,17 @@ interface Props {
   style?: StyleProp<ImageStyle>;
 }
 
+/**
+ * BrandLogo — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver BrandLogoProps / Props del archivo
+ *
+ * @example
+ * import BrandLogo from '@/common/components/brand-logo';
+ * <BrandLogo />
+ */
 const BrandLogo: FC<Props> = ({ size = 'md', className, style }) => {
   const px = SIZES[size];
 
@@ -39,4 +50,4 @@ const BrandLogo: FC<Props> = ({ size = 'md', className, style }) => {
 };
 
 export type { LogoSize };
-export { BrandLogo };
+export default BrandLogo;

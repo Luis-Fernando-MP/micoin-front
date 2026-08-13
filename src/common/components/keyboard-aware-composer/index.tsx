@@ -2,14 +2,25 @@ import { type FC, useState } from 'react';
 import { View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
-import { Button } from '@/common/components/button';
-import { Input } from '@/common/components/input';
-import { Text } from '@/common/components/text';
+import Button from '@/common/components/button';
+import Input from '@/common/components/input';
+import Text from '@/common/components/text';
 
 interface Props {
   onSend?: (text: string) => void;
 }
 
+/**
+ * KeyboardAwareComposer — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver KeyboardAwareComposerProps / Props del archivo
+ *
+ * @example
+ * import KeyboardAwareComposer from '@/common/components/keyboard-aware-composer';
+ * <KeyboardAwareComposer />
+ */
 const KeyboardAwareComposer: FC<Props> = ({ onSend }) => {
   const [text, setText] = useState('');
 
@@ -41,4 +52,4 @@ const KeyboardAwareComposer: FC<Props> = ({ onSend }) => {
   );
 };
 
-export { KeyboardAwareComposer };
+export default KeyboardAwareComposer;

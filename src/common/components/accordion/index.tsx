@@ -1,8 +1,9 @@
 import { ChevronDown } from 'lucide-react-native';
 import { type FC, useState } from 'react';
 import { Pressable, View } from 'react-native';
+import BRAND from '@/common/components/shared/brand';
 
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 import { useMcVar } from '@/theme/hooks/use-theme-var';
 
@@ -18,13 +19,24 @@ interface Props {
   className?: string;
 }
 
+/**
+ * Accordion — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver AccordionProps / Props del archivo
+ *
+ * @example
+ * import Accordion from '@/common/components/accordion';
+ * <Accordion />
+ */
 const Accordion: FC<Props> = ({
   items,
   type = 'single',
   className,
 }) => {
   const [open, setOpen] = useState<string[]>([]);
-  const iconColor = useMcVar('textSecondary', '#666666');
+  const iconColor = useMcVar(BRAND.native.textSecondary);
 
   const toggle = (id: string) => {
     const isOpen = open.includes(id);
@@ -72,4 +84,4 @@ const Accordion: FC<Props> = ({
   );
 };
 
-export { Accordion };
+export default Accordion;

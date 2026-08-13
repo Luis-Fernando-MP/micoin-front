@@ -15,6 +15,10 @@ Each of these is a check on the built result, not an intention. Run them togethe
 - **Copy:** the product's own language. Controls name their action; errors name the problem and the recovery.
 - **Coverage:** every brief requirement present and findable within seconds.
 
+## MiCoin reusable UI
+
+When the work is a component in `src/common`, also follow [component-black-box.md](component-black-box.md): `export default`, Spanish JSDoc, `BRAND` props, extensions instead of fat cores.
+
 ## Refuse
 
 These are the category's defaults, not bans: the brief's own words can earn any of them. Reaching for one when the axis is free means you were not deciding; recognizing that means rewriting the element, not softening it.

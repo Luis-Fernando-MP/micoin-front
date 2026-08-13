@@ -19,8 +19,8 @@ import { type FC, useEffect, useRef, useState } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Icon } from '@/common/components/icon';
-import { Text } from '@/common/components/text';
+import Icon from '@/common/components/icon';
+import Text from '@/common/components/text';
 import { hapticImpact } from '@/common/device/haptics';
 import { cn } from '@/lib/utils';
 

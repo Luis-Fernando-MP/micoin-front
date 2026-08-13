@@ -1,10 +1,10 @@
 import { Check, ChevronDown } from 'lucide-react-native';
 import { type FC, useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
+import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
 
-import { Icon } from '@/common/components/icon';
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
+import Icon from '@/common/components/icon';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
 type Option = {
@@ -20,6 +20,17 @@ interface Props {
   className?: string;
 }
 
+/**
+ * Combobox — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver ComboboxProps / Props del archivo
+ *
+ * @example
+ * import Combobox from '@/common/components/combobox';
+ * <Combobox />
+ */
 const Combobox: FC<Props> = ({
   options,
   value,
@@ -43,7 +54,7 @@ const Combobox: FC<Props> = ({
         onPress={() => setOpen((current) => !current)}
         className={cn(
           'h-11 flex-row items-center justify-between border border-border bg-background px-4',
-          radius.control,
+          BRAND.radius.variants.control,
           open && 'border-primary'
         )}
       >
@@ -63,7 +74,7 @@ const Combobox: FC<Props> = ({
         <View
           className={cn(
             'absolute left-0 right-0 top-12 z-30 overflow-hidden border border-border bg-background shadow-lg',
-            radius.surface
+            BRAND.radius.variants.surface
           )}
         >
           {options.map((item, index) => {
@@ -102,4 +113,4 @@ const Combobox: FC<Props> = ({
   );
 };
 
-export { Combobox };
+export default Combobox;

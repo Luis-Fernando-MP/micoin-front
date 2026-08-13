@@ -6,9 +6,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
+import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
 
 type DialogContextValue = {
   onOpenChange: (open: boolean) => void;
@@ -33,6 +33,18 @@ interface DialogProps {
   className?: string;
 }
 
+/**
+ * Dialog — modal compuesto (Header, Title, Content, Footer).
+ *
+ * @param open - Visible
+ * @param onOpenChange - Callback de apertura
+ * @param overlay - Fondo oscuro. @default true
+ * @param closeOnOutside - Cierra al tap fuera. @default false
+ *
+ * @example
+ * import Dialog from '@/common/components/dialog';
+ * <Dialog open={open} onOpenChange={setOpen}><Dialog.Title>Hola</Dialog.Title></Dialog>
+ */
 const DialogRoot: FC<DialogProps> = ({
   open,
   onOpenChange,
@@ -95,7 +107,7 @@ const DialogRoot: FC<DialogProps> = ({
           <Animated.View
             className={cn(
               'w-full border border-border bg-card p-5',
-              radius.surface,
+              BRAND.radius.variants.surface,
               className
             )}
             style={panelStyle}
@@ -157,4 +169,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Dialog, useDialog };
+export { useDialog };
+export default Dialog;

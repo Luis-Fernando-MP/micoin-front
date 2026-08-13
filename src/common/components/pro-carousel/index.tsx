@@ -1,85 +1,35 @@
 import { type FC } from 'react';
-import { Dimensions, View } from 'react-native';
-import { Carousel } from 'react-native-reanimated-carousel';
 
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
-import { cn } from '@/lib/utils';
+import PagedCarousel from '@/common/components/pro-carousel/extensions/paged';
+import StackCarousel from '@/common/components/pro-carousel/extensions/stack';
+import Root, {
+  type LayoutMode,
+  type ProCarouselProps,
+  type Slide,
+} from '@/common/components/pro-carousel/root';
 
-type Slide = { title: string; body: string };
-type LayoutMode = 'parallax' | 'horizontal-stack' | 'vertical-stack';
-
-interface Props {
-  data?: Slide[];
-  height?: number;
-  mode?: LayoutMode;
-}
-
-const DEFAULT: Slide[] = [
-  { title: 'Cobro QR', body: 'Recibe al instante.' },
-  { title: 'Privacidad', body: 'Oculta tu saldo.' },
-  { title: 'Ledger', body: 'Gastos offline.' },
-];
-
-const WIDTH = Dimensions.get('window').width - 64;
-
-const ProCarousel: FC<Props> = ({
-  data = DEFAULT,
-  height = 160,
-  mode = 'parallax',
-}) => {
-  return (
-    <Carousel
-      style={{ width: WIDTH, height }}
-      data={data}
-      loop
-      layout={
-        mode === 'parallax'
-          ? { type: 'parallax', scale: 0.9, offset: 50 }
-          : { type: mode }
-      }
-      renderItem={({ item }) => (
-        <View
-          className={cn(
-            'mx-1 flex-1 justify-center border border-border bg-background px-4',
-            radius.surface
-          )}
-        >
-          <Text className="text-base font-semibold">{item.title}</Text>
-          <Text className="text-sm text-secondary">{item.body}</Text>
-        </View>
-      )}
-    />
-  );
+/**
+ * ProCarousel — carrusel Reanimated con layout parallax o stack.
+ *
+ * Extensiones: `ProCarousel.StackCarousel`, `ProCarousel.PagedCarousel`.
+ *
+ * @param data - Slides { title, body }
+ * @param height - Alto. @default 160
+ * @param mode - Layout. @default 'parallax'
+ *
+ * @example
+ * import ProCarousel from '@/common/components/pro-carousel';
+ * <ProCarousel data={slides} />
+ * <ProCarousel.StackCarousel />
+ * <ProCarousel.PagedCarousel />
+ */
+const ProCarousel = Object.assign(Root, {
+  StackCarousel,
+  PagedCarousel,
+}) as typeof Root & {
+  StackCarousel: FC;
+  PagedCarousel: FC;
 };
 
-const StackCarousel: FC<Omit<Props, 'mode'>> = (props) => (
-  <ProCarousel {...props} mode="horizontal-stack" />
-);
-
-const PagedCarousel: FC<Omit<Props, 'mode'>> = ({
-  data = DEFAULT,
-  height = 160,
-}) => {
-  return (
-    <Carousel
-      style={{ width: WIDTH, height }}
-      data={data}
-      loop={false}
-      snapMode="page"
-      renderItem={({ item }) => (
-        <View
-          className={cn(
-            'mx-1 flex-1 justify-center border border-border bg-background px-4',
-            radius.surface
-          )}
-        >
-          <Text className="text-lg font-semibold">{item.title}</Text>
-          <Text className="mt-1 text-sm text-secondary">{item.body}</Text>
-        </View>
-      )}
-    />
-  );
-};
-
-export { PagedCarousel, ProCarousel, StackCarousel };
+export type { LayoutMode, ProCarouselProps, Slide };
+export default ProCarousel;

@@ -1,19 +1,31 @@
 import { type FC, useRef, useState } from 'react';
 import { View } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
+import BRAND from '@/common/components/shared/brand';
 
-import { Button } from '@/common/components/button';
+import Button from '@/common/components/button';
 import { useMcVar } from '@/theme/hooks/use-theme-var';
 
 interface Props {
   count?: number;
 }
 
+/**
+ * ConfettiBurst — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver ConfettiBurstProps / Props del archivo
+ *
+ * @example
+ * import ConfettiBurst from '@/common/components/confetti-burst';
+ * <ConfettiBurst />
+ */
 const ConfettiBurst: FC<Props> = ({ count = 80 }) => {
   const [key, setKey] = useState(0);
-  const brand = useMcVar('brand', '#c9a227');
-  const primary = useMcVar('primary', '#171717');
-  const card = useMcVar('card', '#ffffff');
+  const brand = useMcVar(BRAND.native.brand);
+  const primary = useMcVar(BRAND.native.primary);
+  const card = useMcVar(BRAND.native.card);
   const confettiRef = useRef<ConfettiCannon>(null);
 
   return (
@@ -40,4 +52,4 @@ const ConfettiBurst: FC<Props> = ({ count = 80 }) => {
   );
 };
 
-export { ConfettiBurst };
+export default ConfettiBurst;

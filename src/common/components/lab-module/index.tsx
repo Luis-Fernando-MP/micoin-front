@@ -1,9 +1,9 @@
 import { type FC, type ReactNode } from 'react';
 import { View } from 'react-native';
+import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
 
-import { Chip } from '@/common/components/chip';
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
+import Chip from '@/common/components/chip';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -29,7 +29,7 @@ const LabModule: FC<Props> = ({
     <View
       className={cn(
         'gap-3 border border-border bg-card p-4',
-        radius.surface,
+        BRAND.radius.variants.surface,
         className
       )}
     >
@@ -52,5 +52,5 @@ const LabModule: FC<Props> = ({
   );
 };
 
-export { LabModule };
 export type { Props as LabModuleProps };
+export default LabModule;

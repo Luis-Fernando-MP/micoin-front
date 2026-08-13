@@ -1,8 +1,8 @@
+import BRAND from '@/common/components/shared/brand';
 import { MotiView } from 'moti';
 import { type FC } from 'react';
 import { View } from 'react-native';
 
-import { radius } from '@/common/components/shared/radius';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -19,10 +19,21 @@ const SkeletonRow: FC = () => (
       duration: 700,
       loop: true,
     }}
-    className={cn('h-14 bg-border', radius.surface)}
+    className={cn('h-14 bg-border', BRAND.radius.variants.surface)}
   />
 );
 
+/**
+ * SkeletonList — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver SkeletonListProps / Props del archivo
+ *
+ * @example
+ * import SkeletonList from '@/common/components/skeleton-list';
+ * <SkeletonList />
+ */
 const SkeletonList: FC<Props> = ({ rows = 4, className }) => {
   return (
     <View className={cn('gap-2', className)}>
@@ -33,4 +44,4 @@ const SkeletonList: FC<Props> = ({ rows = 4, className }) => {
   );
 };
 
-export { SkeletonList };
+export default SkeletonList;

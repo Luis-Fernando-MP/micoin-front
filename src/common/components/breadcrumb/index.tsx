@@ -1,8 +1,9 @@
 import { ChevronRight } from 'lucide-react-native';
 import { type FC } from 'react';
 import { View } from 'react-native';
+import BRAND from '@/common/components/shared/brand';
 
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 import { useMcVar } from '@/theme/hooks/use-theme-var';
 
@@ -15,8 +16,19 @@ interface Props {
   className?: string;
 }
 
+/**
+ * Breadcrumb — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver BreadcrumbProps / Props del archivo
+ *
+ * @example
+ * import Breadcrumb from '@/common/components/breadcrumb';
+ * <Breadcrumb />
+ */
 const Breadcrumb: FC<Props> = ({ items, className }) => {
-  const iconColor = useMcVar('textSecondary', '#666666');
+  const iconColor = useMcVar(BRAND.native.textSecondary);
 
   return (
     <View className={cn('flex-row flex-wrap items-center gap-1', className)}>
@@ -45,4 +57,4 @@ const Breadcrumb: FC<Props> = ({ items, className }) => {
   );
 };
 
-export { Breadcrumb };
+export default Breadcrumb;

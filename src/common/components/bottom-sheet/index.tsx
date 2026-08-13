@@ -1,3 +1,4 @@
+import BRAND from '@/common/components/shared/brand';
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -20,6 +21,17 @@ type Props = {
   snapPoints?: (string | number)[];
 } & Omit<BottomSheetModalProps, 'children' | 'snapPoints'>;
 
+/**
+ * AppBottomSheetModal — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver AppBottomSheetModalProps / Props del archivo
+ *
+ * @example
+ * import AppBottomSheetModal from '@/common/components/bottom-sheet';
+ * <AppBottomSheetModal />
+ */
 const AppBottomSheetModal = forwardRef<BottomSheetModal, Props>(
   (
     {
@@ -32,8 +44,8 @@ const AppBottomSheetModal = forwardRef<BottomSheetModal, Props>(
     ref
   ) => {
     const insets = useSafeAreaInsets();
-    const card = useMcVar('card', '#ffffff');
-    const border = useMcVar('border', '#eaeaea');
+    const card = useMcVar(BRAND.native.card);
+    const border = useMcVar(BRAND.native.border);
     const snapPoints = useMemo(
       () => snapPointsProp ?? ['40%', '70%'],
       [snapPointsProp]
@@ -79,4 +91,4 @@ const AppBottomSheetModal = forwardRef<BottomSheetModal, Props>(
 
 AppBottomSheetModal.displayName = 'AppBottomSheetModal';
 
-export { AppBottomSheetModal };
+export default AppBottomSheetModal;

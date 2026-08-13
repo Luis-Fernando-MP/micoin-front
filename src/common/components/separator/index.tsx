@@ -8,6 +8,17 @@ interface Props {
   orientation?: 'horizontal' | 'vertical';
 }
 
+/**
+ * Separator — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver SeparatorProps / Props del archivo
+ *
+ * @example
+ * import Separator from '@/common/components/separator';
+ * <Separator />
+ */
 const Separator: FC<Props> = ({
   className,
   orientation = 'horizontal',
@@ -26,4 +37,4 @@ const Separator: FC<Props> = ({
   );
 };
 
-export { Separator };
+export default Separator;

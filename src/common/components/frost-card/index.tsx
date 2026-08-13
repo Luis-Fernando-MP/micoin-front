@@ -6,15 +6,26 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { type FC } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
+import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
 
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 import { useMcVar } from '@/theme/hooks/use-theme-var';
 
+/**
+ * FrostCard — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver FrostCardProps / Props del archivo
+ *
+ * @example
+ * import FrostCard from '@/common/components/frost-card';
+ * <FrostCard />
+ */
 const FrostCard: FC = () => {
-  const brand = useMcVar('brand', '#c9a227');
-  const primary = useMcVar('primary', '#171717');
+  const brand = useMcVar(BRAND.native.brand);
+  const primary = useMcVar(BRAND.native.primary);
   const canGlass =
     Platform.OS === 'ios' &&
     isLiquidGlassAvailable() &&
@@ -23,7 +34,7 @@ const FrostCard: FC = () => {
   return (
     <View className="flex-row gap-2">
       <View
-        className={cn('flex-1 border border-border p-3', radius.control)}
+        className={cn('flex-1 border border-border p-3', BRAND.radius.variants.control)}
         style={{ backgroundColor: brand, minHeight: 96 }}
       >
         <Text className="text-xs font-medium text-brand-foreground">
@@ -36,7 +47,7 @@ const FrostCard: FC = () => {
       <View
         className={cn(
           'relative flex-1 overflow-hidden border border-border',
-          radius.control
+          BRAND.radius.variants.control
         )}
         style={{ minHeight: 96 }}
       >
@@ -71,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { FrostCard };
+export default FrostCard;

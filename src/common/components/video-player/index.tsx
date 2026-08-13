@@ -1,9 +1,9 @@
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { type FC } from 'react';
 import { View } from 'react-native';
+import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
 
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
 const DEMO =
@@ -14,6 +14,17 @@ interface Props {
   height?: number;
 }
 
+/**
+ * VideoPlayer — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver VideoPlayerProps / Props del archivo
+ *
+ * @example
+ * import VideoPlayer from '@/common/components/video-player';
+ * <VideoPlayer />
+ */
 const VideoPlayer: FC<Props> = ({ uri = DEMO, height = 180 }) => {
   const player = useVideoPlayer(uri, (instance) => {
     instance.loop = true;
@@ -24,7 +35,7 @@ const VideoPlayer: FC<Props> = ({ uri = DEMO, height = 180 }) => {
       <VideoView
         player={player}
         style={{ width: '100%', height, borderRadius: 16 }}
-        className={cn(radius.surface)}
+        className={cn(BRAND.radius.variants.surface)}
         allowsFullscreen
         nativeControls
       />
@@ -35,4 +46,4 @@ const VideoPlayer: FC<Props> = ({ uri = DEMO, height = 180 }) => {
   );
 };
 
-export { VideoPlayer };
+export default VideoPlayer;

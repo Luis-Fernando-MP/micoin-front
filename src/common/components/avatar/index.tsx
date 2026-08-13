@@ -1,13 +1,8 @@
 import { Image as ExpoImage } from 'expo-image';
 import { type FC, useState } from 'react';
 import { View } from 'react-native';
-
-import { radius } from '@/common/components/shared/radius';
-import {
-  statusBorder,
-  type Status,
-} from '@/common/components/shared/status';
-import { Text } from '@/common/components/text';
+import BRAND, { type BrandStatus } from '@/common/components/shared/brand';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -16,16 +11,33 @@ interface Props {
   fallback?: string;
   size?: number;
   className?: string;
-  status?: Status;
+  status?: BrandStatus;
 }
 
+/**
+ * Avatar — imagen circular con fallback de iniciales.
+ *
+ * Resuelve mostrar identidad de usuario/comercio sin que el consumidor
+ * gestione error de carga ni recorte.
+ *
+ * @param uri - URL de la imagen
+ * @param source - Alias de uri (compat)
+ * @param fallback - Texto si no hay imagen. @default '?'
+ * @param size - Diámetro en px. @default 40
+ * @param status - Variante semántica BRAND. @default 'default'
+ * @param className - Clases NativeWind extra
+ *
+ * @example
+ * import Avatar from '@/common/components/avatar';
+ * <Avatar uri={user.photo} fallback="LM" size={48} status="brand" />
+ */
 const Avatar: FC<Props> = ({
   uri,
   source,
   fallback = '?',
   size = 40,
   className,
-  status = 'default',
+  status = BRAND.colors.defaultVariant,
 }) => {
   const [failed, setFailed] = useState(false);
   const imageUri = uri ?? source;
@@ -36,8 +48,8 @@ const Avatar: FC<Props> = ({
     <View
       className={cn(
         'items-center justify-center overflow-hidden border bg-card',
-        radius.pill,
-        statusBorder({ status }),
+        BRAND.radius.variants.pill,
+        BRAND.colors.variants[status].border,
         className
       )}
       style={{ width: size, height: size }}
@@ -57,4 +69,4 @@ const Avatar: FC<Props> = ({
   );
 };
 
-export { Avatar };
+export default Avatar;

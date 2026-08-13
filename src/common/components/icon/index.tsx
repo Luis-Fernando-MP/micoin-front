@@ -1,6 +1,7 @@
 import { type LucideIcon, type LucideProps } from 'lucide-react-native';
 import { type FC } from 'react';
 
+import BRAND from '@/common/components/shared/brand';
 import { useMcVar } from '@/theme/hooks/use-theme-var';
 
 type Tone =
@@ -18,19 +19,29 @@ interface Props extends Omit<LucideProps, 'color'> {
   color?: string;
 }
 
-const toneToVar: Record<
-  Tone,
-  { key: Parameters<typeof useMcVar>[0]; fallback: string }
-> = {
-  foreground: { key: 'textPrimary', fallback: '#171717' },
-  secondary: { key: 'textSecondary', fallback: '#666666' },
-  primary: { key: 'primary', fallback: '#171717' },
-  brand: { key: 'brand', fallback: '#ca9138' },
-  background: { key: 'background', fallback: '#ffffff' },
-  onBrand: { key: 'brandForeground', fallback: '#171717' },
-  onPrimary: { key: 'primaryForeground', fallback: '#fafafa' },
+const toneToNative: Record<Tone, keyof typeof BRAND.native> = {
+  foreground: 'textPrimary',
+  secondary: 'textSecondary',
+  primary: 'primary',
+  brand: 'brand',
+  background: 'background',
+  onBrand: 'brandForeground',
+  onPrimary: 'primaryForeground',
 };
 
+/**
+ * Icon — glifo Lucide con tono BRAND.
+ *
+ * @param icon - Componente Lucide
+ * @param tone - Tono semántico. @default 'foreground'
+ * @param color - Override nativo
+ * @param size - Tamaño en px. @default 18
+ *
+ * @example
+ * import Icon from '@/common/components/icon';
+ * import { Camera } from 'lucide-react-native';
+ * <Icon icon={Camera} tone="brand" />
+ */
 const Icon: FC<Props> = ({
   icon: Glyph,
   tone = 'foreground',
@@ -39,8 +50,7 @@ const Icon: FC<Props> = ({
   strokeWidth = 1.75,
   ...props
 }) => {
-  const mapped = toneToVar[tone];
-  const themeColor = useMcVar(mapped.key, mapped.fallback);
+  const themeColor = useMcVar(BRAND.native[toneToNative[tone]]);
   const resolved = color ?? themeColor;
 
   return (
@@ -53,5 +63,5 @@ const Icon: FC<Props> = ({
   );
 };
 
-export { Icon };
 export type { Props as IconProps };
+export default Icon;

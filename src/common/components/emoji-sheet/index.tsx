@@ -3,15 +3,26 @@ import { Smile } from 'lucide-react-native';
 import { type FC, useRef, useState } from 'react';
 import { View } from 'react-native';
 
-import { AppBottomSheetModal } from '@/common/components/bottom-sheet';
-import { Button } from '@/common/components/button';
-import { EmojiPicker } from '@/common/components/emoji-picker';
-import { Text } from '@/common/components/text';
+import AppBottomSheetModal from '@/common/components/bottom-sheet';
+import Button from '@/common/components/button';
+import EmojiPicker from '@/common/components/emoji-picker';
+import Text from '@/common/components/text';
 
 interface Props {
   onSelect?: (emoji: string) => void;
 }
 
+/**
+ * EmojiSheet — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver EmojiSheetProps / Props del archivo
+ *
+ * @example
+ * import EmojiSheet from '@/common/components/emoji-sheet';
+ * <EmojiSheet />
+ */
 const EmojiSheet: FC<Props> = ({ onSelect }) => {
   const ref = useRef<BottomSheetModal>(null);
   const [emoji, setEmoji] = useState('✨');
@@ -41,4 +52,4 @@ const EmojiSheet: FC<Props> = ({ onSelect }) => {
   );
 };
 
-export { EmojiSheet };
+export default EmojiSheet;

@@ -3,11 +3,11 @@ import { type FC, useState } from 'react';
 import { View } from 'react-native';
 
 import { signIn } from '@/auth/client';
-import { BrandLogo } from '@/common/components/brand-logo';
-import { Button } from '@/common/components/button';
-import { Card } from '@/common/components/card';
-import { Input } from '@/common/components/input';
-import { Text } from '@/common/components/text';
+import BrandLogo from '@/common/components/brand-logo';
+import Button from '@/common/components/button';
+import Card from '@/common/components/card';
+import Input from '@/common/components/input';
+import Text from '@/common/components/text';
 
 const Login: FC = () => {
   const router = useRouter();

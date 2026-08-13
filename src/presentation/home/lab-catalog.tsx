@@ -1,39 +1,28 @@
 import { type FC, type ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { AudioPlayer } from '@/common/components/audio-player';
-import { ConfettiBurst } from '@/common/components/confetti-burst';
-import { EmojiPicker } from '@/common/components/emoji-picker';
-import { EmojiReactionBar } from '@/common/components/emoji-reaction-bar';
-import { EmojiSheet } from '@/common/components/emoji-sheet';
-import { FoilText } from '@/common/components/foil-text';
-import { FrostCard } from '@/common/components/frost-card';
-import { KeyboardAwareComposer } from '@/common/components/keyboard-aware-composer';
-import { LabModule } from '@/common/components/lab-module';
-import { LottieSuccess } from '@/common/components/lottie-success';
-import { MiniPlayerBar } from '@/common/components/mini-player-bar';
-import { PressableScale } from '@/common/components/pressable-scale';
-import {
-  PagedCarousel,
-  ProCarousel,
-  StackCarousel,
-} from '@/common/components/pro-carousel';
-import { PrivacyCover } from '@/common/components/privacy-cover';
-import { RichOverflowSheet } from '@/common/components/rich-overflow-sheet';
-import { SegmentedTabs } from '@/common/components/segmented-tabs';
-import {
-  MovementOverflowMenu,
-  SharePaySheet,
-} from '@/common/components/share-pay-sheet';
-import { SkeletonList } from '@/common/components/skeleton-list';
-import { Text } from '@/common/components/text';
-import {
-  MediaStyleNotifyMock,
-  OngoingNotifyMock,
-  TrayNotifyMock,
-} from '@/common/components/tray-notify-mock';
-import { VideoPlayer } from '@/common/components/video-player';
-import { WaveformBars } from '@/common/components/waveform-bars';
+import AudioPlayer from '@/common/components/audio-player';
+import ConfettiBurst from '@/common/components/confetti-burst';
+import EmojiPicker from '@/common/components/emoji-picker';
+import EmojiReactionBar from '@/common/components/emoji-reaction-bar';
+import EmojiSheet from '@/common/components/emoji-sheet';
+import FoilText from '@/common/components/foil-text';
+import FrostCard from '@/common/components/frost-card';
+import KeyboardAwareComposer from '@/common/components/keyboard-aware-composer';
+import LabModule from '@/common/components/lab-module';
+import LottieSuccess from '@/common/components/lottie-success';
+import MiniPlayerBar from '@/common/components/mini-player-bar';
+import PressableScale from '@/common/components/pressable-scale';
+import ProCarousel from '@/common/components/pro-carousel';
+import PrivacyCover from '@/common/components/privacy-cover';
+import RichOverflowSheet from '@/common/components/rich-overflow-sheet';
+import SegmentedTabs from '@/common/components/segmented-tabs';
+import SharePaySheet from '@/common/components/share-pay-sheet';
+import SkeletonList from '@/common/components/skeleton-list';
+import Text from '@/common/components/text';
+import TrayNotifyMock from '@/common/components/tray-notify-mock';
+import VideoPlayer from '@/common/components/video-player';
+import WaveformBars from '@/common/components/waveform-bars';
 import { showToast } from '@/common/components/toast';
 import {
   BarcodeDemo,
@@ -48,8 +37,8 @@ import {
   TicketPhotoDemo,
   VoiceNoteDemo,
 } from '@/presentation/home/product-demos';
-import { MapsGallery } from '@/presentation/home/wow-maps';
-import { SkiaGallery } from '@/presentation/home/wow-skia';
+import MapsGallery from '@/presentation/home/wow-maps';
+import SkiaGallery from '@/presentation/home/wow-skia';
 
 type Entry = {
   id: number;
@@ -235,7 +224,7 @@ const ENTRIES: Entry[] = [
     what: 'Tarjetas apiladas horizontales.',
     why: 'Wallets / métodos de pago.',
     pack: 'reanimated-carousel',
-    children: <StackCarousel />,
+    children: <ProCarousel.StackCarousel />,
   },
   {
     id: 23,
@@ -243,7 +232,7 @@ const ENTRIES: Entry[] = [
     what: 'Onboarding con snap por página.',
     why: 'Tutoriales de primer uso.',
     pack: 'reanimated-carousel',
-    children: <PagedCarousel />,
+    children: <ProCarousel.PagedCarousel />,
   },
   {
     id: 24,
@@ -341,7 +330,7 @@ const ENTRIES: Entry[] = [
     what: '⋯ abre detalle del movimiento.',
     why: 'Acciones contextuales en historial.',
     pack: 'bottom-sheet',
-    children: <MovementOverflowMenu />,
+    children: <SharePaySheet.MovementOverflow />,
   },
   {
     id: 35,
@@ -365,7 +354,7 @@ const ENTRIES: Entry[] = [
     what: 'Notificación inamovible simulada.',
     why: 'Cobros en curso / foreground.',
     pack: 'Fase 2 mock',
-    children: <OngoingNotifyMock />,
+    children: <TrayNotifyMock.Ongoing />,
   },
   {
     id: 38,
@@ -373,7 +362,7 @@ const ENTRIES: Entry[] = [
     what: 'Chip artwork + título colapsado.',
     why: 'Estilo YouTube Music para audio.',
     pack: 'Fase 2 mock',
-    children: <MediaStyleNotifyMock />,
+    children: <TrayNotifyMock.MediaStyle />,
   },
 ];
 

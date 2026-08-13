@@ -1,66 +1,63 @@
-import { cva, type VariantProps } from 'class-variance-authority';
 import { type FC } from 'react';
 import { Pressable } from 'react-native';
 
-import { radius } from '@/common/components/shared/radius';
-import {
-  chipPadding,
-  controlText,
-  type Size,
-} from '@/common/components/shared/size';
-import {
-  statusBorder,
-  statusSoftBg,
-  statusText,
-  type Status,
-} from '@/common/components/shared/status';
-import { Text } from '@/common/components/text';
+import BRAND, {
+  type BrandSize,
+  type BrandStatus,
+} from '@/common/components/shared/brand';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 
-const chipVariants = cva(radius.pill, {
-  variants: {
-    selected: {
-      true: 'bg-primary-background',
-      false: '',
-    },
-  },
-  defaultVariants: {
-    selected: false,
-  },
-});
-
-interface Props extends VariantProps<typeof chipVariants> {
+interface Props {
   label: string;
   className?: string;
-  status?: Status;
-  size?: Size;
+  status?: BrandStatus;
+  size?: BrandSize;
+  selected?: boolean;
   onPress?: () => void;
 }
 
+/**
+ * Chip — filtro o etiqueta táctil del design system.
+ *
+ * @param label - Texto
+ * @param status - Variante semántica. @default 'default'
+ * @param size - Tamaño BRAND. @default 'md'
+ * @param selected - Estado activo
+ *
+ * @example
+ * import Chip from '@/common/components/chip';
+ * <Chip label="Hoy" status="brand" selected />
+ */
 const Chip: FC<Props> = ({
   label,
   className,
-  size = 'md',
+  size = BRAND.sizes.defaultVariant,
   selected = false,
-  status = 'default',
+  status = BRAND.colors.defaultVariant,
   onPress,
 }) => {
+  const tone = BRAND.colors.variants[status];
+  const sizing = BRAND.sizes.variants[size];
+
   return (
     <Pressable
       onPress={onPress}
       className={cn(
-        chipVariants({ selected }),
-        chipPadding({ size }),
-        !selected && statusSoftBg({ status }),
-        !selected && statusBorder({ status }),
+        BRAND.radius.variants.pill,
+        sizing.chip,
+        'items-center justify-center',
+        selected && BRAND.colors.variants.primary.background,
+        !selected && tone.soft,
+        !selected && tone.border,
         className
       )}
     >
       <Text
         className={cn(
-          controlText({ size }),
-          selected && 'text-primary-foreground',
-          !selected && statusText({ status })
+          sizing.text,
+          selected && BRAND.colors.variants.primary.foreground,
+          !selected && tone.text
         )}
       >
         {label}
@@ -69,4 +66,5 @@ const Chip: FC<Props> = ({
   );
 };
 
-export { Chip };
+export type { Props as ChipProps };
+export default Chip;

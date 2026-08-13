@@ -5,7 +5,7 @@ import {
   type EmojiSelection,
 } from 'rn-expo-emoji-picker';
 
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 
 interface Props {
   emojis?: string[];
@@ -14,6 +14,17 @@ interface Props {
 
 const DEFAULT = ['👍', '❤️', '😂', '😮', '😢', '🔥'];
 
+/**
+ * EmojiReactionBar — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver EmojiReactionBarProps / Props del archivo
+ *
+ * @example
+ * import EmojiReactionBar from '@/common/components/emoji-reaction-bar';
+ * <EmojiReactionBar />
+ */
 const EmojiReactionBar: FC<Props> = ({ emojis = DEFAULT, onChange }) => {
   const [active, setActive] = useState<string | null>(null);
 
@@ -35,4 +46,4 @@ const EmojiReactionBar: FC<Props> = ({ emojis = DEFAULT, onChange }) => {
   );
 };
 
-export { EmojiReactionBar };
+export default EmojiReactionBar;

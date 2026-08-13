@@ -7,15 +7,28 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
+import BRAND from '@/common/components/shared/brand';
+
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/theme/hooks/use-theme';
 import { useMcVar } from '@/theme/hooks/use-theme-var';
 
+/**
+ * ThemeToggle — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver ThemeToggleProps / Props del archivo
+ *
+ * @example
+ * import ThemeToggle from '@/common/components/theme-toggle';
+ * <ThemeToggle />
+ */
 const ThemeToggle: FC = () => {
   const { colorScheme, setPreference } = useTheme();
   const isDark = colorScheme === 'dark';
   const translateX = useSharedValue(isDark ? 36 : 4);
-  const iconColor = useMcVar('textPrimary', '#000000');
+  const iconColor = useMcVar(BRAND.native.textPrimary);
 
   useEffect(() => {
     translateX.value = withSpring(isDark ? 36 : 4, {
@@ -57,4 +70,4 @@ const ThemeToggle: FC = () => {
   );
 };
 
-export { ThemeToggle };
+export default ThemeToggle;

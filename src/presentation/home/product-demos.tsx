@@ -3,12 +3,13 @@ import { type AudioPlayer } from 'expo-audio';
 import { type FC, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import ViewShot from 'react-native-view-shot';
+import BRAND from '@/common/components/shared/brand';
 
-import { Barcode } from '@/common/components/barcode';
-import { Button } from '@/common/components/button';
-import { Image } from '@/common/components/image';
-import { QrCode } from '@/common/components/qr-code';
-import { Text } from '@/common/components/text';
+import Barcode from '@/common/components/barcode';
+import Button from '@/common/components/button';
+import Image from '@/common/components/image';
+import QrCode from '@/common/components/qr-code';
+import Text from '@/common/components/text';
 import { showToast } from '@/common/components/toast';
 import {
   playUri,
@@ -284,7 +285,9 @@ const TicketPhotoDemo: FC = () => {
 };
 
 const StripeCardDemo: FC = () => {
-  const textColor = useMcVar('textPrimary', '#171717');
+  const textColor = useMcVar(BRAND.native.textPrimary);
+  const backgroundColor = useMcVar(BRAND.native.card);
+  const borderColor = useMcVar(BRAND.native.border);
   const hasKey = Boolean(process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
   if (!hasKey) {
@@ -301,11 +304,11 @@ const StripeCardDemo: FC = () => {
         postalCodeEnabled={false}
         style={{ height: 48, width: '100%' }}
         cardStyle={{
-          backgroundColor: '#ffffff',
+          backgroundColor,
           textColor,
           borderWidth: 1,
-          borderColor: '#eaeaea',
-          borderRadius: 12,
+          borderColor,
+          borderRadius: 16,
         }}
       />
       <Button

@@ -1,27 +1,38 @@
 import { type FC } from 'react';
 import { View, type ViewProps } from 'react-native';
 
-import { radius } from '@/common/components/shared/radius';
-import {
-  statusBorder,
-  statusSoftBg,
-  type Status,
-} from '@/common/components/shared/status';
+import BRAND, { type BrandStatus } from '@/common/components/shared/brand';
 import { cn } from '@/lib/utils';
 
 interface Props extends ViewProps {
   className?: string;
-  status?: Status;
+  status?: BrandStatus;
 }
 
-const Card: FC<Props> = ({ className, status = 'default', ...props }) => {
+/**
+ * Card — superficie de contenido del design system.
+ *
+ * @param status - Variante semántica. @default 'default'
+ * @param className - Clases NativeWind extra
+ *
+ * @example
+ * import Card from '@/common/components/card';
+ * <Card status="brand">…</Card>
+ */
+const Card: FC<Props> = ({
+  className,
+  status = BRAND.colors.defaultVariant,
+  ...props
+}) => {
+  const tone = BRAND.colors.variants[status];
+
   return (
     <View
       className={cn(
-        'border border-border p-4',
-        radius.surface,
-        statusSoftBg({ status }),
-        status !== 'default' && statusBorder({ status }),
+        'border p-4',
+        BRAND.radius.variants.surface,
+        tone.soft,
+        status !== 'default' && tone.border,
         className
       )}
       {...props}
@@ -29,4 +40,5 @@ const Card: FC<Props> = ({ className, status = 'default', ...props }) => {
   );
 };
 
-export { Card };
+export type { Props as CardProps };
+export default Card;

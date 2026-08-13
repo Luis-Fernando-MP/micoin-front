@@ -1,17 +1,12 @@
 import { Image as ExpoImage, type ImageProps } from 'expo-image';
 import { type FC } from 'react';
 import { View, type DimensionValue } from 'react-native';
-
-import { radius } from '@/common/components/shared/radius';
-import {
-  statusBorder,
-  type Status,
-} from '@/common/components/shared/status';
+import BRAND, { type BrandStatus } from '@/common/components/shared/brand';
 import { cn } from '@/lib/utils';
 
 interface Props extends Omit<ImageProps, 'style'> {
   className?: string;
-  status?: Status;
+  status?: BrandStatus;
   frameClassName?: string;
   width?: DimensionValue;
   height?: DimensionValue;
@@ -21,7 +16,7 @@ interface Props extends Omit<ImageProps, 'style'> {
 const Image: FC<Props> = ({
   className,
   frameClassName,
-  status = 'default',
+  status = BRAND.colors.defaultVariant,
   width = '100%',
   height,
   aspectRatio = 16 / 9,
@@ -32,8 +27,8 @@ const Image: FC<Props> = ({
     <View
       className={cn(
         'overflow-hidden border border-border bg-card',
-        radius.surface,
-        status !== 'default' && statusBorder({ status }),
+        BRAND.radius.variants.surface,
+        status !== 'default' && BRAND.colors.variants[status].border,
         frameClassName
       )}
       style={{ width, height, aspectRatio: height ? undefined : aspectRatio }}
@@ -49,5 +44,5 @@ const Image: FC<Props> = ({
   );
 };
 
-export { Image };
 export type { Props as ImageProps };
+export default Image;

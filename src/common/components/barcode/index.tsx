@@ -2,9 +2,9 @@ import barcodes from 'jsbarcode/src/barcodes';
 import { type FC, useMemo } from 'react';
 import { View } from 'react-native';
 import Svg, { Rect } from 'react-native-svg';
+import BRAND, { type BrandStatus, type BrandSize } from '@/common/components/shared/brand';
 
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
+import Text from '@/common/components/text';
 import { cn } from '@/lib/utils';
 import { useMcVar } from '@/theme/hooks/use-theme-var';
 
@@ -18,6 +18,17 @@ interface Props {
   barWidth?: number;
 }
 
+/**
+ * Barcode — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver BarcodeProps / Props del archivo
+ *
+ * @example
+ * import Barcode from '@/common/components/barcode';
+ * <Barcode />
+ */
 const Barcode: FC<Props> = ({
   value,
   format = 'CODE128',
@@ -25,7 +36,7 @@ const Barcode: FC<Props> = ({
   height = 64,
   barWidth = 2,
 }) => {
-  const fg = useMcVar('textPrimary', '#171717');
+  const fg = useMcVar(BRAND.native.textPrimary);
 
   const encoded = useMemo(() => {
     try {
@@ -51,7 +62,7 @@ const Barcode: FC<Props> = ({
       <View
         className={cn(
           'items-center border border-border bg-background px-3 py-4',
-          radius.surface,
+          BRAND.radius.variants.surface,
           className
         )}
       >
@@ -64,7 +75,7 @@ const Barcode: FC<Props> = ({
     <View
       className={cn(
         'items-center gap-2 border border-border bg-background px-3 py-3',
-        radius.surface,
+        BRAND.radius.variants.surface,
         className
       )}
     >
@@ -90,4 +101,4 @@ const Barcode: FC<Props> = ({
   );
 };
 
-export { Barcode };
+export default Barcode;

@@ -1,29 +1,50 @@
-import { Bell, Music2, Radio } from 'lucide-react-native';
+import { Bell } from 'lucide-react-native';
 import { type FC } from 'react';
 import { View } from 'react-native';
 
-import { Button } from '@/common/components/button';
-import { Icon } from '@/common/components/icon';
-import { radius } from '@/common/components/shared/radius';
-import { Text } from '@/common/components/text';
+import Button from '@/common/components/button';
+import Icon from '@/common/components/icon';
+import BRAND from '@/common/components/shared/brand';
+import Text from '@/common/components/text';
 import { showToast } from '@/common/components/toast';
+import MediaStyle from '@/common/components/tray-notify-mock/extensions/media-style';
+import Ongoing from '@/common/components/tray-notify-mock/extensions/ongoing';
 import { cn } from '@/lib/utils';
 
-const TrayNotifyMock: FC = () => {
+interface Props {
+  title?: string;
+  body?: string;
+}
+
+/**
+ * TrayNotifyMock — mock de notificación en bandeja (Expo Go).
+ *
+ * Extensiones: `TrayNotifyMock.Ongoing`, `TrayNotifyMock.MediaStyle`.
+ *
+ * @param title - Título. @default 'MiCoin · Movimiento'
+ * @param body - Cuerpo
+ *
+ * @example
+ * import TrayNotifyMock from '@/common/components/tray-notify-mock';
+ * <TrayNotifyMock />
+ * <TrayNotifyMock.Ongoing />
+ */
+const TrayNotifyMockRoot: FC<Props> = ({
+  title = 'MiCoin · Movimiento',
+  body = 'Recibiste $12.50 · Mock de bandeja (Expo Go)',
+}) => {
   return (
     <View className="gap-2">
       <View
         className={cn(
           'flex-row items-start gap-3 border border-border bg-card p-3',
-          radius.surface
+          BRAND.radius.variants.surface
         )}
       >
         <Icon icon={Bell} size={18} />
         <View className="flex-1 gap-0.5">
-          <Text className="text-sm font-semibold">MiCoin · Movimiento</Text>
-          <Text className="text-xs text-secondary">
-            Recibiste $12.50 · Mock de bandeja (Expo Go)
-          </Text>
+          <Text className="text-sm font-semibold">{title}</Text>
+          <Text className="text-xs text-secondary">{body}</Text>
         </View>
       </View>
       <Button
@@ -45,60 +66,10 @@ const TrayNotifyMock: FC = () => {
   );
 };
 
-const OngoingNotifyMock: FC = () => {
-  return (
-    <View className="gap-2">
-      <View
-        className={cn(
-          'flex-row items-center gap-3 border border-brand bg-card p-3',
-          radius.surface
-        )}
-      >
-        <Icon icon={Radio} size={18} />
-        <View className="flex-1">
-          <Text className="text-sm font-semibold">Cobro en curso</Text>
-          <Text className="text-xs text-secondary">
-            Notificación ongoing (inamovible) · mock UI
-          </Text>
-        </View>
-        <Text className="text-xs text-brand">LIVE</Text>
-      </View>
-      <Text className="text-xs text-secondary">
-        Fase 2: foreground service / ongoing notification en Dev Client.
-      </Text>
-    </View>
-  );
-};
+const TrayNotifyMock = Object.assign(TrayNotifyMockRoot, {
+  Ongoing,
+  MediaStyle,
+});
 
-const MediaStyleNotifyMock: FC = () => {
-  return (
-    <View className="gap-2">
-      <View
-        className={cn(
-          'flex-row items-center gap-3 border border-border bg-card p-3',
-          radius.surface
-        )}
-      >
-        <View
-          className={cn(
-            'h-10 w-10 items-center justify-center bg-brand',
-            radius.control
-          )}
-        >
-          <Icon icon={Music2} size={18} tone="onBrand" />
-        </View>
-        <View className="flex-1">
-          <Text className="text-sm font-semibold">MiCoin Pulse</Text>
-          <Text className="text-xs text-secondary">
-            MediaStyle colapsado · estilo YouTube Music
-          </Text>
-        </View>
-      </View>
-      <Text className="text-xs text-secondary">
-        Fase 2: MediaSession nativo + Dev Client.
-      </Text>
-    </View>
-  );
-};
-
-export { MediaStyleNotifyMock, OngoingNotifyMock, TrayNotifyMock };
+export type { Props as TrayNotifyMockProps };
+export default TrayNotifyMock;

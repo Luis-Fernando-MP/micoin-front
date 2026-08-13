@@ -18,31 +18,31 @@ import { type FC, type ReactNode, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { useSession } from '@/auth/use-session';
-import { Accordion } from '@/common/components/accordion';
-import { Avatar } from '@/common/components/avatar';
-import { Badge } from '@/common/components/badge';
-import { BrandLogo } from '@/common/components/brand-logo';
-import { Breadcrumb } from '@/common/components/breadcrumb';
-import { Button } from '@/common/components/button';
-import { Card } from '@/common/components/card';
-import { Checkbox } from '@/common/components/checkbox';
-import { Chip } from '@/common/components/chip';
-import { Combobox } from '@/common/components/combobox';
-import { Dialog } from '@/common/components/dialog';
-import { Drawer } from '@/common/components/drawer';
-import { Header } from '@/common/components/header';
-import { Icon } from '@/common/components/icon';
-import { Image } from '@/common/components/image';
-import { Input } from '@/common/components/input';
-import { MultiStep, Step } from '@/common/components/multi-step';
-import { AppNav } from '@/common/components/nav';
-import { Separator } from '@/common/components/separator';
-import { FadeIn } from '@/common/components/shared/fade-in';
-import type { Status } from '@/common/components/shared/status';
-import { Switch } from '@/common/components/switch';
-import { Tabs } from '@/common/components/tabs';
-import { Text } from '@/common/components/text';
-import { ThemeToggle } from '@/common/components/theme-toggle';
+import Accordion from '@/common/components/accordion';
+import Avatar from '@/common/components/avatar';
+import Badge from '@/common/components/badge';
+import BrandLogo from '@/common/components/brand-logo';
+import Breadcrumb from '@/common/components/breadcrumb';
+import Button from '@/common/components/button';
+import Card from '@/common/components/card';
+import Checkbox from '@/common/components/checkbox';
+import Chip from '@/common/components/chip';
+import Combobox from '@/common/components/combobox';
+import Dialog from '@/common/components/dialog';
+import Drawer from '@/common/components/drawer';
+import Header from '@/common/components/header';
+import Icon from '@/common/components/icon';
+import Image from '@/common/components/image';
+import Input from '@/common/components/input';
+import MultiStep from '@/common/components/multi-step';
+import AppNav from '@/common/components/nav';
+import Separator from '@/common/components/separator';
+import FadeIn from '@/common/components/fade-in';
+import type { BrandStatus } from '@/common/components/shared/brand';
+import Switch from '@/common/components/switch';
+import Tabs from '@/common/components/tabs';
+import Text from '@/common/components/text';
+import ThemeToggle from '@/common/components/theme-toggle';
 import { showToast } from '@/common/components/toast';
 import { authenticateBiometric } from '@/common/device/biometrics';
 import { setBrightness } from '@/common/device/brightness';
@@ -79,7 +79,7 @@ const Section: FC<SectionProps> = ({ title, children }) => {
   );
 };
 
-const STATUSES: Status[] = [
+const STATUSES: BrandStatus[] = [
   'default',
   'primary',
   'brand',
@@ -324,12 +324,12 @@ const Home: FC = () => {
             headerTitle="Demo flow"
             onComplete={() => showToast({ title: 'Listo', status: 'success' })}
           >
-            <Step title="One">
+            <MultiStep.Step title="One">
               <Text>First step</Text>
-            </Step>
-            <Step title="Two">
+            </MultiStep.Step>
+            <MultiStep.Step title="Two">
               <Text>Second step</Text>
-            </Step>
+            </MultiStep.Step>
           </MultiStep>
         </Section>
 

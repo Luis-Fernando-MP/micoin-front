@@ -2,7 +2,7 @@ import LottieView from 'lottie-react-native';
 import { type FC, useRef } from 'react';
 import { View } from 'react-native';
 
-import { Button } from '@/common/components/button';
+import Button from '@/common/components/button';
 
 const SUCCESS_URI =
   'https://assets10.lottiefiles.com/packages/lf20_jbrw3hcz.json';
@@ -12,6 +12,17 @@ interface Props {
   size?: number;
 }
 
+/**
+ * LottieSuccess — pieza reutilizable del kit MiCoin.
+ *
+ * Caja negra lista para conectar en cualquier pantalla.
+ *
+ * @param props - Ver LottieSuccessProps / Props del archivo
+ *
+ * @example
+ * import LottieSuccess from '@/common/components/lottie-success';
+ * <LottieSuccess />
+ */
 const LottieSuccess: FC<Props> = ({ uri = SUCCESS_URI, size = 120 }) => {
   const ref = useRef<LottieView>(null);
 
@@ -37,4 +48,4 @@ const LottieSuccess: FC<Props> = ({ uri = SUCCESS_URI, size = 120 }) => {
   );
 };
 
-export { LottieSuccess };
+export default LottieSuccess;

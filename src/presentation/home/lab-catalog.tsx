@@ -2,6 +2,8 @@ import { type FC, type ReactNode } from 'react'
 import { View } from 'react-native'
 
 import AudioPlayer from '@components/audio-player'
+import Barcode from '@components/barcode'
+import Charts from '@components/charts'
 import ConfettiBurst from '@components/confetti-burst'
 import EmojiPicker from '@components/emoji-picker'
 import EmojiReactionBar from '@components/emoji-reaction-bar'
@@ -11,10 +13,12 @@ import FrostCard from '@components/frost-card'
 import KeyboardAwareComposer from '@components/keyboard-aware-composer'
 import LabModule from '@components/lab-module'
 import LottieSuccess from '@components/lottie-success'
+import Maps from '@components/maps'
 import MiniPlayerBar from '@components/mini-player-bar'
 import PressableScale from '@components/pressable-scale'
 import PrivacyCover from '@components/privacy-cover'
 import ProCarousel from '@components/pro-carousel'
+import QrCode from '@components/qr-code'
 import RichOverflowSheet from '@components/rich-overflow-sheet'
 import SegmentedTabs from '@components/segmented-tabs'
 import SharePaySheet from '@components/share-pay-sheet'
@@ -24,361 +28,420 @@ import { showToast } from '@components/toast'
 import TrayNotifyMock from '@components/tray-notify-mock'
 import VideoPlayer from '@components/video-player'
 import WaveformBars from '@components/waveform-bars'
+import { CatalogCard, CatalogVariant } from '@views/home/catalog-card'
 import {
-  BarcodeDemo,
   LedgerDemo,
   LocalAlertDemo,
-  PayQrDemo,
   ReceiptDemo,
-  ScannerDemo,
   ScreenProtectDemo,
   SmsPayDemo,
   StripeCardDemo,
   TicketPhotoDemo,
   VoiceNoteDemo,
 } from '@views/home/product-demos'
-import MapsGallery from '@views/home/wow-maps'
-import SkiaGallery from '@views/home/wow-skia'
+
+const SV = { latitude: 13.69, longitude: -89.22 }
+
+type Variant = {
+  title: string
+  description: string
+  children: ReactNode
+}
 
 type Entry = {
-  id: number
   title: string
-  what: string
-  why: string
-  pack?: string
-  children: ReactNode
+  does: string
+  doesNot: string
+  solves: string
+  children?: ReactNode
+  variants?: Variant[]
+}
+
+interface Props {
+  startId: number
 }
 
 const ENTRIES: Entry[] = [
   {
-    id: 1,
-    title: 'Alertas locales',
-    what: 'Agenda un Alert nativo a 3s (simula movimiento).',
-    why: 'Aviso inmediato sin push remoto en Expo Go.',
-    pack: 'Alert',
+    title: 'notifications · alerta local',
+    does: 'Agenda un Alert nativo a 3s (simula un movimiento).',
+    doesNot: 'No es push remoto ni bandeja del sistema.',
+    solves: 'Aviso inmediato en Expo Go sin servidor.',
     children: <LocalAlertDemo />,
   },
   {
-    id: 2,
-    title: 'Cobrar con QR',
-    what: 'Genera un QR con deep link de cobro.',
-    why: 'POS / P2P sin hardware extra.',
-    pack: 'qrcode-svg',
-    children: <PayQrDemo />,
+    title: 'QrCode',
+    does: 'Renderiza un QR SVG a partir de un string.',
+    doesNot: 'No escanea. No genera el deep link de negocio.',
+    solves: 'Mostrar un cobro o deep link para que otro device lo lea.',
+    children: (
+      <View className="items-center gap-2">
+        <QrCode value="micoin://pay?amount=12.50" />
+        <Text.Caption>micoin://pay?amount=12.50</Text.Caption>
+      </View>
+    ),
   },
   {
-    id: 3,
-    title: 'Código de barras',
-    what: 'Renderiza EAN/Code128 en SVG.',
-    why: 'Tickets y POS con código 1D.',
-    pack: 'jsbarcode',
-    children: <BarcodeDemo />,
+    title: 'Barcode',
+    does: 'Renderiza EAN/Code128 en SVG.',
+    doesNot: 'No escanea. No valida checksum de negocio.',
+    solves: 'Tickets y POS con código 1D.',
+    children: <Barcode value="5901234123457" format="EAN13" />,
   },
   {
-    id: 4,
-    title: 'Scanner QR / barcode',
-    what: 'Abre cámara con viewfinder de escaneo.',
-    why: 'Leer cobros o productos en caja.',
-    pack: 'expo-camera',
-    children: <ScannerDemo />,
-  },
-  {
-    id: 5,
-    title: 'Nota de voz',
-    what: 'Graba y reproduce audio local.',
-    why: 'Comprobantes orales / notas de gasto.',
-    pack: 'expo-audio',
+    title: 'audio-recorder',
+    does: 'Graba y reproduce audio local con permisos.',
+    doesNot: 'No es el AudioPlayer de stream. No transcribe.',
+    solves: 'Notas de voz o comprobantes orales.',
     children: <VoiceNoteDemo />,
   },
   {
-    id: 6,
-    title: 'Pantalla segura',
-    what: 'Bloquea screenshots en la pantalla actual.',
-    why: 'Proteger saldo y datos sensibles.',
-    pack: 'screen-capture',
+    title: 'screen-capture',
+    does: 'Bloquea o permite screenshots en la pantalla actual.',
+    doesNot: 'No oculta el saldo en UI. No es PrivacyCover.',
+    solves: 'Proteger saldo y datos sensibles en captura.',
     children: <ScreenProtectDemo />,
   },
   {
-    id: 7,
-    title: 'Comprobante visual',
-    what: 'Captura un recibo y lo comparte.',
-    why: 'Enviar prueba de pago por share sheet.',
-    pack: 'view-shot',
+    title: 'print-receipt / view-shot',
+    does: 'Captura un recibo visual y lo manda al share sheet.',
+    doesNot: 'No imprime en térmica. No guarda en galería solo.',
+    solves: 'Enviar prueba de pago sin PDF de backend.',
     children: <ReceiptDemo />,
   },
   {
-    id: 8,
-    title: 'Ledger offline',
-    what: 'Guarda gastos en SQLite local.',
-    why: 'Historial aunque no haya red.',
-    pack: 'expo-sqlite',
+    title: 'ledger',
+    does: 'Inserta y lista gastos en SQLite local.',
+    doesNot: 'No sincroniza con servidor. No es un bank ledger.',
+    solves: 'Historial de gastos aunque no haya red.',
     children: <LedgerDemo />,
   },
   {
-    id: 9,
-    title: 'SMS de cobro',
-    what: 'Abre el composer SMS con link de pago.',
-    why: 'Cobrar por mensaje a quien no tiene la app.',
-    pack: 'expo-sms',
+    title: 'sms',
+    does: 'Abre el composer SMS con un link de pago prefijado.',
+    doesNot: 'No envía solo. No es WhatsApp.',
+    solves: 'Cobrar por mensaje a quien no tiene la app.',
     children: <SmsPayDemo />,
   },
   {
-    id: 10,
-    title: 'Ticket photo',
-    what: 'Pick + resize de foto de ticket.',
-    why: 'Subir menos peso a backend.',
-    pack: 'image-manipulator',
+    title: 'image-manipulator',
+    does: 'Pick + resize de una foto de ticket.',
+    doesNot: 'No es el visor Image. No sube al backend.',
+    solves: 'Adjuntar tickets con menos peso.',
     children: <TicketPhotoDemo />,
   },
   {
-    id: 11,
-    title: 'Pagar con tarjeta',
-    what: 'CardField nativo de Stripe (UI).',
-    why: 'Checkout con tarjeta; cobro real = backend.',
-    pack: 'stripe',
+    title: 'Stripe CardField',
+    does: 'Campo nativo de tarjeta (UI Stripe).',
+    doesNot: 'No cobra. El cargo real vive en backend.',
+    solves: 'Checkout con tarjeta sin PCI en el cliente.',
     children: <StripeCardDemo />,
   },
   {
-    id: 12,
-    title: 'Charts Skia',
-    what: 'Galería de gráficos vectoriales.',
-    why: 'Dashboards de gasto / tendencias.',
-    pack: 'react-native-skia',
-    children: <SkiaGallery />,
+    title: 'Charts',
+    does: 'Sparkline Skia y extensiones de gráfica.',
+    doesNot: 'No consulta APIs. No es tabla. No anima trading.',
+    solves: 'Dashboards de gasto y tendencias in-app.',
+    variants: [
+      {
+        title: 'Sparkline',
+        description: 'Default: línea de una serie.',
+        children: <Charts />,
+      },
+      {
+        title: 'BarChart',
+        description: 'Barras verticales.',
+        children: <Charts.BarChart />,
+      },
+      {
+        title: 'DonutChart',
+        description: 'Proporciones en anillo.',
+        children: <Charts.DonutChart />,
+      },
+      {
+        title: 'AreaChart',
+        description: 'Área rellena bajo la serie.',
+        children: <Charts.AreaChart />,
+      },
+      {
+        title: 'GaugeChart',
+        description: 'Indicador de meta / límite.',
+        children: <Charts.GaugeChart />,
+      },
+      {
+        title: 'HeatmapChart',
+        description: 'Intensidad por celda.',
+        children: <Charts.HeatmapChart />,
+      },
+    ],
   },
   {
-    id: 13,
-    title: 'Mapas A→B',
-    what: 'Ruta con autocomplete y polyline.',
-    why: 'Sucursales, delivery, encuentro P2P.',
-    pack: 'react-native-maps',
-    children: <MapsGallery />,
+    title: 'Maps',
+    does: 'Mapa nativo con un punto. Extensiones de ruta y pines.',
+    doesNot: 'No es GPS tracking. No calcula tarifas.',
+    solves: 'Sucursales, delivery o encuentro P2P.',
+    variants: [
+      {
+        title: 'Punto único',
+        description: 'Un marcador. Región lista.',
+        children: <Maps coordinate={SV} title="SV" />,
+      },
+      {
+        title: 'RoutePlanner',
+        description: 'Origen → destino con polyline.',
+        children: <Maps.RoutePlanner />,
+      },
+      {
+        title: 'PlacePins',
+        description: 'Varios pines en el mapa.',
+        children: <Maps.PlacePins />,
+      },
+      {
+        title: 'DropPin',
+        description: 'Soltar un pin arrastrable.',
+        children: <Maps.DropPin />,
+      },
+    ],
   },
   {
-    id: 14,
-    title: 'Ocultar saldo',
-    what: 'Tap para revelar/ocultar monto.',
-    why: 'Privacidad en transporte público.',
-    pack: 'PrivacyCover',
+    title: 'PrivacyCover',
+    does: 'Tap para revelar u ocultar un monto.',
+    doesNot: 'No bloquea screenshots (eso es screen-capture).',
+    solves: 'Privacidad del saldo en transporte público.',
     children: <PrivacyCover />,
   },
   {
-    id: 15,
-    title: 'Texto foil',
-    what: 'Monto con degradado MaskedView.',
-    why: 'Highlight premium del balance.',
-    pack: 'MaskedView',
+    title: 'FoilText',
+    does: 'Monto con degradado MaskedView.',
+    doesNot: 'No es Text.Title. No anima foil real de metal.',
+    solves: 'Highlight premium del balance.',
     children: <FoilText />,
   },
   {
-    id: 16,
-    title: 'Frost card',
-    what: 'Compara sólido vs frosted/glass.',
-    why: 'Cards de tarjeta con look nativo.',
-    pack: 'expo-glass-effect',
+    title: 'FrostCard',
+    does: 'Compara sólido vs vidrio (expo-glass-effect).',
+    doesNot: 'No sustituye Card del kit. No es blur de toda la app.',
+    solves: 'Look de tarjeta nativa sobre fondos.',
     children: <FrostCard />,
   },
   {
-    id: 17,
-    title: 'Emoji picker',
-    what: 'Grid de emojis con FlashList.',
-    why: 'Notas, categorías, chat de soporte.',
-    pack: 'rn-expo-emoji-picker',
+    title: 'EmojiPicker',
+    does: 'Grid de emojis con FlashList.',
+    doesNot: 'No es EmojiSheet ni ReactionBar.',
+    solves: 'Notas, categorías o chat de soporte.',
     children: <EmojiPicker />,
   },
   {
-    id: 18,
-    title: 'Reaction bar',
-    what: 'Barra rápida de reacciones.',
-    why: 'Feedback 1-tap en movimientos.',
-    pack: 'rn-expo-emoji-picker',
+    title: 'EmojiReactionBar',
+    does: 'Barra rápida de reacciones.',
+    doesNot: 'No abre el picker completo.',
+    solves: 'Feedback 1-tap en un movimiento.',
     children: <EmojiReactionBar />,
   },
   {
-    id: 19,
-    title: 'Menú ⋯ rico',
-    what: 'Bottom sheet modal con acciones.',
-    why: 'Overflow menus sin salir de contexto.',
-    pack: '@gorhom/bottom-sheet',
+    title: 'RichOverflowSheet',
+    does: 'Bottom sheet Gorhom con acciones.',
+    doesNot: 'No es Drawer del kit. No es Dialog.',
+    solves: 'Menú ⋯ sin salir de contexto.',
     children: <RichOverflowSheet />,
   },
   {
-    id: 20,
-    title: 'Compartir cobro',
-    what: 'Sheet con QR + copiar link.',
-    why: 'Flujo de cobro compartible.',
-    pack: 'SharePaySheet',
-    children: <SharePaySheet />,
+    title: 'SharePaySheet',
+    does: 'Sheet de cobro con QR y overflow de movimiento.',
+    doesNot: 'No cobra en backend. No es el módulo sharing.',
+    solves: 'Flujo de cobro compartible y detalle de historial.',
+    variants: [
+      {
+        title: 'Sheet de cobro',
+        description: 'QR + copiar link.',
+        children: <SharePaySheet />,
+      },
+      {
+        title: 'MovementOverflow',
+        description: '⋯ abre detalle del movimiento.',
+        children: <SharePaySheet.MovementOverflow />,
+      },
+    ],
   },
   {
-    id: 21,
-    title: 'Carrusel parallax',
-    what: 'Slides con efecto parallax.',
-    why: 'Promos / features onboarding.',
-    pack: 'reanimated-carousel',
-    children: <ProCarousel />,
+    title: 'ProCarousel',
+    does: 'Carrusel Reanimated: parallax, stack o paging.',
+    doesNot: 'No es lista infinita. No carga páginas remotas.',
+    solves: 'Promos, wallets u onboarding.',
+    variants: [
+      {
+        title: 'Parallax',
+        description: 'Default. Slides con parallax.',
+        children: <ProCarousel />,
+      },
+      {
+        title: 'StackCarousel',
+        description: 'Tarjetas apiladas horizontales.',
+        children: <ProCarousel.StackCarousel />,
+      },
+      {
+        title: 'PagedCarousel',
+        description: 'Snap por página.',
+        children: <ProCarousel.PagedCarousel />,
+      },
+    ],
   },
   {
-    id: 22,
-    title: 'Carrusel stack',
-    what: 'Tarjetas apiladas horizontales.',
-    why: 'Wallets / métodos de pago.',
-    pack: 'reanimated-carousel',
-    children: <ProCarousel.StackCarousel />,
-  },
-  {
-    id: 23,
-    title: 'Carrusel paging',
-    what: 'Onboarding con snap por página.',
-    why: 'Tutoriales de primer uso.',
-    pack: 'reanimated-carousel',
-    children: <ProCarousel.PagedCarousel />,
-  },
-  {
-    id: 24,
-    title: 'Audio player',
-    what: 'Play/pause de stream remoto.',
-    why: 'Notas o podcasts in-app.',
-    pack: 'expo-audio',
+    title: 'AudioPlayer',
+    does: 'Play/pause de un stream remoto.',
+    doesNot: 'No graba. No es MiniPlayerBar.',
+    solves: 'Notas o podcasts in-app.',
     children: <AudioPlayer />,
   },
   {
-    id: 25,
-    title: 'Waveform',
-    what: 'Barras animadas con Skia.',
-    why: 'Feedback visual de audio activo.',
-    pack: 'Skia + Reanimated',
+    title: 'WaveformBars',
+    does: 'Barras animadas Skia para audio activo.',
+    doesNot: 'No reproduce audio. No es el player.',
+    solves: 'Feedback visual de que hay sonido.',
     children: <WaveformBars active />,
   },
   {
-    id: 26,
-    title: 'Mini player',
-    what: 'Barra now-playing con waveform.',
-    why: 'Persistir audio mientras navegas.',
-    pack: 'MiniPlayerBar',
+    title: 'MiniPlayerBar',
+    does: 'Barra now-playing con waveform.',
+    doesNot: 'No es el VideoPlayer. No gestiona cola.',
+    solves: 'Persistir audio mientras navegas.',
     children: <MiniPlayerBar />,
   },
   {
-    id: 27,
-    title: 'Video player',
-    what: 'Reproductor nativo con controles.',
-    why: 'Tutoriales / comprobantes en video.',
-    pack: 'expo-video',
+    title: 'VideoPlayer',
+    does: 'Reproductor nativo con controles.',
+    doesNot: 'No graba video (eso es camera). No es AudioPlayer.',
+    solves: 'Tutoriales o comprobantes en video.',
     children: <VideoPlayer />,
   },
   {
-    id: 28,
-    title: 'Lottie success',
-    what: 'Animación de éxito reutilizable.',
-    why: 'Confirmación de pago memorable.',
-    pack: 'lottie-react-native',
+    title: 'LottieSuccess',
+    does: 'Animación Lottie de éxito reutilizable.',
+    doesNot: 'No es ConfettiBurst. No confirma un pago en backend.',
+    solves: 'Confirmación de pago memorable.',
     children: <LottieSuccess />,
   },
   {
-    id: 29,
-    title: 'Confetti',
-    what: 'Ráfaga de confetti on demand.',
-    why: 'Celebrar primer cobro / meta.',
-    pack: 'confetti-cannon',
+    title: 'ConfettiBurst',
+    does: 'Ráfaga de confetti on demand.',
+    doesNot: 'No es Lottie. No persiste la celebración.',
+    solves: 'Celebrar primer cobro o una meta.',
     children: <ConfettiBurst />,
   },
   {
-    id: 30,
-    title: 'Press scale',
-    what: 'Pressable con scale Moti.',
-    why: 'Micro-interacción táctil.',
-    pack: 'moti',
+    title: 'PressableScale',
+    does: 'Pressable con scale Moti.',
+    doesNot: 'No es Button del kit. No trae label ni variant.',
+    solves: 'Micro-interacción táctil en superficies custom.',
     children: (
       <PressableScale
         onPress={() => showToast({ title: 'Tap!', status: 'success' })}
       >
-        <View className="items-center rounded-control border border-border bg-card px-4 py-3">
+        <View className="items-center border border-border bg-card px-4 py-3">
           <Text.Highlight>Pulsa aquí</Text.Highlight>
         </View>
       </PressableScale>
     ),
   },
   {
-    id: 31,
-    title: 'Segmented tabs',
-    what: 'Control segmentado nativo.',
-    why: 'Filtros Hoy / Semana / Mes.',
-    pack: 'segmented-control',
+    title: 'SegmentedTabs',
+    does: 'Control segmentado nativo.',
+    doesNot: 'No es Tabs del kit. No monta paneles complejos.',
+    solves: 'Filtros Hoy / Semana / Mes.',
     children: <SegmentedTabs />,
   },
   {
-    id: 32,
-    title: 'Keyboard composer',
-    what: 'Input que sube con el teclado.',
-    why: 'Notas de cobro sin tapar el campo.',
-    pack: 'keyboard-controller',
+    title: 'KeyboardAwareComposer',
+    does: 'Input que sube con el teclado.',
+    doesNot: 'No es el Input del kit solo. No envía mensajes.',
+    solves: 'Notas de cobro sin que el teclado tape el campo.',
     children: <KeyboardAwareComposer />,
   },
   {
-    id: 33,
-    title: 'Skeleton list',
-    what: 'Placeholders animados de carga.',
-    why: 'Perceived performance en listas.',
-    pack: 'moti',
+    title: 'SkeletonList',
+    does: 'Placeholders animados de carga.',
+    doesNot: 'No fetchea datos. No es lista real.',
+    solves: 'Perceived performance mientras llega el historial.',
     children: <SkeletonList />,
   },
   {
-    id: 34,
-    title: 'Overflow movimiento',
-    what: '⋯ abre detalle del movimiento.',
-    why: 'Acciones contextuales en historial.',
-    pack: 'bottom-sheet',
-    children: <SharePaySheet.MovementOverflow />,
-  },
-  {
-    id: 35,
-    title: 'Emoji sheet',
-    what: 'Sheet + picker compuestos.',
-    why: 'Elegir emoji sin navegar de pantalla.',
-    pack: 'EmojiSheet',
+    title: 'EmojiSheet',
+    does: 'Sheet + picker compuestos.',
+    doesNot: 'No es EmojiPicker a pantalla completa.',
+    solves: 'Elegir emoji sin salir de la pantalla.',
     children: <EmojiSheet />,
   },
   {
-    id: 36,
-    title: 'Bandeja mock',
-    what: 'UI de notificación en bandeja.',
-    why: 'Diseñar copy antes de Dev Client.',
-    pack: 'Fase 2 mock',
-    children: <TrayNotifyMock />,
+    title: 'TrayNotifyMock',
+    does: 'UI mock de notificación en bandeja, ongoing y media.',
+    doesNot: 'No dispara notificaciones reales del OS.',
+    solves: 'Diseñar copy de bandeja antes de Dev Client.',
+    variants: [
+      {
+        title: 'Bandeja',
+        description: 'Notificación colapsada mock.',
+        children: <TrayNotifyMock />,
+      },
+      {
+        title: 'Ongoing',
+        description: 'Inamovible simulada (cobro en curso).',
+        children: <TrayNotifyMock.Ongoing />,
+      },
+      {
+        title: 'MediaStyle',
+        description: 'Chip artwork + título colapsado.',
+        children: <TrayNotifyMock.MediaStyle />,
+      },
+    ],
   },
   {
-    id: 37,
-    title: 'Ongoing mock',
-    what: 'Notificación inamovible simulada.',
-    why: 'Cobros en curso / foreground.',
-    pack: 'Fase 2 mock',
-    children: <TrayNotifyMock.Ongoing />,
-  },
-  {
-    id: 38,
-    title: 'MediaStyle mock',
-    what: 'Chip artwork + título colapsado.',
-    why: 'Estilo YouTube Music para audio.',
-    pack: 'Fase 2 mock',
-    children: <TrayNotifyMock.MediaStyle />,
+    title: 'LabModule',
+    does: 'Ficha de lab con id, título, qué hace y para qué.',
+    doesNot: 'No es Card del kit. Este catálogo usa Card.',
+    solves: 'Documentar un experimento si se prefiere esta ficha.',
+    children: (
+      <LabModule
+        id={0}
+        title="Ejemplo"
+        what="Envoltorio de demo."
+        why="Aislar un experimento."
+        pack="LabModule"
+      >
+        <Text.Caption>Hijo de ejemplo.</Text.Caption>
+      </LabModule>
+    ),
   },
 ]
 
-const LabCatalog: FC = () => {
+const LabCatalog: FC<Props> = ({ startId }) => {
   return (
     <View className="gap-4">
-      {ENTRIES.map((entry) => (
-        <LabModule
-          key={entry.id}
-          id={entry.id}
-          title={entry.title}
-          what={entry.what}
-          why={entry.why}
-          pack={entry.pack}
-        >
-          {entry.children}
-        </LabModule>
-      ))}
+      {ENTRIES.map((entry, index) => {
+        const n = startId + index
+        return (
+          <CatalogCard
+            key={entry.title}
+            n={n}
+            title={entry.title}
+            does={entry.does}
+            doesNot={entry.doesNot}
+            solves={entry.solves}
+          >
+            {entry.variants?.map((variant, subIndex) => (
+              <CatalogVariant
+                key={variant.title}
+                n={n}
+                sub={subIndex + 1}
+                title={variant.title}
+                description={variant.description}
+              >
+                {variant.children}
+              </CatalogVariant>
+            ))}
+            {!entry.variants && entry.children}
+          </CatalogCard>
+        )
+      })}
     </View>
   )
 }

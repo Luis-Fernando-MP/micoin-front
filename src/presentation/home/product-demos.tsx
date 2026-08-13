@@ -5,10 +5,8 @@ import ViewShot from 'react-native-view-shot'
 import { type AudioPlayer } from 'expo-audio'
 import { CardField } from '@stripe/stripe-react-native'
 
-import Barcode from '@components/barcode'
 import Button from '@components/button'
 import Image from '@components/image'
-import QrCode from '@components/qr-code'
 import BRAND from '@components/shared/brand'
 import Text from '@components/text'
 import { showToast } from '@components/toast'
@@ -18,7 +16,7 @@ import {
   startRecording,
   stopRecording,
 } from '@device/audio-recorder'
-import { openScanner, pickImage } from '@device/camera'
+import { pickImage } from '@device/camera'
 import { resizeImage } from '@device/image-manipulator'
 import { addExpense, type Expense, listExpenses } from '@device/ledger'
 import { saveToGallery } from '@device/media-library'
@@ -29,9 +27,6 @@ import { sendPaymentSms } from '@device/sms'
 import { useMcVar } from '@theme'
 
 import { metadata } from '@/common/metadata'
-
-const PAY_LINK = 'micoin://pay?amount=12.50'
-const BARCODE_VALUE = '5901234123457'
 
 const LocalAlertDemo: FC = () => (
   <Button
@@ -51,43 +46,6 @@ const LocalAlertDemo: FC = () => (
     }}
   />
 )
-
-const PayQrDemo: FC = () => (
-  <View className="items-center gap-2">
-    <QrCode value={PAY_LINK} size={148} />
-    <Text.Caption className="text-center">{PAY_LINK}</Text.Caption>
-  </View>
-)
-
-const BarcodeDemo: FC = () => <Barcode value={BARCODE_VALUE} format="EAN13" />
-
-const ScannerDemo: FC = () => {
-  const [scanLabel, setScanLabel] = useState<string | null>(null)
-  return (
-    <View className="gap-2">
-      <Button
-        size="sm"
-        variant="outline"
-        label="Abrir scanner"
-        onPress={async () => {
-          const result = await openScanner()
-          if (!result) {
-            return
-          }
-          setScanLabel(`${result.type}: ${result.data.slice(0, 48)}`)
-          showToast({
-            title: result.type,
-            message: result.data.slice(0, 60),
-            status: 'success',
-          })
-        }}
-      />
-      {scanLabel && (
-        <Text.Subtitle numberOfLines={2}>{scanLabel}</Text.Subtitle>
-      )}
-    </View>
-  )
-}
 
 const VoiceNoteDemo: FC = () => {
   const [recording, setRecording] = useState(false)
@@ -326,12 +284,9 @@ const StripeCardDemo: FC = () => {
 }
 
 export {
-  BarcodeDemo,
   LedgerDemo,
   LocalAlertDemo,
-  PayQrDemo,
   ReceiptDemo,
-  ScannerDemo,
   ScreenProtectDemo,
   SmsPayDemo,
   StripeCardDemo,

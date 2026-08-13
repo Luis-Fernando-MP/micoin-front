@@ -35,7 +35,7 @@ const Card: FC<Props> = ({
         'border p-4',
         BRAND.radius.variants.surface,
         tone.soft,
-        status !== 'default' && tone.border,
+        tone.border,
         className,
       )}
       {...props}

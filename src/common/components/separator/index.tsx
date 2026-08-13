@@ -9,17 +9,15 @@ interface Props {
 }
 
 /**
- * Separator — pieza reutilizable del kit MiCoin.
+ * Separator — línea divisoria horizontal o vertical.
  *
- * Caja negra lista para conectar en cualquier pantalla.
+ * @param orientation - Dirección de la línea. @default 'horizontal'
+ * @param className - Clases NativeWind extra
  *
- * @param props - Ver SeparatorProps / Props del archivo
- *
- * @param props.className
- * @param props.orientation
  * @example
  * import Separator from '@components/separator';
  * <Separator />
+ * <Separator orientation="vertical" />
  */
 const Separator: FC<Props> = ({ className, orientation = 'horizontal' }) => {
   const isVertical = orientation === 'vertical'
@@ -27,7 +25,7 @@ const Separator: FC<Props> = ({ className, orientation = 'horizontal' }) => {
   return (
     <View
       className={cn(
-        'bg-card-hover',
+        'bg-border',
         isVertical && 'h-full w-px',
         !isVertical && 'h-px w-full',
         className,

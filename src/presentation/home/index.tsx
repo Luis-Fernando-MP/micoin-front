@@ -142,6 +142,7 @@ const Home: FC = () => {
               <Text.Caption>Contenido</Text.Caption>
             </Card>
           </CatalogVariant>
+
           <CatalogVariant
             n={1}
             sub={2}
@@ -548,7 +549,11 @@ const Home: FC = () => {
             title="Horizontal"
             description="Ancho completo, 1 px."
           >
-            <Separator />
+            <View className="gap-3">
+              <Text.Caption>Bloque superior</Text.Caption>
+              <Separator />
+              <Text.Caption>Bloque inferior</Text.Caption>
+            </View>
           </CatalogVariant>
           <CatalogVariant
             n={7}

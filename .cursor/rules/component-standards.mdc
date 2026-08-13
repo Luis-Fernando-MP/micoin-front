@@ -14,7 +14,7 @@ Prioridad #1: ver `AGENTS.md`. Piezas black-box en `src/common`.
 
 ## Estilo
 
-Sin punto y coma. Imports: paquetes → `@components` `@views` `@core` `@theme` `@assets` `@/` → `./`. Prohibido `../`. Constantes arriba, componente abajo, `export default`. Sin `//` en bloques. JSDoc en español en exports reutilizables de `src/common`.
+Sin punto y coma. Imports: paquetes → `@components` `@views` `@core` `@theme` `@assets` `@/` → un `../` al padre inmediato → `./`. Dos o más niveles (`../../`) usan alias. Constantes arriba, componente abajo, `export default`. Sin `//` en bloques. JSDoc en español en exports reutilizables de `src/common`.
 
 `pnpm lint` / `pnpm lint:fix` · `pnpm format` / `pnpm format:fix`.
 
@@ -84,10 +84,16 @@ Prohibido: `text-red-200`, `text-black`, hex en UI (salvo overlays nativos).
 
 Estado mínimo en el core. `useCallback` / `memo` en listas. Keys estables. Consumir `Charts.AreaChart`, no `extensions/` suelto. Cleanup de players, timers y listeners.
 
+## Store (Zustand)
+
+El hijo más bajo que usa el dato se suscribe. El padre no importa el store para pasarlo por props: si el padre escucha, un cambio re-renderiza a todos los hijos.
+
+Selector mínimo: `useThemeStore((s) => s.preference)`, no el state entero. El `ThemeProvider` sí se suscribe porque aplica `dark` / StatusBar; no reparte `colorScheme` hacia abajo.
+
 ## UI
 
 Look Vercel/Geist. Motion intencional (Reanimated / `FadeIn`). Design in code.
 
 ## Hooks
 
-Arrow functions. Sin `FC`. Named export desde `hooks/index.ts`.
+Arrow functions. Sin `FC`. Named export desde `hooks/index.ts`. El consumidor del dato llama el hook; no lo recibe por props desde un padre que también se suscribió.

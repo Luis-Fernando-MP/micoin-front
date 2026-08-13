@@ -4,7 +4,7 @@ Prioridad #1 del repo: piezas reutilizables en `src/common`.
 
 ## Estilo
 
-- Sin punto y coma. Imports: librerías arriba, alias de proyecto (`@components`, `@views`, `@core`, `@theme`, `@assets`, `@/`) abajo, relativos de carpeta (`./`) al final. Prohibido `../`.
+- Sin punto y coma. Imports: librerías arriba, alias de proyecto (`@components`, `@views`, `@core`, `@theme`, `@assets`, `@/`) abajo, un nivel `../` si es el padre inmediato, relativos de carpeta (`./`) al final. Dos o más niveles (`../../`) → alias.
 - Constantes y tipos arriba; el componente abajo. Pieza React: `export default`.
 - Sin comentarios narrativos ni `//` en bloques. JSDoc en español en piezas/métodos reutilizables de `src/common` (`@param`, `@example`).
 - `pnpm lint` / `pnpm lint:fix` · `pnpm format` / `pnpm format:fix`.
@@ -105,6 +105,38 @@ Decoradores `@param` y `@example` obligatorios. `@default` en la descripción de
 - Keys estables. El consumidor importa el core y usa `Charts.AreaChart`, nunca `extensions/` suelto.
 - Cleanup en `useEffect` (players, timers, listeners).
 
+## Store (Zustand)
+
+El que necesita el dato se suscribe. El padre no lee el store para pasarlo por props.
+
+Si el padre escucha, cualquier cambio re-renderiza al padre y a **todos** los hijos. Si solo el hijo se suscribe, solo ese hijo se actualiza.
+
+Selector mínimo (un campo, no el state entero):
+
+```tsx
+const preference = useThemeStore((state) => state.preference)
+```
+
+Mal — el padre se suscribe y prop-drillea:
+
+```tsx
+const Home = () => {
+  const { colorScheme } = useTheme()
+  return <ThemeToggle colorScheme={colorScheme} />
+}
+```
+
+Bien — el hijo más bajo escucha solo:
+
+```tsx
+const ThemeToggle = () => {
+  const { colorScheme, setPreference } = useTheme()
+  return …
+}
+```
+
+El provider de tema sí se suscribe: aplica `dark` / StatusBar. No reparte `colorScheme` a los children.
+
 ## Ejemplo Maps
 
 ```tsx
@@ -126,7 +158,9 @@ Las extensiones viven en `extensions/` y se adjuntan al default. El consumidor n
 - Un `index.tsx` de 400+ líneas con 4 modos
 - Copy, toasts o deep links de producto hardcodeados en el core
 - JSDoc en páginas o helpers privados
-- Comentarios `//` o `../` en imports
+- Comentarios `//` en bloques
+- Imports `../../` (dos o más niveles); un `../` al padre inmediato sí vale
+- Padre que lee Zustand y lo pasa por props; el hijo que lo necesita se suscribe solo
 - Carpetas `hooks/` vacías
 - Clases de status/size/radius fuera de BRAND
 - `renderItem` inline inestable en listas largas

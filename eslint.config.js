@@ -42,6 +42,7 @@ module.exports = defineConfig([
               '^@(assets|components|views|core|theme)(/.*)?$',
             ],
             ['^@/'],
+            ['^\\.\\./'],
             ['^\\./'],
           ],
         },
@@ -52,9 +53,9 @@ module.exports = defineConfig([
         {
           patterns: [
             {
-              group: ['../*', '../**'],
+              regex: '\\.\\./\\.\\./',
               message:
-                'Use the @/ TypeScript alias instead of relative parent imports.',
+                'Two or more ../ levels: use an alias (@components, @theme, @/, …). A single ../ is allowed.',
             },
           ],
         },
@@ -68,12 +69,6 @@ module.exports = defineConfig([
           message: 'No line comments. JSDoc on reusable exports only.',
         },
       ],
-    },
-  },
-  {
-    files: ['src/app/_layout.tsx'],
-    rules: {
-      'no-restricted-imports': 'off',
     },
   },
   {

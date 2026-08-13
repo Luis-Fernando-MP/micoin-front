@@ -1,7 +1,7 @@
 import 'react-native-reanimated'
 import '../global.css'
 
-import { type FC, Fragment, type ReactNode, useEffect, useState } from 'react'
+import { type FC, Fragment, type ReactNode } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 
@@ -31,16 +31,24 @@ const StripeGate: FC<{ children: ReactNode }> = ({ children }) => {
   return <StripeProvider publishableKey={stripeKey}>{content}</StripeProvider>
 }
 
-const RootLayout: FC = () => {
+const RootNavigator: FC = () => {
   const { isAuthenticated, isPending } = useSession()
-  const [ready, setReady] = useState(false)
 
-  useEffect(() => {
-    if (!isPending) {
-      setReady(true)
-    }
-  }, [isPending])
+  if (isPending) {
+    return null
+  }
 
+  return (
+    <Stack>
+      <Stack.Screen name="(public)" options={{ headerShown: false }} />
+      <Stack.Protected guard={isAuthenticated}>
+        <Stack.Screen name="(private)" options={{ headerShown: false }} />
+      </Stack.Protected>
+    </Stack>
+  )
+}
+
+const RootLayout: FC = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider>
@@ -48,20 +56,7 @@ const RootLayout: FC = () => {
           <ThemeProvider>
             <BottomSheetModalProvider>
               <StripeGate>
-                {ready && (
-                  <Stack>
-                    <Stack.Screen
-                      name="(public)"
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Protected guard={isAuthenticated}>
-                      <Stack.Screen
-                        name="(private)"
-                        options={{ headerShown: false }}
-                      />
-                    </Stack.Protected>
-                  </Stack>
-                )}
+                <RootNavigator />
                 <PortalHost />
                 <CameraHost />
               </StripeGate>

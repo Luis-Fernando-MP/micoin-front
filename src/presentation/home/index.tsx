@@ -7,26 +7,32 @@ import {
   ClipboardCopy,
   FileUp,
   Fingerprint,
+  HeartPulse,
+  Home as HomeIcon,
   Mail,
   MapPin,
   Moon,
+  PenLine,
+  Plane,
   Share2,
   SunMedium,
+  Utensils,
   Volume2,
+  type LucideIcon,
 } from 'lucide-react-native'
 
-import Breadcrumb from '@components/breadcrumb'
 import Button from '@components/button'
 import Chip from '@components/chip'
 import Combobox from '@components/combobox'
 import Dialog from '@components/dialog'
 import Drawer from '@components/drawer'
 import Header from '@components/header'
+import Icon from '@components/icon'
 import Image, { IMAGE_ASPECTS, type ImageAspect } from '@components/image'
 import Input from '@components/input'
 import MultiStep from '@components/multi-step'
 import AppNav from '@components/nav'
-import { type BrandSize, type BrandStatus } from '@components/shared/brand'
+import BRAND, { type BrandSize, type BrandStatus } from '@components/shared/brand'
 import Text from '@components/text'
 import ThemeToggle from '@components/theme-toggle'
 import { showToast } from '@components/toast'
@@ -49,6 +55,92 @@ import { LabCatalog } from '@views/home/lab-catalog'
 
 import { useSession } from '@/auth/use-session'
 import { metadata } from '@/common/metadata'
+import { cn } from '@/lib/utils'
+
+type ComboCategory = {
+  value: string
+  label: string
+  subtitle: string
+  icon: LucideIcon
+}
+
+const COMBO_CATEGORIES: ComboCategory[] = [
+  {
+    value: 'pen',
+    label: 'Papelería',
+    subtitle: 'Útiles y escritura',
+    icon: PenLine,
+  },
+  {
+    value: 'food',
+    label: 'Comida',
+    subtitle: 'Restaurantes y súper',
+    icon: Utensils,
+  },
+  {
+    value: 'rent',
+    label: 'Hogar',
+    subtitle: 'Renta y servicios',
+    icon: HomeIcon,
+  },
+  {
+    value: 'travel',
+    label: 'Viajes',
+    subtitle: 'Transporte y hotel',
+    icon: Plane,
+  },
+  {
+    value: 'health',
+    label: 'Salud',
+    subtitle: 'Farmacia y consultas',
+    icon: HeartPulse,
+  },
+]
+
+const ComboOptionRow: FC<{
+  icon: LucideIcon
+  title: string
+  subtitle: string
+  selected?: boolean
+}> = ({ icon, title, subtitle, selected }) => (
+  <View className="flex-row items-center gap-3 py-0.5">
+    <View
+      className={cn(
+        'h-9 w-9 items-center justify-center border border-border bg-card',
+        BRAND.radius.variants.control,
+      )}
+    >
+      <Icon icon={icon} tone="secondary" size={18} />
+    </View>
+    <View className="flex-1 gap-0.5">
+      <Text
+        className={cn('text-sm text-foreground', selected && 'font-semibold')}
+      >
+        {title}
+      </Text>
+      <Text.Caption>{subtitle}</Text.Caption>
+    </View>
+  </View>
+)
+
+const buildRichComboOptions = () =>
+  COMBO_CATEGORIES.map((item) => ({
+    value: item.value,
+    label: item.label,
+    content: (
+      <ComboOptionRow
+        icon={item.icon}
+        title={item.label}
+        subtitle={item.subtitle}
+      />
+    ),
+  }))
+
+const DIALOG_PRIORITIES = [
+  { value: 'low', label: 'Baja' },
+  { value: 'normal', label: 'Normal' },
+  { value: 'high', label: 'Alta' },
+]
 
 const STATUSES: BrandStatus[] = [
   'default',
@@ -85,6 +177,10 @@ const Home: FC = () => {
   const [checked, setChecked] = useState(false)
   const [switched, setSwitched] = useState(true)
   const [combo, setCombo] = useState('pen')
+  const [comboRich, setComboRich] = useState('food')
+  const [comboSearch, setComboSearch] = useState('food')
+  const [dialogCategory, setDialogCategory] = useState('food')
+  const [dialogPriority, setDialogPriority] = useState('normal')
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('Hoy')
   const [previewUri, setPreviewUri] = useState<string | null>(null)
   const [scanLabel, setScanLabel] = useState<string | null>(null)
@@ -107,69 +203,73 @@ const Home: FC = () => {
         keyboardShouldPersistTaps="handled"
       >
         <CatalogCard
-          n={19}
-          title="Breadcrumb"
-          does="Ruta de migas: content string o ReactNode; onPress por ítem."
-          doesNot="No es Header. El último ítem no dispara tap."
-          solves="Orientar y navegar jerarquías profundas."
-        >
-          <CatalogVariant
-            n={19}
-            sub={1}
-            title="Strings + onPress"
-            description="Migas clicables hasta el ítem actual."
-          >
-            <Breadcrumb
-              items={[
-                { id: 'home', content: 'Home', onPress: () => {} },
-                { id: 'lab', content: 'Lab', onPress: () => {} },
-                {
-                  id: 'ui',
-                  content: (
-                    <Chip variant="solid" status="brand">
-                      UI nodelo
-                    </Chip>
-                  ),
-                },
-              ]}
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={19}
-            sub={2}
-            title="ReactNode"
-            description="Chip u otro componente como miga."
-          >
-            <Breadcrumb
-              items={[
-                { id: 'home', content: 'Home', onPress: () => {} },
-                {
-                  id: 'lab',
-                  content: <Chip label="Lab" variant="soft" />,
-                  onPress: () => {},
-                },
-                { id: 'ui', content: 'UI' },
-              ]}
-            />
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
           n={20}
           title="Combobox"
-          does="Select in-place: value + options + onChange."
-          doesNot="No es Input libre. No busca remoto."
-          solves="Elegir una opción de lista corta (categoría, moneda)."
+          does="Select in-place; content o renderItem por opción."
+          doesNot="No busca remoto. Searchable filtra local."
+          solves="Elegir categoría, moneda o ítem con estilo propio."
         >
-          <Combobox
-            value={combo}
-            onChange={setCombo}
-            options={[
-              { value: 'pen', label: 'Pens' },
-              { value: 'food', label: 'Food' },
-              { value: 'rent', label: 'Rent' },
-            ]}
-          />
+          <CatalogVariant
+            n={20}
+            sub={1}
+            title="Default"
+            description="Solo label; lista compacta."
+          >
+            <Combobox
+              value={combo}
+              onChange={setCombo}
+              placeholder="Categoría"
+              options={COMBO_CATEGORIES.map(({ value, label }) => ({
+                value,
+                label,
+              }))}
+            />
+          </CatalogVariant>
+          <CatalogVariant
+            n={20}
+            sub={2}
+            title="Icono + texto"
+            description="Ícono a la izquierda, título y subtítulo a la derecha."
+          >
+            <Combobox
+              value={comboRich}
+              onChange={setComboRich}
+              placeholder="Categoría"
+              options={buildRichComboOptions()}
+              renderItem={(option, { selected }) => {
+                const item = COMBO_CATEGORIES.find(
+                  (category) => category.value === option.value,
+                )
+
+                if (!item) {
+                  return null
+                }
+
+                return (
+                  <ComboOptionRow
+                    icon={item.icon}
+                    title={item.label}
+                    subtitle={item.subtitle}
+                    selected={selected}
+                  />
+                )
+              }}
+            />
+          </CatalogVariant>
+          <CatalogVariant
+            n={20}
+            sub={3}
+            title="Searchable"
+            description="Mismo layout enriquecido con filtro local."
+          >
+            <Combobox.Searchable
+              value={comboSearch}
+              onChange={setComboSearch}
+              placeholder="Categoría"
+              searchPlaceholder="Buscar categoría…"
+              options={buildRichComboOptions()}
+            />
+          </CatalogVariant>
         </CatalogCard>
 
         <CatalogCard
@@ -211,7 +311,7 @@ const Home: FC = () => {
             n={22}
             sub={2}
             title="Form locked"
-            description="closeOnOutside false + Input."
+            description="Input + dos Combobox apilados; overlay de lista sobre el modal."
           >
             <Button
               variant="outline"
@@ -721,6 +821,27 @@ const Home: FC = () => {
         </Dialog.Header>
         <Dialog.Content>
           <Input label="Note" placeholder="Outside tap does nothing" />
+          <View className="gap-2">
+            <Text.Label>Categoría</Text.Label>
+            <Combobox
+              value={dialogCategory}
+              onChange={setDialogCategory}
+              placeholder="Categoría"
+              options={COMBO_CATEGORIES.map(({ value, label }) => ({
+                value,
+                label,
+              }))}
+            />
+          </View>
+          <View className="gap-2">
+            <Text.Label>Prioridad</Text.Label>
+            <Combobox
+              value={dialogPriority}
+              onChange={setDialogPriority}
+              placeholder="Prioridad"
+              options={DIALOG_PRIORITIES}
+            />
+          </View>
         </Dialog.Content>
         <Dialog.Footer>
           <Button

@@ -119,13 +119,13 @@ const DialogRoot: FC<DialogProps> = ({
           />
           <Animated.View
             className={cn(
-              'w-full border border-border bg-card p-5',
+              'w-full overflow-visible border border-border bg-card p-5',
               BRAND.radius.variants.surface,
               className,
             )}
             style={panelStyle}
           >
-            <Pressable onPress={(event) => event.stopPropagation()}>
+            <Pressable className="overflow-visible" onPress={(event) => event.stopPropagation()}>
               {children}
             </Pressable>
           </Animated.View>
@@ -155,7 +155,7 @@ const Content: FC<{ children: ReactNode; className?: string }> = ({
   children,
   className,
 }) => {
-  return <View className={cn('gap-3', className)}>{children}</View>
+  return <View className={cn('gap-3 overflow-visible', className)}>{children}</View>
 }
 
 const Footer: FC<{ children: ReactNode; className?: string }> = ({

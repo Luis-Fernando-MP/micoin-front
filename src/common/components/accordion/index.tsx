@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react'
+import { type FC, type ReactNode, useState } from 'react'
 import { Pressable, View } from 'react-native'
 
 import { ChevronDown } from 'lucide-react-native'
@@ -9,10 +9,12 @@ import { useMcVar } from '@theme'
 
 import { cn } from '@/lib/utils'
 
+type AccordionSlot = string | ReactNode
+
 type Item = {
   id: string
-  title: string
-  content: string
+  title: AccordionSlot
+  content: AccordionSlot
 }
 
 interface Props {
@@ -22,18 +24,15 @@ interface Props {
 }
 
 /**
- * Accordion — pieza reutilizable del kit MiCoin.
+ * Accordion — lista colapsable; title y content aceptan string o ReactNode.
  *
- * Caja negra lista para conectar en cualquier pantalla.
+ * @param items - Filas con id, title y content
+ * @param type - single abre uno; multiple abre varios. @default 'single'
+ * @param className - Clases NativeWind extra
  *
- * @param props - Ver AccordionProps / Props del archivo
- *
- * @param props.items
- * @param props.type
- * @param props.className
  * @example
- * import Accordion from '@components/accordion';
- * <Accordion />
+ * import Accordion from '@components/accordion'
+ * <Accordion items={[{ id: '1', title: 'FAQ', content: 'Respuesta' }]} />
  */
 const Accordion: FC<Props> = ({ items, type = 'single', className }) => {
   const [open, setOpen] = useState<string[]>([])
@@ -64,18 +63,29 @@ const Accordion: FC<Props> = ({ items, type = 'single', className }) => {
         return (
           <View
             key={item.id}
-            className="overflow-hidden rounded-lg border border-border bg-card"
+            className={cn(
+              'overflow-hidden border border-border bg-card',
+              BRAND.radius.variants.control,
+            )}
           >
             <Pressable
               onPress={() => toggle(item.id)}
               className="flex-row items-center justify-between px-4 py-3"
             >
-              <Text.Title size="sm">{item.title}</Text.Title>
+              {typeof item.title === 'string' ? (
+                <Text.Title size="sm">{item.title}</Text.Title>
+              ) : (
+                item.title
+              )}
               <ChevronDown size={18} color={iconColor} />
             </Pressable>
             {isOpen && (
-              <View className="border-t border-border px-4 py-3">
-                <Text.Subtitle>{item.content}</Text.Subtitle>
+              <View className="gap-2 border-t border-border px-4 py-3">
+                {typeof item.content === 'string' ? (
+                  <Text.Subtitle>{item.content}</Text.Subtitle>
+                ) : (
+                  item.content
+                )}
               </View>
             )}
           </View>
@@ -85,7 +95,5 @@ const Accordion: FC<Props> = ({ items, type = 'single', className }) => {
   )
 }
 
-/**
- *
- */
+export type { AccordionSlot, Item as AccordionItem, Props as AccordionProps }
 export default Accordion

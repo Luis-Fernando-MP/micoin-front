@@ -5,36 +5,28 @@ import { type Href, Link } from 'expo-router'
 import {
   Camera,
   ClipboardCopy,
-  CreditCard,
   FileUp,
   Fingerprint,
   Mail,
   MapPin,
   Moon,
-  Send,
   Share2,
   SunMedium,
   Volume2,
-  Wallet,
 } from 'lucide-react-native'
 
-import Accordion from '@components/accordion'
 import Breadcrumb from '@components/breadcrumb'
 import Button from '@components/button'
-import Checkbox from '@components/checkbox'
 import Chip from '@components/chip'
 import Combobox from '@components/combobox'
 import Dialog from '@components/dialog'
 import Drawer from '@components/drawer'
 import Header from '@components/header'
-import Icon from '@components/icon'
 import Image, { IMAGE_ASPECTS, type ImageAspect } from '@components/image'
 import Input from '@components/input'
 import MultiStep from '@components/multi-step'
 import AppNav from '@components/nav'
 import { type BrandSize, type BrandStatus } from '@components/shared/brand'
-import Switch from '@components/switch'
-import Tabs from '@components/tabs'
 import Text from '@components/text'
 import ThemeToggle from '@components/theme-toggle'
 import { showToast } from '@components/toast'
@@ -57,11 +49,11 @@ import { LabCatalog } from '@views/home/lab-catalog'
 
 import { useSession } from '@/auth/use-session'
 import { metadata } from '@/common/metadata'
-import { cn } from '@/lib/utils'
 
 const STATUSES: BrandStatus[] = [
   'default',
   'primary',
+  'active',
   'brand',
   'warning',
   'error',
@@ -114,304 +106,6 @@ const Home: FC = () => {
         contentContainerClassName="gap-4 p-5 pb-8"
         keyboardShouldPersistTaps="handled"
       >
-        <CatalogCard
-          n={17}
-          title="Tabs"
-          does="Triggers Button; trigger string o ReactNode; cambio directo de panel."
-          doesNot="No es SegmentedTabs nativo. No persiste ruta."
-          solves="Cambiar de vista in-place sin navegar."
-        >
-          <CatalogVariant
-            n={17}
-            sub={1}
-            title="Contenido largo"
-            description="Tres paneles con copy, chips, lista e inputs."
-          >
-            <Tabs
-              tabs={[
-                {
-                  id: 'resumen',
-                  trigger: 'Resumen',
-                  content: (
-                    <View className="gap-3">
-                      <Text.Title size="sm">Saldo disponible</Text.Title>
-                      <Text.Highlight>$1,248.50</Text.Highlight>
-                      <View className="flex-row flex-wrap gap-2">
-                        {FILTERS.map((item) => (
-                          <Chip key={item} label={item} variant="soft" />
-                        ))}
-                      </View>
-                      <Text.Paragraph>
-                        Vista general de movimientos del periodo. Cambia de tab
-                        para ver el detalle o preferencias del demo.
-                      </Text.Paragraph>
-                      <Image
-                        source={{ uri: IMAGE_DEMO }}
-                        aspectRatio="16/9"
-                      />
-                    </View>
-                  ),
-                },
-                {
-                  id: 'movimientos',
-                  trigger: 'Movimientos',
-                  content: (
-                    <View className="gap-2">
-                      <Text.Subtitle>Hoy</Text.Subtitle>
-                      {[
-                        'Café · −$4.50',
-                        'Transferencia · +$120.00',
-                        'Suscripción · −$9.99',
-                        'Supermercado · −$38.20',
-                        'Reembolso · +$15.00',
-                      ].map((line) => (
-                        <View
-                          key={line}
-                          className="rounded-control border border-border bg-card px-3 py-2"
-                        >
-                          <Text>{line}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  ),
-                },
-                {
-                  id: 'ajustes',
-                  trigger: 'Ajustes',
-                  content: (
-                    <View className="gap-3">
-                      <Switch
-                        checked={switched}
-                        onCheckedChange={setSwitched}
-                        label="Notificaciones push"
-                      />
-                      <Checkbox
-                        checked={checked}
-                        onCheckedChange={setChecked}
-                        label="Acepto términos del demo"
-                        variant="outline"
-                      />
-                      <Input
-                        label="Alias de cuenta"
-                        placeholder="Mi cuenta"
-                        value={inputValue}
-                        onChangeText={setInputValue}
-                      />
-                    </View>
-                  ),
-                },
-              ]}
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={17}
-            sub={2}
-            title="Trigger custom"
-            description="Icono + texto vía trigger (selected) => …"
-          >
-            <Tabs
-              defaultTab="card"
-              tabs={[
-                {
-                  id: 'wallet',
-                  trigger: (selected) => (
-                    <View className="flex-row items-center gap-1.5">
-                      <Icon
-                        icon={Wallet}
-                        size={14}
-                        tone={selected ? 'onPrimary' : 'secondary'}
-                      />
-                      <Text
-                        className={cn(
-                          'text-sm font-semibold',
-                          selected
-                            ? 'text-primary-foreground'
-                            : 'text-secondary',
-                        )}
-                      >
-                        Wallet
-                      </Text>
-                    </View>
-                  ),
-                  content: (
-                    <View className="gap-2">
-                      <Text.Caption>Balance total</Text.Caption>
-                      <Text.Title size="md">$842.10</Text.Title>
-                      <Text.Paragraph>
-                        Panel corto al cambiar tab.
-                      </Text.Paragraph>
-                    </View>
-                  ),
-                },
-                {
-                  id: 'card',
-                  trigger: (selected) => (
-                    <View className="flex-row items-center gap-1.5">
-                      <Icon
-                        icon={CreditCard}
-                        size={14}
-                        tone={selected ? 'onPrimary' : 'secondary'}
-                      />
-                      <Text
-                        className={cn(
-                          'text-sm font-semibold',
-                          selected
-                            ? 'text-primary-foreground'
-                            : 'text-secondary',
-                        )}
-                      >
-                        Tarjeta
-                      </Text>
-                    </View>
-                  ),
-                  content: (
-                    <View className="gap-2">
-                      <Text.Subtitle>•••• 4242</Text.Subtitle>
-                      <Chip label="Activa" status="success" variant="solid" />
-                      <Text.Paragraph>
-                        Tab inicial vía defaultTab. El activo usa primary.
-                      </Text.Paragraph>
-                    </View>
-                  ),
-                },
-                {
-                  id: 'send',
-                  trigger: (selected) => (
-                    <View className="flex-row items-center gap-1.5">
-                      <Icon
-                        icon={Send}
-                        size={14}
-                        tone={selected ? 'onPrimary' : 'secondary'}
-                      />
-                      <Text
-                        className={cn(
-                          'text-sm font-semibold',
-                          selected
-                            ? 'text-primary-foreground'
-                            : 'text-secondary',
-                        )}
-                      >
-                        Enviar
-                      </Text>
-                    </View>
-                  ),
-                  content: (
-                    <View className="gap-2">
-                      <Input label="Destinatario" placeholder="@usuario" />
-                      <Input label="Monto" placeholder="0.00" />
-                      <Button label="Continuar" size="sm" />
-                    </View>
-                  ),
-                },
-                {
-                  id: 'more',
-                  trigger: 'Más',
-                  content: (
-                    <View className="gap-2">
-                      {STATUSES.slice(0, 4).map((status) => (
-                        <Chip
-                          key={status}
-                          label={status}
-                          status={status}
-                          variant="outline"
-                        />
-                      ))}
-                    </View>
-                  ),
-                },
-              ]}
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={17}
-            sub={3}
-            title="Button props"
-            description="tabProps: variant, status e icon por tab."
-          >
-            <Tabs
-              tabs={[
-                {
-                  id: 'solid',
-                  trigger: 'Solid',
-                  content: <Text.Paragraph>Tab default + primary al activo.</Text.Paragraph>,
-                },
-                {
-                  id: 'outline',
-                  trigger: 'Outline',
-                  tabProps: { variant: 'outline', status: 'info' },
-                  content: (
-                    <Text.Paragraph>
-                      Siempre outline info; anula el ghost/default del kit.
-                    </Text.Paragraph>
-                  ),
-                },
-                {
-                  id: 'brand',
-                  trigger: 'Brand',
-                  tabProps: { variant: 'brand', icon: Share2 },
-                  content: (
-                    <Text.Paragraph>
-                      variant brand + icon Lucide en el trigger.
-                    </Text.Paragraph>
-                  ),
-                },
-              ]}
-            />
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={18}
-          title="Accordion"
-          does="Lista colapsable. type single o multiple."
-          doesNot="No es Dialog. No navega. El contenido es string."
-          solves="FAQ o detalle largo sin ocupar la pantalla entera."
-        >
-          <CatalogVariant
-            n={18}
-            sub={1}
-            title="Single"
-            description="Un ítem abierto a la vez."
-          >
-            <Accordion
-              items={[
-                {
-                  id: '1',
-                  title: `Qué es ${metadata.name}?`,
-                  content: metadata.description,
-                },
-                {
-                  id: '2',
-                  title: 'Offline?',
-                  content: 'SQLite first, then sync.',
-                },
-              ]}
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={18}
-            sub={2}
-            title="Multiple"
-            description="Varios ítems abiertos a la vez."
-          >
-            <Accordion
-              type="multiple"
-              items={[
-                {
-                  id: 'a',
-                  title: 'Paso 1',
-                  content: 'Puede quedar abierto.',
-                },
-                {
-                  id: 'b',
-                  title: 'Paso 2',
-                  content: 'También este.',
-                },
-              ]}
-            />
-          </CatalogVariant>
-        </CatalogCard>
-
         <CatalogCard
           n={19}
           title="Breadcrumb"
@@ -1006,4 +700,3 @@ const Home: FC = () => {
 }
 
 export { Home }
-

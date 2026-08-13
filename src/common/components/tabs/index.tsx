@@ -69,9 +69,10 @@ const Tabs: FC<Props> = ({ tabs, defaultTab, className }) => {
             <Button
               key={id}
               size="sm"
-              variant={selected ? 'default' : 'ghost'}
-              status={selected ? 'primary' : 'default'}
+              variant="ghost"
+              status="default"
               {...buttonProps}
+              active={selected}
               onPress={() => setActive(id)}
               className={cn('flex-1', tabClassName)}
               label={isString ? trigger : undefined}

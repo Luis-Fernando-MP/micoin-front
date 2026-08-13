@@ -63,6 +63,10 @@ const iconNativeToken = (
     return 'primaryForeground'
   }
 
+  if (status === 'active') {
+    return 'primaryForeground'
+  }
+
   if (status === 'brand') {
     return 'brandForeground'
   }
@@ -82,6 +86,7 @@ interface Props
   variant?: ButtonVariant
   status?: BrandStatus
   center?: boolean
+  active?: boolean
 }
 
 /**
@@ -93,6 +98,7 @@ interface Props
  * @param size - Escala BRAND o `icon` cuadrado. @default 'md'
  * @param icon - Icono Lucide opcional
  * @param center - Centra el contenido. @default true
+ * @param active - Estilo active solid; pisa variant y status. @default false
  * @param disabled - Deshabilitado
  * @param className - Clases NativeWind extra
  *
@@ -100,13 +106,14 @@ interface Props
  * import Button from '@components/button'
  * <Button label="Pagar" variant="brand" size="sm" />
  * <Button icon={Camera} size="icon" variant="outline" />
- * <Button label="Error" status="error" />
+ * <Button label="Hoy" active />
  */
 const Button: FC<Props> = ({
   className,
   variant = 'default',
   status = 'primary',
   center = true,
+  active = false,
   disabled,
   label,
   children,
@@ -114,21 +121,22 @@ const Button: FC<Props> = ({
   icon,
   ...props
 }) => {
-  const resolvedStatus = resolveStatus(variant, status)
-  const tone = BRAND.colors.variants[resolvedStatus]
+  const effectiveVariant = active ? 'default' : variant
+  const effectiveStatus = active ? 'active' : resolveStatus(variant, status)
+  const tone = BRAND.colors.variants[effectiveStatus]
   const sizing = BUTTON_SIZES[size]
-  const solid = isSolidVariant(variant)
-  const iconToken = iconNativeToken(resolvedStatus, variant)
+  const solid = isSolidVariant(effectiveVariant)
+  const iconToken = iconNativeToken(effectiveStatus, effectiveVariant)
   const iconColor = useMcVar(iconToken)
 
   let surface = ''
   if (solid) {
     surface = cn(tone.background, 'active:opacity-90')
   }
-  if (variant === 'outline') {
+  if (effectiveVariant === 'outline') {
     surface = cn('border bg-background active:bg-card-hover', tone.border)
   }
-  if (variant === 'ghost') {
+  if (effectiveVariant === 'ghost') {
     surface = 'bg-transparent active:bg-card-hover'
   }
 
@@ -140,7 +148,7 @@ const Button: FC<Props> = ({
   return (
     <Pressable
       className={cn(
-        'flex-row gap-2',
+        'flex-row gap-2 transition-colors duration-200 ease-out',
         align,
         BRAND.radius.variants.control,
         surface,

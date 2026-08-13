@@ -39,6 +39,17 @@ const BRAND_COLORS = {
     icon: Star as LucideIcon,
     label: 'Primario',
   },
+  active: {
+    text: 'text-primary',
+    foreground: 'text-primary-foreground',
+    background: 'bg-primary-background',
+    border: 'border-primary',
+    soft: 'bg-primary-background/10',
+    native: 'primary' as NativeToken,
+    nativeBg: 'primaryBackground' as NativeToken,
+    icon: Star as LucideIcon,
+    label: 'Activo',
+  },
   brand: {
     text: 'text-brand',
     foreground: 'text-brand-foreground',

@@ -14,6 +14,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 
 import { queryClient } from '@core'
 import CameraHost from '@device/camera'
+import ScannerHost from '@device/scanner'
 import ThemeProvider from '@theme'
 
 import { useSession } from '@/auth/use-session'
@@ -61,6 +62,7 @@ const RootLayout: FC = () => {
                   <RootNavigator />
                   <PortalHost />
                   <CameraHost />
+                  <ScannerHost />
                 </StripeGate>
               </BottomSheetModalProvider>
             </ThemeProvider>

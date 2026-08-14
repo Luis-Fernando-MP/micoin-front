@@ -1,13 +1,11 @@
 import { type FC, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 
-import * as Crypto from 'expo-crypto'
 import { type Href, Link } from 'expo-router'
 import {
   Camera,
   ClipboardCopy,
   FileUp,
-  Fingerprint,
   HeartPulse,
   Home as HomeIcon,
   type LucideIcon,
@@ -40,9 +38,8 @@ import BRAND, {
 import Text from '@components/text'
 import ThemeToggle from '@components/theme-toggle'
 import { showToast } from '@components/toast'
-import { useBiometrics } from '@device/biometrics'
 import { setBrightness } from '@device/brightness'
-import { openCamera, openScanner, pickImage } from '@device/camera'
+import { APP_ENV, cameraEngine, openCamera, pickImage } from '@device/camera'
 import { copyText } from '@device/clipboard'
 import { getContactsCount } from '@device/contacts'
 import { type DeviceSnapshot } from '@device/device'
@@ -52,6 +49,7 @@ import { setKeepAwake } from '@device/keep-awake'
 import { getLocationSnapshot } from '@device/location'
 import { openSupportMail } from '@device/mail'
 import { lockPortrait, unlockOrientation } from '@device/orientation'
+import { openScanner } from '@device/scanner'
 import { shareFile } from '@device/sharing'
 import { speakText } from '@device/speech'
 import { CatalogCard, CatalogVariant } from '@views/home/catalog-card'
@@ -388,119 +386,6 @@ const toastBio = (ok: boolean, message: string) => {
   })
 }
 
-const BiometricsLab: FC = () => {
-  const [enabled, setEnabled] = useState(false)
-  const [unlockedValue, setUnlockedValue] = useState<string | null>(null)
-  const bio = useBiometrics({ enabled, onEnabledChange: setEnabled })
-
-  let hardwareLabel = '…'
-  if (bio.info) {
-    hardwareLabel = bio.info.hasHardware ? 'sí' : 'no'
-  }
-
-  let enrolledLabel = '…'
-  if (bio.info) {
-    enrolledLabel = bio.info.enrolled ? 'sí' : 'no'
-  }
-
-  let vaultLabel = '…'
-  if (bio.info) {
-    vaultLabel = bio.info.canProtect ? 'sí' : 'no · Expo Go / sin Class 3'
-  }
-
-  return (
-    <View className="gap-4">
-      <View className="gap-1">
-        <Text.Caption>useBiometrics — @device/biometrics</Text.Caption>
-        <Text.Caption>
-          Lab: enable(nonce). Sin login / Better Auth.
-        </Text.Caption>
-        <Text.Caption>Hardware: {hardwareLabel}</Text.Caption>
-        <Text.Caption>Enrolado: {enrolledLabel}</Text.Caption>
-        <Text.Caption>Vault: {vaultLabel}</Text.Caption>
-        <Text.Caption>
-          Flag local: {enabled ? 'enabled' : 'disabled'}
-        </Text.Caption>
-        {bio.lastError && (
-          <Text.Caption status="warning">reason: {bio.lastError}</Text.Caption>
-        )}
-        {unlockedValue && (
-          <Text.Caption status="success">
-            unlock.value: {unlockedValue}
-          </Text.Caption>
-        )}
-      </View>
-      <CatalogVariant
-        n={24}
-        sub={1}
-        title="enable"
-        description="Pide huella y ata el nonce al Keychain. El flag se guarda en useState."
-      >
-        <Button
-          size="sm"
-          icon={Fingerprint}
-          label="Configurar huella"
-          disabled={bio.busy}
-          onPress={async () => {
-            setUnlockedValue(null)
-            const result = await bio.enable(Crypto.randomUUID())
-            if (result.ok) {
-              toastBio(true, 'Vault configurado')
-              return
-            }
-            toastBio(false, result.reason)
-          }}
-        />
-      </CatalogVariant>
-      <CatalogVariant
-        n={24}
-        sub={2}
-        title="unlock"
-        description="El OS descifra el vault y devuelve el mismo nonce."
-      >
-        <Button
-          size="sm"
-          variant="outline"
-          label="Entrar con huella"
-          disabled={bio.busy || !enabled}
-          onPress={async () => {
-            const result = await bio.unlock()
-            if (result.ok) {
-              setUnlockedValue(result.value)
-              toastBio(true, 'Vault abierto')
-              return
-            }
-            setUnlockedValue(null)
-            toastBio(false, result.reason)
-          }}
-        />
-      </CatalogVariant>
-      <CatalogVariant
-        n={24}
-        sub={3}
-        title="disable"
-        description="Borra el ítem del Keychain y apaga el flag local."
-      >
-        <Button
-          size="sm"
-          variant="ghost"
-          label="Desactivar"
-          disabled={bio.busy || !enabled}
-          onPress={async () => {
-            const result = await bio.disable()
-            if (result.ok) {
-              setUnlockedValue(null)
-              toastBio(true, 'Vault borrado')
-              return
-            }
-            toastBio(false, result.reason)
-          }}
-        />
-      </CatalogVariant>
-    </View>
-  )
-}
-
 const Home: FC = () => {
   const { isAuthenticated, data } = useSession()
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -535,21 +420,11 @@ const Home: FC = () => {
         keyboardShouldPersistTaps="handled"
       >
         <CatalogCard
-          n={24}
-          title="biometrics"
-          does="enable(nonce) → unlock() devuelve el nonce. Flag en useState."
-          doesNot="No hay login. No usa Better Auth. En Expo Go el vault da unavailable."
-          solves="Probar configurar / entrar / desactivar como Yape, sin sesión."
-        >
-          <BiometricsLab />
-        </CatalogCard>
-
-        <CatalogCard
           n={25}
           title="camera"
-          does="Captura foto/video, galería y escáner de códigos."
-          doesNot="No persiste en backend. No es el componente Image."
-          solves="Tickets, KYC, cobro QR y adjuntos desde el device."
+          does={`Foto/video + filtros color. Motor: ${cameraEngine} (${APP_ENV}).`}
+          doesNot="No es Image. Caritas AR no van en Expo Go. Scanner es @device/scanner."
+          solves="Tickets, KYC y adjuntos. En production el motor será VisionCamera."
         >
           <CatalogVariant
             n={25}
@@ -603,7 +478,7 @@ const Home: FC = () => {
             n={25}
             sub={3}
             title="openScanner"
-            description="Viewfinder QR / barcode."
+            description="@device/scanner — QR / barcode, no es extension de camera."
           >
             <View className="gap-2">
               <Button

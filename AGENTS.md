@@ -186,4 +186,4 @@ Las extensiones viven en `extensions/` y se adjuntan al default. El consumidor n
 
 SDK 54 / Expo Go. `pnpm exec expo install` para nativos. No subir de SDK si rompe Expo Go.
 
-Próximo candidato a extraer con el mismo patrón: `@device/camera` → `@components/camera` + extensions `scanner` / `filters`.
+`EXPO_PUBLIC_APP_ENV=development` (lab / Go) vs `production` (app instalada). `@device/scanner` es módulo aparte. `@device/camera` extensions: `filters` (color). VisionCamera solo en production + binario nativo.

@@ -50,7 +50,4 @@ const VideoPlayer: FC<Props> = ({ uri = DEMO, height = 180 }) => {
   )
 }
 
-/**
- *
- */
 export default VideoPlayer

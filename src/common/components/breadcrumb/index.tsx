@@ -87,8 +87,8 @@ const Breadcrumb: FC<Props> = ({ items, className }) => {
 }
 
 export type {
-  BreadcrumbSlot,
   Crumb as BreadcrumbItem,
   Props as BreadcrumbProps,
+  BreadcrumbSlot,
 }
 export default Breadcrumb

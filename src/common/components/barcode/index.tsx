@@ -108,7 +108,4 @@ const Barcode: FC<Props> = ({
   )
 }
 
-/**
- *
- */
 export default Barcode

@@ -1,5 +1,5 @@
-import ComboboxRoot from './root'
 import Searchable from './extensions/searchable'
+import ComboboxRoot from './root'
 
 const Combobox = Object.assign(ComboboxRoot, {
   Searchable,

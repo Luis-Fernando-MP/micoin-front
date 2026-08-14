@@ -66,7 +66,4 @@ const MiniPlayerBar: FC<Props> = ({
   )
 }
 
-/**
- *
- */
 export default MiniPlayerBar

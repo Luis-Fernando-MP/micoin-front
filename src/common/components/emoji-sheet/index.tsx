@@ -54,7 +54,4 @@ const EmojiSheet: FC<Props> = ({ onSelect }) => {
   )
 }
 
-/**
- *
- */
 export default EmojiSheet

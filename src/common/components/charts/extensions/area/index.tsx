@@ -58,7 +58,4 @@ const AreaChart: FC<Props> = ({ data = DEFAULT, width = 280, height = 72 }) => {
 }
 
 export type { Props as AreaChartProps }
-/**
- *
- */
 export default memo(AreaChart)

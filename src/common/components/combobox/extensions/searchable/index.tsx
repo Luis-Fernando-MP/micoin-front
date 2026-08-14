@@ -27,6 +27,7 @@ type Props = Omit<ComboboxProps, 'listHeader' | 'options'> & {
 const Searchable: FC<Props> = ({
   options,
   searchPlaceholder = 'Buscar…',
+  onOpenChange,
   ...props
 }) => {
   const [query, setQuery] = useState('')
@@ -43,11 +44,32 @@ const Searchable: FC<Props> = ({
     )
   }, [options, query])
 
-  const handleOpenChange = useCallback((nextOpen: boolean) => {
-    if (!nextOpen) {
-      setQuery('')
-    }
-  }, [])
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      if (!nextOpen) {
+        setQuery('')
+      }
+
+      onOpenChange?.(nextOpen)
+    },
+    [onOpenChange],
+  )
+
+  const listHeader = useMemo(
+    () => (
+      <View className="border-b border-border px-3 py-2">
+        <Input
+          value={query}
+          onChangeText={setQuery}
+          placeholder={searchPlaceholder}
+          variant="ghost"
+          autoCorrect={false}
+          autoCapitalize="none"
+        />
+      </View>
+    ),
+    [query, searchPlaceholder],
+  )
 
   return (
     <ComboboxRoot
@@ -55,18 +77,7 @@ const Searchable: FC<Props> = ({
       options={filtered}
       allOptions={options}
       onOpenChange={handleOpenChange}
-      listHeader={
-        <View className="border-b border-border px-3 py-2">
-          <Input
-            value={query}
-            onChangeText={setQuery}
-            placeholder={searchPlaceholder}
-            variant="ghost"
-            autoCorrect={false}
-            autoCapitalize="none"
-          />
-        </View>
-      }
+      listHeader={listHeader}
     />
   )
 }

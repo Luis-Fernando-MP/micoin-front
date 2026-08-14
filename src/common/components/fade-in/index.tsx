@@ -51,7 +51,4 @@ const FadeIn: FC<Props> = ({ children, delay = 0, className }) => {
 }
 
 export type { Props as FadeInProps }
-/**
- *
- */
 export default FadeIn

@@ -112,5 +112,5 @@ const Input: FC<Props> = ({
   )
 }
 
-export type { InputVariant, Props as InputProps }
+export type { Props as InputProps,InputVariant }
 export default Input

@@ -95,5 +95,5 @@ const Accordion: FC<Props> = ({ items, type = 'single', className }) => {
   )
 }
 
-export type { AccordionSlot, Item as AccordionItem, Props as AccordionProps }
+export type { Item as AccordionItem, Props as AccordionProps,AccordionSlot }
 export default Accordion

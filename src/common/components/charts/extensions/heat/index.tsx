@@ -59,7 +59,4 @@ const HeatmapChart: FC<Props> = ({ cells = 28, columns = 7 }) => {
 }
 
 export type { Props as HeatmapChartProps }
-/**
- *
- */
 export default memo(HeatmapChart)

@@ -2,10 +2,12 @@ import {
   createContext,
   type FC,
   type ReactNode,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
 } from 'react'
-import { Pressable, Modal as RNModal, StyleSheet, View } from 'react-native'
+import { Modal as RNModal, Pressable, StyleSheet, View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -98,23 +100,39 @@ const DialogRoot: FC<DialogProps> = ({
     transform: [{ scale: scale.value }],
   }))
 
-  const onBackdropPress = () => {
+  const dialogValue = useMemo(
+    () => ({ onOpenChange }),
+    [onOpenChange],
+  )
+
+  const onBackdropPress = useCallback(() => {
     if (!closeOnOutside) {
       return
     }
 
     onOpenChange(false)
-  }
+  }, [closeOnOutside, onOpenChange])
+
+  const onRequestClose = useCallback(() => {
+    onOpenChange(false)
+  }, [onOpenChange])
+
+  const stopPropagation = useCallback(
+    (event: { stopPropagation: () => void }) => {
+      event.stopPropagation()
+    },
+    [],
+  )
 
   return (
-    <DialogContext.Provider value={{ onOpenChange }}>
+    <DialogContext.Provider value={dialogValue}>
       <ComboboxHostContext.Provider value={true}>
         <RNModal
           animationType="none"
           transparent
           visible={open}
           statusBarTranslucent
-          onRequestClose={() => onOpenChange(false)}
+          onRequestClose={onRequestClose}
         >
           <View className="flex-1 items-center justify-center px-6">
             <Animated.View
@@ -137,10 +155,7 @@ const DialogRoot: FC<DialogProps> = ({
               )}
               style={panelStyle}
             >
-              <Pressable
-                className="overflow-visible"
-                onPress={(event) => event.stopPropagation()}
-              >
+              <Pressable className="overflow-visible" onPress={stopPropagation}>
                 {children}
               </Pressable>
             </Animated.View>
@@ -185,7 +200,4 @@ const styles = StyleSheet.create({
 })
 
 export { useDialog }
-/**
- *
- */
 export default Dialog

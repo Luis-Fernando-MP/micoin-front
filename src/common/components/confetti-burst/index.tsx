@@ -53,7 +53,4 @@ const ConfettiBurst: FC<Props> = ({ count = 80 }) => {
   )
 }
 
-/**
- *
- */
 export default ConfettiBurst

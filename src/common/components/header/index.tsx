@@ -72,7 +72,4 @@ const Header: FC<Props> = ({
   )
 }
 
-/**
- *
- */
 export default Header

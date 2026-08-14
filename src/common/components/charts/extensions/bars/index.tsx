@@ -66,7 +66,4 @@ const BarChart: FC<Props> = ({
 }
 
 export type { Props as BarChartProps }
-/**
- *
- */
 export default memo(BarChart)

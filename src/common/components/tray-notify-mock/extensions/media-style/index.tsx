@@ -56,7 +56,4 @@ const MediaStyleNotifyMock: FC<Props> = ({
   )
 }
 
-/**
- *
- */
 export default MediaStyleNotifyMock

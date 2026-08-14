@@ -34,7 +34,4 @@ const Separator: FC<Props> = ({ className, orientation = 'horizontal' }) => {
   )
 }
 
-/**
- *
- */
 export default Separator

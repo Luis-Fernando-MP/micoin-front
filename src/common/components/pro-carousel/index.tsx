@@ -32,7 +32,4 @@ const ProCarousel = Object.assign(Root, {
 }
 
 export type { LayoutMode, ProCarouselProps, Slide }
-/**
- *
- */
 export default ProCarousel

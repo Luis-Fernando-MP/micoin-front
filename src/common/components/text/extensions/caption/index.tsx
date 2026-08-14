@@ -34,7 +34,4 @@ const Caption: FC<Props> = ({ className, status, ...props }) => {
 }
 
 export type { Props as CaptionProps }
-/**
- *
- */
 export default Caption

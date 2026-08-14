@@ -52,7 +52,4 @@ const OngoingNotifyMock: FC<Props> = ({
   )
 }
 
-/**
- *
- */
 export default OngoingNotifyMock

@@ -332,7 +332,4 @@ const RoutePlanner: FC<Props> = ({
 }
 
 export type { Props as RoutePlannerProps }
-/**
- *
- */
 export default memo(RoutePlanner)

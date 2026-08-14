@@ -95,7 +95,4 @@ const GaugeChart: FC<Props> = ({ value = 780, min = 300, max = 850 }) => {
 }
 
 export type { Props as GaugeChartProps }
-/**
- *
- */
 export default memo(GaugeChart)

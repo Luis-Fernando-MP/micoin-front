@@ -38,7 +38,4 @@ const PressableScale: FC<Props> = ({ children, onPress }) => {
   )
 }
 
-/**
- *
- */
 export default PressableScale

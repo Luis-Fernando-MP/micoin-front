@@ -17,7 +17,4 @@ const StackCarousel: FC<Omit<ProCarouselProps, 'mode'>> = (props) => (
   <Root {...props} mode="horizontal-stack" />
 )
 
-/**
- *
- */
 export default memo(StackCarousel)

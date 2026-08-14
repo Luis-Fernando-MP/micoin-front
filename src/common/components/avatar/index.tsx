@@ -76,7 +76,4 @@ const Avatar: FC<Props> = ({
   )
 }
 
-/**
- *
- */
 export default Avatar

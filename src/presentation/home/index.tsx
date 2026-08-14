@@ -31,7 +31,7 @@ import Dialog from '@components/dialog'
 import Drawer from '@components/drawer'
 import Header from '@components/header'
 import Icon from '@components/icon'
-import Image, { IMAGE_ASPECTS, type ImageAspect } from '@components/image'
+import Image from '@components/image'
 import Input from '@components/input'
 import AppNav from '@components/nav'
 import BRAND, {
@@ -195,8 +195,6 @@ const IMAGE_DEMO =
   'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80'
 
 const FILTERS = ['Hoy', 'Semana', 'Mes'] as const
-
-const IMAGE_ASPECT_KEYS = Object.keys(IMAGE_ASPECTS.variants) as ImageAspect[]
 
 const KIT_LAST = 37
 

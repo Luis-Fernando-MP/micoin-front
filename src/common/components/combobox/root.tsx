@@ -65,6 +65,7 @@ interface Props {
 
 const LIST_MAX_HEIGHT = 240
 const LIST_GAP = 4
+const LIST_STYLE = { maxHeight: LIST_MAX_HEIGHT }
 
 const itemTextClass = (selected: boolean) =>
   cn(
@@ -107,6 +108,42 @@ const renderOptionBody = (
   return slot
 }
 
+type ComboboxItemProps = {
+  option: ComboboxOption
+  selected: boolean
+  isLast: boolean
+  renderItem?: Props['renderItem']
+  onSelect: (value: string) => void
+}
+
+const ComboboxItem = memo(function ComboboxItem({
+  option,
+  selected,
+  isLast,
+  renderItem,
+  onSelect,
+}: ComboboxItemProps) {
+  const handlePress = useCallback(() => {
+    onSelect(option.value)
+  }, [onSelect, option.value])
+
+  return (
+    <Pressable
+      onPress={handlePress}
+      className={cn(
+        'min-h-12 flex-row items-center justify-between gap-2 px-4 py-2 active:bg-card-hover',
+        !isLast && 'border-b border-border',
+        selected && 'bg-card',
+      )}
+    >
+      <View className="flex-1">
+        {renderOptionBody(option, selected, renderItem, isLast)}
+      </View>
+      {selected && <Icon icon={Check} tone="brand" size={16} />}
+    </Pressable>
+  )
+})
+
 type ListPanelProps = {
   options: ComboboxOption[]
   value?: string
@@ -115,8 +152,16 @@ type ListPanelProps = {
   onSelect: (value: string) => void
 }
 
-const ListPanel: FC<ListPanelProps> = memo(
-  ({ options, value, listHeader, renderItem, onSelect }) => (
+const ListPanel = memo(function ListPanel({
+  options,
+  value,
+  listHeader,
+  renderItem,
+  onSelect,
+}: ListPanelProps) {
+  const lastIndex = options.length - 1
+
+  return (
     <View
       className={cn(
         'overflow-hidden border border-border bg-background shadow-lg',
@@ -128,33 +173,22 @@ const ListPanel: FC<ListPanelProps> = memo(
         keyboardShouldPersistTaps="handled"
         nestedScrollEnabled
         bounces={false}
-        style={{ maxHeight: LIST_MAX_HEIGHT }}
+        style={LIST_STYLE}
       >
-        {options.map((item, index) => {
-          const isSelected = item.value === value
-          const isLast = index === options.length - 1
-
-          return (
-            <Pressable
-              key={item.value}
-              onPress={() => onSelect(item.value)}
-              className={cn(
-                'min-h-12 flex-row items-center justify-between gap-2 px-4 py-2 active:bg-card-hover',
-                !isLast && 'border-b border-border',
-                isSelected && 'bg-card',
-              )}
-            >
-              <View className="flex-1">
-                {renderOptionBody(item, isSelected, renderItem, isLast)}
-              </View>
-              {isSelected && <Icon icon={Check} tone="brand" size={16} />}
-            </Pressable>
-          )
-        })}
+        {options.map((item, index) => (
+          <ComboboxItem
+            key={item.value}
+            option={item}
+            selected={item.value === value}
+            isLast={index === lastIndex}
+            renderItem={renderItem}
+            onSelect={onSelect}
+          />
+        ))}
       </ScrollView>
     </View>
-  ),
-)
+  )
+})
 
 /**
  * Combobox — select in-place con opciones y slots personalizables por ítem.
@@ -193,12 +227,13 @@ const ComboboxRoot: FC<Props> = ({
   const triggerRef = useRef<View>(null)
   const wasOpen = useRef(false)
   const [anchor, setAnchor] = useState<Anchor | null>(null)
-  const activeId = useComboboxStore((state) => state.activeId)
-  const claim = useComboboxStore((state) => state.open)
-  const release = useComboboxStore((state) => state.close)
-  const open = activeId === id
+  const open = useComboboxStore((state) => state.activeId === id)
   const catalog = allOptions ?? options
-  const selected = catalog.find((option) => option.value === value)
+
+  const selected = useMemo(
+    () => catalog.find((option) => option.value === value),
+    [catalog, value],
+  )
 
   const triggerContent = useMemo(() => {
     if (!selected) {
@@ -221,33 +256,30 @@ const ComboboxRoot: FC<Props> = ({
 
     wasOpen.current = open
     onOpenChange?.(open)
-
-    if (!open) {
-      setAnchor(null)
-    }
   }, [open, onOpenChange])
 
   useEffect(() => {
     return () => {
-      release(id)
+      useComboboxStore.getState().close(id)
     }
-  }, [id, release])
+  }, [id])
 
   const close = useCallback(() => {
-    release(id)
-  }, [id, release])
+    setAnchor(null)
+    useComboboxStore.getState().close(id)
+  }, [id])
 
   const openList = useCallback(() => {
     if (placement === 'inline') {
-      claim(id)
+      useComboboxStore.getState().open(id)
       return
     }
 
     triggerRef.current?.measureInWindow((x, y, width, height) => {
       setAnchor({ x, y, width, height })
-      claim(id)
+      useComboboxStore.getState().open(id)
     })
-  }, [claim, id, placement])
+  }, [id, placement])
 
   const toggleOpen = useCallback(() => {
     if (open) {
@@ -266,7 +298,7 @@ const ComboboxRoot: FC<Props> = ({
     [close, onChange],
   )
 
-  const listPanel = (
+  const listPanel = open && (
     <ListPanel
       options={options}
       value={value}
@@ -276,12 +308,18 @@ const ComboboxRoot: FC<Props> = ({
     />
   )
 
-  const anchorStyle = anchor && {
-    position: 'absolute' as const,
-    top: anchor.y + anchor.height + LIST_GAP,
-    left: anchor.x,
-    width: anchor.width,
-  }
+  const anchorStyle = useMemo(() => {
+    if (!anchor) {
+      return null
+    }
+
+    return {
+      position: 'absolute' as const,
+      top: anchor.y + anchor.height + LIST_GAP,
+      left: anchor.x,
+      width: anchor.width,
+    }
+  }, [anchor])
 
   return (
     <View
@@ -320,9 +358,7 @@ const ComboboxRoot: FC<Props> = ({
             accessibilityRole="button"
             accessibilityLabel="Cerrar opciones"
           />
-          {anchor && anchorStyle && (
-            <View style={anchorStyle}>{listPanel}</View>
-          )}
+          {anchorStyle && <View style={anchorStyle}>{listPanel}</View>}
         </Modal>
       )}
     </View>
@@ -330,10 +366,10 @@ const ComboboxRoot: FC<Props> = ({
 }
 
 export type {
+  ItemState as ComboboxItemState,
   ComboboxOption,
   ComboboxPlacement,
-  ComboboxSlot,
-  ItemState as ComboboxItemState,
   Props as ComboboxProps,
+  ComboboxSlot,
 }
 export default ComboboxRoot

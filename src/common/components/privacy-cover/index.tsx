@@ -50,7 +50,4 @@ const PrivacyCover: FC<Props> = ({
   )
 }
 
-/**
- *
- */
 export default PrivacyCover

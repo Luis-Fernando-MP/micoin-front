@@ -20,7 +20,4 @@ const TextRoot: FC<Props> = ({ className, status, ...props }) => {
 }
 
 export type { Props as TextRootProps }
-/**
- *
- */
 export default TextRoot

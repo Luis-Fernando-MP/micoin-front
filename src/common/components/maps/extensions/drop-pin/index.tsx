@@ -69,7 +69,4 @@ const DropPin: FC<Props> = ({ initialPin = SV, height = 180, onChange }) => {
 }
 
 export type { Props as DropPinProps }
-/**
- *
- */
 export default memo(DropPin)

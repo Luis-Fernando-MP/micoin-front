@@ -36,7 +36,4 @@ const Highlight: FC<Props> = ({
 }
 
 export type { Props as HighlightProps }
-/**
- *
- */
 export default Highlight

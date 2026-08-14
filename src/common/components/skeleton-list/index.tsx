@@ -48,7 +48,4 @@ const SkeletonList: FC<Props> = ({ rows = 4, className }) => {
   )
 }
 
-/**
- *
- */
 export default SkeletonList

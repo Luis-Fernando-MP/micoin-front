@@ -9,13 +9,22 @@ type ComboboxStore = {
 /**
  * useComboboxStore — solo un Combobox abierto a la vez.
  *
+ * Suscribirse con selector booleano por id (`s.activeId === id`) para no
+ * re-renderizar hermanos. Acciones vía `getState()`.
+ *
  * @example
- * const activeId = useComboboxStore((s) => s.activeId)
+ * const open = useComboboxStore((s) => s.activeId === id)
  * useComboboxStore.getState().open(id)
  */
 const useComboboxStore = create<ComboboxStore>((set, get) => ({
   activeId: null,
-  open: (id) => set({ activeId: id }),
+  open: (id) => {
+    if (get().activeId === id) {
+      return
+    }
+
+    set({ activeId: id })
+  },
   close: (id) => {
     if (get().activeId !== id) {
       return

@@ -49,7 +49,4 @@ const EmojiReactionBar: FC<Props> = ({ emojis = DEFAULT, onChange }) => {
   )
 }
 
-/**
- *
- */
 export default EmojiReactionBar

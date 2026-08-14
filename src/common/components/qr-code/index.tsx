@@ -44,7 +44,4 @@ const QrCode: FC<Props> = ({ value, size = 160, className }) => {
   )
 }
 
-/**
- *
- */
 export default QrCode

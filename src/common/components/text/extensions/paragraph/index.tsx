@@ -36,7 +36,4 @@ const Paragraph: FC<Props> = ({
 }
 
 export type { Props as ParagraphProps }
-/**
- *
- */
 export default Paragraph

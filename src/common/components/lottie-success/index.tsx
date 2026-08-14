@@ -51,7 +51,4 @@ const LottieSuccess: FC<Props> = ({ uri = SUCCESS_URI, size = 120 }) => {
   )
 }
 
-/**
- *
- */
 export default LottieSuccess

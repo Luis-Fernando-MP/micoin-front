@@ -61,7 +61,4 @@ const PagedCarousel: FC<Props> = ({ data = DEFAULT, height = 160 }) => {
 }
 
 export type { Props as PagedCarouselProps }
-/**
- *
- */
 export default memo(PagedCarousel)

@@ -76,7 +76,4 @@ const TrayNotifyMock = Object.assign(TrayNotifyMockRoot, {
 })
 
 export type { Props as TrayNotifyMockProps }
-/**
- *
- */
 export default TrayNotifyMock

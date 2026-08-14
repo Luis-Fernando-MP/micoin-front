@@ -113,7 +113,4 @@ const WaveBar: FC<WaveBarProps> = ({
   )
 }
 
-/**
- *
- */
 export default WaveformBars

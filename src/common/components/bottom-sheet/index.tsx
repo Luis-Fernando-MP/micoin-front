@@ -87,7 +87,4 @@ const AppBottomSheetModal = forwardRef<BottomSheetModal, Props>(
 
 AppBottomSheetModal.displayName = 'AppBottomSheetModal'
 
-/**
- *
- */
 export default AppBottomSheetModal

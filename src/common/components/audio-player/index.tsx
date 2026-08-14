@@ -92,7 +92,4 @@ const AudioPlayer: FC<Props> = ({ uri = DEMO_URI, title = 'Demo track' }) => {
   )
 }
 
-/**
- *
- */
 export default AudioPlayer

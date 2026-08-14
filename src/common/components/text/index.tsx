@@ -56,7 +56,4 @@ const Text = Object.assign(TextBody, {
 })
 
 export type { Props as TextProps }
-/**
- *
- */
 export default Text

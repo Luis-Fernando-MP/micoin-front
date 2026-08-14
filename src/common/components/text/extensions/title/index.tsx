@@ -43,7 +43,4 @@ const Title: FC<Props> = ({
 }
 
 export type { Props as TitleProps }
-/**
- *
- */
 export default Title

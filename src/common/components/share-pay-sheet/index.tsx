@@ -81,7 +81,4 @@ const SharePaySheet = Object.assign(SharePaySheetRoot, {
 })
 
 export type { Props as SharePaySheetProps }
-/**
- *
- */
 export default SharePaySheet

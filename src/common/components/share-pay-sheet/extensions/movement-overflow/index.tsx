@@ -77,7 +77,4 @@ const MovementOverflowMenu: FC<Props> = ({
 }
 
 export type { Props as MovementOverflowMenuProps }
-/**
- *
- */
 export default MovementOverflowMenu

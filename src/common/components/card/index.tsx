@@ -44,7 +44,4 @@ const Card: FC<Props> = ({
 }
 
 export type { Props as CardProps }
-/**
- *
- */
 export default Card

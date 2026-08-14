@@ -58,7 +58,4 @@ const BrandLogo: FC<Props> = ({ size = 'md', className, style }) => {
 }
 
 export type { Props as BrandLogoProps }
-/**
- *
- */
 export default BrandLogo

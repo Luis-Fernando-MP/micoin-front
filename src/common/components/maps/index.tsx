@@ -84,7 +84,4 @@ const Maps = Object.assign(memo(MapsRoot), {
 
 export type { LatLng } from '@components/maps/types'
 export type { Props as MapsProps }
-/**
- *
- */
 export default Maps

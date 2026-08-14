@@ -84,7 +84,4 @@ const Charts = Object.assign(memo(ChartsRoot), {
 })
 
 export type { Props as ChartsProps }
-/**
- *
- */
 export default Charts

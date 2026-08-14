@@ -54,7 +54,4 @@ const LabModule: FC<Props> = ({
 }
 
 export type { Props as LabModuleProps }
-/**
- *
- */
 export default LabModule

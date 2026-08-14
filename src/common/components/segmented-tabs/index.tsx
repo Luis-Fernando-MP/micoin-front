@@ -54,7 +54,4 @@ const SegmentedTabs: FC<Props> = ({
   )
 }
 
-/**
- *
- */
 export default SegmentedTabs

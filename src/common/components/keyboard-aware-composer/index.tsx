@@ -53,7 +53,4 @@ const KeyboardAwareComposer: FC<Props> = ({ onSend }) => {
   )
 }
 
-/**
- *
- */
 export default KeyboardAwareComposer

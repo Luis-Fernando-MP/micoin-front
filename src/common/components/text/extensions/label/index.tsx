@@ -34,7 +34,4 @@ const Label: FC<Props> = ({ className, status, ...props }) => {
 }
 
 export type { Props as LabelProps }
-/**
- *
- */
 export default Label

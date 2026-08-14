@@ -80,7 +80,4 @@ const DonutChart: FC<Props> = ({ value = 0.72, interactive = true }) => {
 }
 
 export type { Props as DonutChartProps }
-/**
- *
- */
 export default memo(DonutChart)

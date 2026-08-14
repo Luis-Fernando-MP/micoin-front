@@ -65,7 +65,4 @@ const Icon: FC<Props> = ({
 }
 
 export type { Props as IconProps }
-/**
- *
- */
 export default Icon

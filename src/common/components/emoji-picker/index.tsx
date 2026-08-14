@@ -67,7 +67,4 @@ const EmojiPicker: FC<Props> = ({ height = 280, onSelect }) => {
   )
 }
 
-/**
- *
- */
 export default EmojiPicker

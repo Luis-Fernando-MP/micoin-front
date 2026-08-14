@@ -89,7 +89,4 @@ const RichOverflowSheet: FC<Props> = ({
   )
 }
 
-/**
- *
- */
 export default RichOverflowSheet

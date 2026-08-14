@@ -60,7 +60,4 @@ const ProCarouselRoot: FC<Props> = ({
 }
 
 export type { LayoutMode, Props as ProCarouselProps, Slide }
-/**
- *
- */
 export default memo(ProCarouselRoot)

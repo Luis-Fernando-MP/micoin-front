@@ -108,7 +108,4 @@ const PlacePins: FC<Props> = ({
 }
 
 export type { Pin, Props as PlacePinsProps }
-/**
- *
- */
 export default memo(PlacePins)

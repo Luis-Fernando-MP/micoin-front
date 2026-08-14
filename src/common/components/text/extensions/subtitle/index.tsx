@@ -38,7 +38,4 @@ const Subtitle: FC<Props> = ({ className, status, ...props }) => {
 }
 
 export type { Props as SubtitleProps }
-/**
- *
- */
 export default Subtitle

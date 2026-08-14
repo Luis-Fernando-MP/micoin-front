@@ -87,7 +87,10 @@ module.exports = defineConfig([
             ArrowFunctionExpression: false,
             FunctionExpression: false,
           },
-          contexts: ['ExportDefaultDeclaration'],
+          contexts: [
+            'VariableDeclarator[id.name=/^[A-Z].*/] > ArrowFunctionExpression',
+            'VariableDeclarator[id.name=/^[A-Z].*/] > FunctionExpression',
+          ],
         },
       ],
     },

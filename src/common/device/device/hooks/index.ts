@@ -25,11 +25,17 @@ function useDevice<T>(method?: DeviceMethod<T>) {
   useEffect(() => {
     let alive = true
 
-    void (method ? method() : device.all()).then((next) => {
-      if (alive) {
-        setSnapshot(next)
-      }
-    })
+    void (method ? method() : device.all())
+      .then((next) => {
+        if (alive) {
+          setSnapshot(next)
+        }
+      })
+      .catch(() => {
+        if (alive) {
+          setSnapshot(null)
+        }
+      })
 
     return () => {
       alive = false

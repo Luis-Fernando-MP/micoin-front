@@ -3,6 +3,27 @@ import * as LocalAuthentication from 'expo-local-authentication'
 import { metadata } from '@/common/metadata'
 
 /**
+ * getBiometricInfo — Hardware y enrollment (sin pedir autenticación).
+ *
+ * @example
+ * import { getBiometricInfo } from '@device/biometrics'
+ * await getBiometricInfo()
+ */
+const getBiometricInfo = async () => {
+  const [hasHardware, enrolled, types] = await Promise.all([
+    LocalAuthentication.hasHardwareAsync(),
+    LocalAuthentication.isEnrolledAsync(),
+    LocalAuthentication.supportedAuthenticationTypesAsync(),
+  ])
+
+  return {
+    hasHardware,
+    enrolled,
+    types,
+  }
+}
+
+/**
  * authenticateBiometric — Solicita autenticación biométrica con mensaje del metadata.
  *
  * @example
@@ -35,4 +56,4 @@ const authenticateBiometric = async (
   return { ok: true as const, result }
 }
 
-export { authenticateBiometric }
+export { authenticateBiometric, getBiometricInfo }

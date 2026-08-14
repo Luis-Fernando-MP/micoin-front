@@ -39,15 +39,20 @@ const all = async (): Promise<DeviceSnapshot> => {
     biometricsValue,
     stepsValue,
   ] = await Promise.all([
-    battery(),
-    info(),
-    network(),
-    cellular(),
-    app(),
-    brightness(),
-    locale(),
-    biometrics(),
-    steps(),
+    battery().catch(() => null),
+    info().catch(() => ({ model: null, system: null })),
+    network().catch(() => null),
+    cellular().catch(() => null),
+    app().catch(() => null),
+    brightness().catch(() => null),
+    locale().catch(() => ({
+      language: null,
+      region: null,
+      currency: null,
+      timezone: null,
+    })),
+    biometrics().catch(() => null),
+    steps().catch(() => null),
   ])
 
   return {
@@ -90,5 +95,6 @@ const device = {
 }
 
 export type { DeviceSnapshot }
+export type { DeviceMethod } from './hooks'
 export { useDevice } from './hooks'
 export default device

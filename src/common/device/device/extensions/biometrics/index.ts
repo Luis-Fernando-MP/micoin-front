@@ -1,4 +1,4 @@
-import { getBiometricInfo } from '@device/biometrics'
+import biometrics from '@device/biometrics'
 import { withTimeout } from '@device/device/with-timeout'
 
 type BiometricsSnapshot = {
@@ -7,24 +7,24 @@ type BiometricsSnapshot = {
 } | null
 
 /**
- * device.biometrics — hardware y enrollment (sin pedir auth).
+ * device.biometrics — hardware y enrollment (sin pedir auth ni abrir el vault).
  *
  * @example
  * import device from '@device/device'
  * await device.biometrics()
  */
-const biometrics = async (): Promise<BiometricsSnapshot> => {
-  const info = await withTimeout(getBiometricInfo())
+const readBiometrics = async (): Promise<BiometricsSnapshot> => {
+  const snapshot = await withTimeout(biometrics.info())
 
-  if (!info) {
+  if (!snapshot) {
     return null
   }
 
   return {
-    hasHardware: info.hasHardware,
-    enrolled: info.enrolled,
+    hasHardware: snapshot.hasHardware,
+    enrolled: snapshot.enrolled,
   }
 }
 
 export type { BiometricsSnapshot }
-export default biometrics
+export default readBiometrics

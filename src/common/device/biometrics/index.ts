@@ -1,59 +1,39 @@
-import * as LocalAuthentication from 'expo-local-authentication'
-
-import { metadata } from '@/common/metadata'
-
-/**
- * getBiometricInfo — Hardware y enrollment (sin pedir autenticación).
- *
- * @example
- * import { getBiometricInfo } from '@device/biometrics'
- * await getBiometricInfo()
- */
-const getBiometricInfo = async () => {
-  const [hasHardware, enrolled, types] = await Promise.all([
-    LocalAuthentication.hasHardwareAsync(),
-    LocalAuthentication.isEnrolledAsync(),
-    LocalAuthentication.supportedAuthenticationTypesAsync(),
-  ])
-
-  return {
-    hasHardware,
-    enrolled,
-    types,
-  }
-}
+import clear from './extensions/clear'
+import enable from './extensions/enable'
+import info from './extensions/info'
+import protect from './extensions/protect'
+import reveal from './extensions/reveal'
+import unlock from './extensions/unlock'
 
 /**
- * authenticateBiometric — Solicita autenticación biométrica con mensaje del metadata.
+ * biometrics — Vault atado a Face ID / huella (Keychain / Keystore).
+ *
+ * El módulo no guarda el flag de producto ni habla con Better Auth.
+ * `enable(secret)` protege un string opaco; `unlock()` lo devuelve si el OS valida.
  *
  * @example
- * import { authenticateBiometric } from '@device/biometrics'
- * await authenticateBiometric()
+ * import biometrics, { useBiometrics } from '@device/biometrics'
+ * await biometrics.enable(refreshToken)
+ * const unlocked = await biometrics.unlock()
+ * const bio = useBiometrics({ enabled, onEnabledChange: setEnabled })
  */
-const authenticateBiometric = async (
-  promptMessage = metadata.biometricPrompt,
-) => {
-  const hasHardware = await LocalAuthentication.hasHardwareAsync()
-  if (!hasHardware) {
-    return { ok: false as const, reason: 'no_hardware' as const }
-  }
-
-  const enrolled = await LocalAuthentication.isEnrolledAsync()
-  if (!enrolled) {
-    return { ok: false as const, reason: 'not_enrolled' as const }
-  }
-
-  const result = await LocalAuthentication.authenticateAsync({
-    promptMessage,
-    cancelLabel: metadata.biometricCancel,
-    disableDeviceFallback: false,
-  })
-
-  if (!result.success) {
-    return { ok: false as const, reason: 'failed' as const }
-  }
-
-  return { ok: true as const, result }
+const biometrics = {
+  info,
+  enable,
+  unlock,
+  clear,
+  protect,
+  reveal,
 }
 
-export { authenticateBiometric, getBiometricInfo }
+export type { UseBiometricsOptions } from './hooks'
+export { useBiometrics } from './hooks'
+export type {
+  BiometricFailure,
+  BiometricPromptOptions,
+  BiometricReason,
+  BiometricsInfo,
+  EnableSuccess,
+  UnlockSuccess,
+} from './types'
+export default biometrics

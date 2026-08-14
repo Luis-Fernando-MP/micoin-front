@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 
+import * as Crypto from 'expo-crypto'
 import { type Href, Link } from 'expo-router'
 import {
   Camera,
@@ -22,7 +23,6 @@ import {
 } from 'lucide-react-native'
 
 import Button from '@components/button'
-import Chip from '@components/chip'
 import Combobox, {
   type ComboboxItemState,
   type ComboboxOption,
@@ -40,12 +40,12 @@ import BRAND, {
 import Text from '@components/text'
 import ThemeToggle from '@components/theme-toggle'
 import { showToast } from '@components/toast'
-import { authenticateBiometric } from '@device/biometrics'
+import { useBiometrics } from '@device/biometrics'
 import { setBrightness } from '@device/brightness'
 import { openCamera, openScanner, pickImage } from '@device/camera'
 import { copyText } from '@device/clipboard'
 import { getContactsCount } from '@device/contacts'
-import { type DeviceSnapshot, useDevice } from '@device/device'
+import { type DeviceSnapshot } from '@device/device'
 import { pickDocument } from '@device/document-picker'
 import { hapticImpact, hapticSuccess, hapticWarning } from '@device/haptics'
 import { setKeepAwake } from '@device/keep-awake'
@@ -380,10 +380,129 @@ const toDeviceRows = (snapshot: DeviceSnapshot): LabRow[] => {
   return rows
 }
 
+const toastBio = (ok: boolean, message: string) => {
+  showToast({
+    title: metadata.name,
+    status: ok ? 'success' : 'warning',
+    message,
+  })
+}
+
+const BiometricsLab: FC = () => {
+  const [enabled, setEnabled] = useState(false)
+  const [unlockedValue, setUnlockedValue] = useState<string | null>(null)
+  const bio = useBiometrics({ enabled, onEnabledChange: setEnabled })
+
+  let hardwareLabel = '…'
+  if (bio.info) {
+    hardwareLabel = bio.info.hasHardware ? 'sí' : 'no'
+  }
+
+  let enrolledLabel = '…'
+  if (bio.info) {
+    enrolledLabel = bio.info.enrolled ? 'sí' : 'no'
+  }
+
+  let vaultLabel = '…'
+  if (bio.info) {
+    vaultLabel = bio.info.canProtect ? 'sí' : 'no · Expo Go / sin Class 3'
+  }
+
+  return (
+    <View className="gap-4">
+      <View className="gap-1">
+        <Text.Caption>useBiometrics — @device/biometrics</Text.Caption>
+        <Text.Caption>
+          Lab: enable(nonce). Sin login / Better Auth.
+        </Text.Caption>
+        <Text.Caption>Hardware: {hardwareLabel}</Text.Caption>
+        <Text.Caption>Enrolado: {enrolledLabel}</Text.Caption>
+        <Text.Caption>Vault: {vaultLabel}</Text.Caption>
+        <Text.Caption>
+          Flag local: {enabled ? 'enabled' : 'disabled'}
+        </Text.Caption>
+        {bio.lastError && (
+          <Text.Caption status="warning">reason: {bio.lastError}</Text.Caption>
+        )}
+        {unlockedValue && (
+          <Text.Caption status="success">
+            unlock.value: {unlockedValue}
+          </Text.Caption>
+        )}
+      </View>
+      <CatalogVariant
+        n={24}
+        sub={1}
+        title="enable"
+        description="Pide huella y ata el nonce al Keychain. El flag se guarda en useState."
+      >
+        <Button
+          size="sm"
+          icon={Fingerprint}
+          label="Configurar huella"
+          disabled={bio.busy}
+          onPress={async () => {
+            setUnlockedValue(null)
+            const result = await bio.enable(Crypto.randomUUID())
+            if (result.ok) {
+              toastBio(true, 'Vault configurado')
+              return
+            }
+            toastBio(false, result.reason)
+          }}
+        />
+      </CatalogVariant>
+      <CatalogVariant
+        n={24}
+        sub={2}
+        title="unlock"
+        description="El OS descifra el vault y devuelve el mismo nonce."
+      >
+        <Button
+          size="sm"
+          variant="outline"
+          label="Entrar con huella"
+          disabled={bio.busy || !enabled}
+          onPress={async () => {
+            const result = await bio.unlock()
+            if (result.ok) {
+              setUnlockedValue(result.value)
+              toastBio(true, 'Vault abierto')
+              return
+            }
+            setUnlockedValue(null)
+            toastBio(false, result.reason)
+          }}
+        />
+      </CatalogVariant>
+      <CatalogVariant
+        n={24}
+        sub={3}
+        title="disable"
+        description="Borra el ítem del Keychain y apaga el flag local."
+      >
+        <Button
+          size="sm"
+          variant="ghost"
+          label="Desactivar"
+          disabled={bio.busy || !enabled}
+          onPress={async () => {
+            const result = await bio.disable()
+            if (result.ok) {
+              setUnlockedValue(null)
+              toastBio(true, 'Vault borrado')
+              return
+            }
+            toastBio(false, result.reason)
+          }}
+        />
+      </CatalogVariant>
+    </View>
+  )
+}
+
 const Home: FC = () => {
   const { isAuthenticated, data } = useSession()
-  const snapshot = useDevice()
-  const deviceRows = snapshot ? toDeviceRows(snapshot) : []
   const [dialogOpen, setDialogOpen] = useState(false)
   const [dialogLocked, setDialogLocked] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -416,58 +535,13 @@ const Home: FC = () => {
         keyboardShouldPersistTaps="handled"
       >
         <CatalogCard
-          n={23}
-          title="device"
-          does="device.battery / locale…; useDevice() = device.all; useDevice(device.battery) = solo esa."
-          doesNot="device.battery no carga el resto. Location solo con device.location."
-          solves="Telemetría del device sin cablear módulos sueltos."
-        >
-          <View className="gap-2">
-            {!snapshot && (
-              <View className="flex-row flex-wrap items-center gap-2">
-                <Text.Caption>Status:</Text.Caption>
-                <Chip label="Loading…" status="info" />
-              </View>
-            )}
-            {deviceRows.map((item) => (
-              <View
-                key={item.id}
-                className="flex-row flex-wrap items-center gap-2"
-              >
-                <Text.Caption>{item.utility}:</Text.Caption>
-                <Chip label={item.value} status={item.status ?? 'default'} />
-              </View>
-            ))}
-          </View>
-        </CatalogCard>
-
-        <CatalogCard
           n={24}
           title="biometrics"
-          does="Pide Face ID / huella con el copy de metadata."
-          doesNot="No guarda PIN. No es login por sí mismo."
-          solves="Confirmar una acción sensible en el dispositivo."
+          does="enable(nonce) → unlock() devuelve el nonce. Flag en useState."
+          doesNot="No hay login. No usa Better Auth. En Expo Go el vault da unavailable."
+          solves="Probar configurar / entrar / desactivar como Yape, sin sesión."
         >
-          <Button
-            icon={Fingerprint}
-            label="Biometric"
-            onPress={async () => {
-              const result = await authenticateBiometric()
-              if (result.ok) {
-                showToast({
-                  title: metadata.name,
-                  status: 'success',
-                  message: 'Autenticado',
-                })
-                return
-              }
-              showToast({
-                title: metadata.name,
-                status: 'warning',
-                message: result.reason,
-              })
-            }}
-          />
+          <BiometricsLab />
         </CatalogCard>
 
         <CatalogCard

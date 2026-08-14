@@ -8,6 +8,7 @@ const metadata = {
   supportEmail: 'soporte@micoin.app',
   website: 'https://micoin.app',
   biometricPrompt: 'Desbloquea MiCoin',
+  biometricEnablePrompt: 'Confirma para activar el desbloqueo',
   biometricCancel: 'Cancelar',
   copyright: `© ${new Date().getFullYear()} MiCoin`,
 } as const

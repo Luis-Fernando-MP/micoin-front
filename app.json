@@ -40,8 +40,18 @@
           }
         }
       ],
-      "expo-secure-store",
-      "expo-local-authentication",
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "MiCoin usa Face ID para desbloquear tu cuenta."
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "MiCoin usa Face ID para desbloquear tu cuenta."
+        }
+      ],
       "expo-document-picker",
       "expo-image-picker",
       [

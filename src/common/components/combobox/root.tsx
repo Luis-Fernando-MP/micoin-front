@@ -4,6 +4,8 @@ import {
   type ReactNode,
   useCallback,
   useContext,
+  useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -19,6 +21,7 @@ import {
 import { Check, ChevronDown } from 'lucide-react-native'
 
 import ComboboxHostContext from '@components/combobox/host-context'
+import { useComboboxStore } from '@components/combobox/store'
 import Icon from '@components/icon'
 import BRAND from '@components/shared/brand'
 import Text from '@components/text'
@@ -184,11 +187,16 @@ const ComboboxRoot: FC<Props> = ({
   onOpenChange,
   placement: placementProp,
 }) => {
+  const id = useId()
   const inHost = useContext(ComboboxHostContext)
   const placement = resolvePlacement(placementProp, inHost)
   const triggerRef = useRef<View>(null)
-  const [open, setOpen] = useState(false)
+  const wasOpen = useRef(false)
   const [anchor, setAnchor] = useState<Anchor | null>(null)
+  const activeId = useComboboxStore((state) => state.activeId)
+  const claim = useComboboxStore((state) => state.open)
+  const release = useComboboxStore((state) => state.close)
+  const open = activeId === id
   const catalog = allOptions ?? options
   const selected = catalog.find((option) => option.value === value)
 
@@ -206,31 +214,40 @@ const ComboboxRoot: FC<Props> = ({
     return <Text className="text-sm text-foreground">{slot}</Text>
   }, [placeholder, selected])
 
-  const setExpanded = useCallback(
-    (next: boolean) => {
-      setOpen(next)
-      onOpenChange?.(next)
+  useEffect(() => {
+    if (wasOpen.current === open) {
+      return
+    }
 
-      if (!next) {
-        setAnchor(null)
-      }
-    },
-    [onOpenChange],
-  )
+    wasOpen.current = open
+    onOpenChange?.(open)
 
-  const close = useCallback(() => setExpanded(false), [setExpanded])
+    if (!open) {
+      setAnchor(null)
+    }
+  }, [open, onOpenChange])
+
+  useEffect(() => {
+    return () => {
+      release(id)
+    }
+  }, [id, release])
+
+  const close = useCallback(() => {
+    release(id)
+  }, [id, release])
 
   const openList = useCallback(() => {
     if (placement === 'inline') {
-      setExpanded(true)
+      claim(id)
       return
     }
 
     triggerRef.current?.measureInWindow((x, y, width, height) => {
       setAnchor({ x, y, width, height })
-      setExpanded(true)
+      claim(id)
     })
-  }, [placement, setExpanded])
+  }, [claim, id, placement])
 
   const toggleOpen = useCallback(() => {
     if (open) {

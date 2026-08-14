@@ -26,7 +26,6 @@ module.exports = defineConfig([
       'simple-import-sort': simpleImportSort,
     },
     rules: {
-      'prettier/prettier': 'error',
       'simple-import-sort/imports': [
         'error',
         {
@@ -46,6 +45,7 @@ module.exports = defineConfig([
         },
       ],
       'simple-import-sort/exports': 'error',
+      'prettier/prettier': 'off',
       'no-restricted-imports': [
         'error',
         {

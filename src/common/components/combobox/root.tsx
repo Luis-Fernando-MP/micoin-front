@@ -1,7 +1,9 @@
 import {
   type FC,
+  memo,
   type ReactNode,
   useCallback,
+  useContext,
   useMemo,
   useRef,
   useState,
@@ -16,6 +18,7 @@ import {
 
 import { Check, ChevronDown } from 'lucide-react-native'
 
+import ComboboxHostContext from '@components/combobox/host-context'
 import Icon from '@components/icon'
 import BRAND from '@components/shared/brand'
 import Text from '@components/text'
@@ -42,6 +45,8 @@ type Anchor = {
   height: number
 }
 
+type ComboboxPlacement = 'modal' | 'inline'
+
 interface Props {
   options: ComboboxOption[]
   allOptions?: ComboboxOption[]
@@ -52,17 +57,33 @@ interface Props {
   listHeader?: ReactNode
   renderItem?: (option: ComboboxOption, state: ItemState) => ReactNode
   onOpenChange?: (open: boolean) => void
+  placement?: ComboboxPlacement
 }
 
 const LIST_MAX_HEIGHT = 240
 const LIST_GAP = 4
 
-const defaultItemText = (selected: boolean) =>
+const itemTextClass = (selected: boolean) =>
   cn(
     'text-sm',
     selected && 'font-semibold text-foreground',
     !selected && 'text-secondary',
   )
+
+const resolvePlacement = (
+  placement: ComboboxPlacement | undefined,
+  inHost: boolean,
+): ComboboxPlacement => {
+  if (placement) {
+    return placement
+  }
+
+  if (inHost) {
+    return 'inline'
+  }
+
+  return 'modal'
+}
 
 const renderOptionBody = (
   option: ComboboxOption,
@@ -77,25 +98,73 @@ const renderOptionBody = (
   const slot = option.content ?? option.label
 
   if (typeof slot === 'string') {
-    return <Text className={defaultItemText(selected)}>{slot}</Text>
+    return <Text className={itemTextClass(selected)}>{slot}</Text>
   }
 
   return slot
 }
 
+type ListPanelProps = {
+  options: ComboboxOption[]
+  value?: string
+  listHeader?: ReactNode
+  renderItem?: Props['renderItem']
+  onSelect: (value: string) => void
+}
+
+const ListPanel: FC<ListPanelProps> = memo(
+  ({ options, value, listHeader, renderItem, onSelect }) => (
+    <View
+      className={cn(
+        'overflow-hidden border border-border bg-background shadow-lg',
+        BRAND.radius.variants.surface,
+      )}
+    >
+      {listHeader}
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        nestedScrollEnabled
+        bounces={false}
+        style={{ maxHeight: LIST_MAX_HEIGHT }}
+      >
+        {options.map((item, index) => {
+          const isSelected = item.value === value
+          const isLast = index === options.length - 1
+
+          return (
+            <Pressable
+              key={item.value}
+              onPress={() => onSelect(item.value)}
+              className={cn(
+                'min-h-12 flex-row items-center justify-between gap-2 px-4 py-2 active:bg-card-hover',
+                !isLast && 'border-b border-border',
+                isSelected && 'bg-card',
+              )}
+            >
+              <View className="flex-1">
+                {renderOptionBody(item, isSelected, renderItem, isLast)}
+              </View>
+              {isSelected && <Icon icon={Check} tone="brand" size={16} />}
+            </Pressable>
+          )
+        })}
+      </ScrollView>
+    </View>
+  ),
+)
+
 /**
  * Combobox — select in-place con opciones y slots personalizables por ítem.
  *
- * La lista abre en overlay Modal para quedar sobre siblings, ScrollView y Dialog.
- * `Combobox.Searchable` filtra la lista mientras escribes.
- *
- * @param options - Opciones visibles en la lista (p. ej. filtradas)
- * @param allOptions - Catálogo completo para resolver el trigger; @default options
+ * @param options - Opciones visibles en la lista
+ * @param allOptions - Catálogo para el trigger; @default options
  * @param value - Valor seleccionado
  * @param onChange - Callback al elegir opción
- * @param placeholder - Texto cuando no hay selección. @default 'Seleccionar…'
- * @param listHeader - Contenido arriba de la lista (p. ej. buscador)
- * @param renderItem - Render custom por ítem; pisa content
+ * @param placeholder - Texto sin selección. @default 'Seleccionar…'
+ * @param listHeader - Contenido arriba de la lista
+ * @param renderItem - Render por ítem; pisa content
+ * @param placement - `modal` o `inline`. @default modal; inline en Dialog host
+ * @param onOpenChange - Callback al abrir o cerrar
  * @param className - Clases NativeWind extra
  *
  * @example
@@ -113,7 +182,10 @@ const ComboboxRoot: FC<Props> = ({
   listHeader,
   renderItem,
   onOpenChange,
+  placement: placementProp,
 }) => {
+  const inHost = useContext(ComboboxHostContext)
+  const placement = resolvePlacement(placementProp, inHost)
   const triggerRef = useRef<View>(null)
   const [open, setOpen] = useState(false)
   const [anchor, setAnchor] = useState<Anchor | null>(null)
@@ -125,29 +197,40 @@ const ComboboxRoot: FC<Props> = ({
       return <Text className="text-sm text-secondary">{placeholder}</Text>
     }
 
-    if (selected.content && typeof selected.content !== 'string') {
-      return selected.content
+    const slot = selected.content ?? selected.label
+
+    if (typeof slot !== 'string') {
+      return slot
     }
 
-    const text =
-      typeof selected.content === 'string' ? selected.content : selected.label
-
-    return <Text className="text-sm text-foreground">{text}</Text>
+    return <Text className="text-sm text-foreground">{slot}</Text>
   }, [placeholder, selected])
 
-  const close = useCallback(() => {
-    setOpen(false)
-    setAnchor(null)
-    onOpenChange?.(false)
-  }, [onOpenChange])
+  const setExpanded = useCallback(
+    (next: boolean) => {
+      setOpen(next)
+      onOpenChange?.(next)
+
+      if (!next) {
+        setAnchor(null)
+      }
+    },
+    [onOpenChange],
+  )
+
+  const close = useCallback(() => setExpanded(false), [setExpanded])
 
   const openList = useCallback(() => {
+    if (placement === 'inline') {
+      setExpanded(true)
+      return
+    }
+
     triggerRef.current?.measureInWindow((x, y, width, height) => {
       setAnchor({ x, y, width, height })
-      setOpen(true)
-      onOpenChange?.(true)
+      setExpanded(true)
     })
-  }, [onOpenChange])
+  }, [placement, setExpanded])
 
   const toggleOpen = useCallback(() => {
     if (open) {
@@ -166,8 +249,29 @@ const ComboboxRoot: FC<Props> = ({
     [close, onChange],
   )
 
+  const listPanel = (
+    <ListPanel
+      options={options}
+      value={value}
+      listHeader={listHeader}
+      renderItem={renderItem}
+      onSelect={selectOption}
+    />
+  )
+
+  const anchorStyle = anchor && {
+    position: 'absolute' as const,
+    top: anchor.y + anchor.height + LIST_GAP,
+    left: anchor.x,
+    width: anchor.width,
+  }
+
   return (
-    <View ref={triggerRef} collapsable={false} className={className}>
+    <View
+      ref={triggerRef}
+      collapsable={false}
+      className={cn('relative', open && 'z-50', className)}
+    >
       <Pressable
         onPress={toggleOpen}
         className={cn(
@@ -180,71 +284,37 @@ const ComboboxRoot: FC<Props> = ({
         <Icon icon={ChevronDown} tone="secondary" size={16} />
       </Pressable>
 
-      <Modal
-        visible={open}
-        transparent
-        animationType="none"
-        onRequestClose={close}
-      >
-        <Pressable
-          style={StyleSheet.absoluteFillObject}
-          onPress={close}
-          accessibilityRole="button"
-          accessibilityLabel="Cerrar opciones"
-        />
-        {anchor && (
-          <View
-            style={{
-              position: 'absolute',
-              top: anchor.y + anchor.height + LIST_GAP,
-              left: anchor.x,
-              width: anchor.width,
-              maxHeight: LIST_MAX_HEIGHT,
-            }}
-            className={cn(
-              'overflow-hidden border border-border bg-background shadow-lg',
-              BRAND.radius.variants.surface,
-            )}
-          >
-            {listHeader}
-            <ScrollView
-              keyboardShouldPersistTaps="handled"
-              nestedScrollEnabled
-              bounces={false}
-            >
-              {options.map((item, index) => {
-                const isSelected = item.value === value
-                const isLast = index === options.length - 1
+      {open && placement === 'inline' && (
+        <View className="absolute left-0 right-0 top-full z-50 mt-1">
+          {listPanel}
+        </View>
+      )}
 
-                return (
-                  <Pressable
-                    key={item.value}
-                    onPress={() => selectOption(item.value)}
-                    className={cn(
-                      'min-h-12 flex-row items-center justify-between gap-2 px-4 py-2 active:bg-card-hover',
-                      !isLast && 'border-b border-border',
-                      isSelected && 'bg-card',
-                    )}
-                  >
-                    <View className="flex-1">
-                      {renderOptionBody(item, isSelected, renderItem, isLast)}
-                    </View>
-                    {isSelected && (
-                      <Icon icon={Check} tone="brand" size={16} />
-                    )}
-                  </Pressable>
-                )
-              })}
-            </ScrollView>
-          </View>
-        )}
-      </Modal>
+      {placement === 'modal' && (
+        <Modal
+          visible={open}
+          transparent
+          animationType="none"
+          onRequestClose={close}
+        >
+          <Pressable
+            style={StyleSheet.absoluteFillObject}
+            onPress={close}
+            accessibilityRole="button"
+            accessibilityLabel="Cerrar opciones"
+          />
+          {anchor && anchorStyle && (
+            <View style={anchorStyle}>{listPanel}</View>
+          )}
+        </Modal>
+      )}
     </View>
   )
 }
 
 export type {
   ComboboxOption,
+  ComboboxPlacement,
   ComboboxSlot,
   ItemState as ComboboxItemState,
   Props as ComboboxProps,

@@ -1,4 +1,4 @@
-import { type FC, useMemo, useState } from 'react'
+import { type FC, useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 
 import ComboboxRoot, {
@@ -7,8 +7,6 @@ import ComboboxRoot, {
 } from '@components/combobox/root'
 import Input from '@components/input'
 
-import { cn } from '@/lib/utils'
-
 type Props = Omit<ComboboxProps, 'listHeader' | 'options'> & {
   options: ComboboxOption[]
   searchPlaceholder?: string
@@ -16,8 +14,6 @@ type Props = Omit<ComboboxProps, 'listHeader' | 'options'> & {
 
 /**
  * Combobox.Searchable — combobox con filtro local mientras escribes.
- *
- * Filtra por `label` de cada opción. Usa el core Combobox con buscador integrado.
  *
  * @param options - Opciones completas antes del filtro
  * @param searchPlaceholder - Placeholder del buscador. @default 'Buscar…'
@@ -37,6 +33,7 @@ const Searchable: FC<Props> = ({
 
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase()
+
     if (!normalized) {
       return options
     }
@@ -46,18 +43,20 @@ const Searchable: FC<Props> = ({
     )
   }, [options, query])
 
+  const handleOpenChange = useCallback((nextOpen: boolean) => {
+    if (!nextOpen) {
+      setQuery('')
+    }
+  }, [])
+
   return (
     <ComboboxRoot
       {...props}
       options={filtered}
       allOptions={options}
-      onOpenChange={(nextOpen) => {
-        if (!nextOpen) {
-          setQuery('')
-        }
-      }}
+      onOpenChange={handleOpenChange}
       listHeader={
-        <View className={cn('border-b border-border px-3 py-2')}>
+        <View className="border-b border-border px-3 py-2">
           <Input
             value={query}
             onChangeText={setQuery}

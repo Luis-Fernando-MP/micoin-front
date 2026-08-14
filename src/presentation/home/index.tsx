@@ -9,6 +9,7 @@ import {
   Fingerprint,
   HeartPulse,
   Home as HomeIcon,
+  type LucideIcon,
   Mail,
   MapPin,
   Moon,
@@ -18,21 +19,25 @@ import {
   SunMedium,
   Utensils,
   Volume2,
-  type LucideIcon,
 } from 'lucide-react-native'
 
 import Button from '@components/button'
 import Chip from '@components/chip'
-import Combobox from '@components/combobox'
+import Combobox, {
+  type ComboboxItemState,
+  type ComboboxOption,
+} from '@components/combobox'
 import Dialog from '@components/dialog'
 import Drawer from '@components/drawer'
 import Header from '@components/header'
 import Icon from '@components/icon'
 import Image, { IMAGE_ASPECTS, type ImageAspect } from '@components/image'
 import Input from '@components/input'
-import MultiStep from '@components/multi-step'
 import AppNav from '@components/nav'
-import BRAND, { type BrandSize, type BrandStatus } from '@components/shared/brand'
+import BRAND, {
+  type BrandSize,
+  type BrandStatus,
+} from '@components/shared/brand'
 import Text from '@components/text'
 import ThemeToggle from '@components/theme-toggle'
 import { showToast } from '@components/toast'
@@ -123,18 +128,46 @@ const ComboOptionRow: FC<{
   </View>
 )
 
-const buildRichComboOptions = () =>
-  COMBO_CATEGORIES.map((item) => ({
-    value: item.value,
-    label: item.label,
-    content: (
-      <ComboOptionRow
-        icon={item.icon}
-        title={item.label}
-        subtitle={item.subtitle}
-      />
-    ),
-  }))
+const COMBO_CATEGORY_BY_VALUE = new Map(
+  COMBO_CATEGORIES.map((item) => [item.value, item]),
+)
+
+const COMBO_CATEGORY_OPTIONS = COMBO_CATEGORIES.map(({ value, label }) => ({
+  value,
+  label,
+}))
+
+const RICH_COMBO_OPTIONS = COMBO_CATEGORIES.map((item) => ({
+  value: item.value,
+  label: item.label,
+  content: (
+    <ComboOptionRow
+      icon={item.icon}
+      title={item.label}
+      subtitle={item.subtitle}
+    />
+  ),
+}))
+
+const renderRichComboItem = (
+  option: ComboboxOption,
+  { selected }: ComboboxItemState,
+) => {
+  const item = COMBO_CATEGORY_BY_VALUE.get(option.value)
+
+  if (!item) {
+    return null
+  }
+
+  return (
+    <ComboOptionRow
+      icon={item.icon}
+      title={item.label}
+      subtitle={item.subtitle}
+      selected={selected}
+    />
+  )
+}
 
 const DIALOG_PRIORITIES = [
   { value: 'low', label: 'Baja' },
@@ -165,7 +198,7 @@ const FILTERS = ['Hoy', 'Semana', 'Mes'] as const
 
 const IMAGE_ASPECT_KEYS = Object.keys(IMAGE_ASPECTS.variants) as ImageAspect[]
 
-const KIT_LAST = 38
+const KIT_LAST = 37
 
 const Home: FC = () => {
   const { isAuthenticated, data } = useSession()
@@ -219,10 +252,7 @@ const Home: FC = () => {
               value={combo}
               onChange={setCombo}
               placeholder="Categoría"
-              options={COMBO_CATEGORIES.map(({ value, label }) => ({
-                value,
-                label,
-              }))}
+              options={COMBO_CATEGORY_OPTIONS}
             />
           </CatalogVariant>
           <CatalogVariant
@@ -235,25 +265,8 @@ const Home: FC = () => {
               value={comboRich}
               onChange={setComboRich}
               placeholder="Categoría"
-              options={buildRichComboOptions()}
-              renderItem={(option, { selected }) => {
-                const item = COMBO_CATEGORIES.find(
-                  (category) => category.value === option.value,
-                )
-
-                if (!item) {
-                  return null
-                }
-
-                return (
-                  <ComboOptionRow
-                    icon={item.icon}
-                    title={item.label}
-                    subtitle={item.subtitle}
-                    selected={selected}
-                  />
-                )
-              }}
+              options={RICH_COMBO_OPTIONS}
+              renderItem={renderRichComboItem}
             />
           </CatalogVariant>
           <CatalogVariant
@@ -267,48 +280,28 @@ const Home: FC = () => {
               onChange={setComboSearch}
               placeholder="Categoría"
               searchPlaceholder="Buscar categoría…"
-              options={buildRichComboOptions()}
+              options={RICH_COMBO_OPTIONS}
             />
           </CatalogVariant>
         </CatalogCard>
 
         <CatalogCard
           n={21}
-          title="MultiStep"
-          does="Wizard con MultiStep.Step, header y onComplete."
-          doesNot="No persiste el flujo. No es Tabs."
-          solves="Onboarding o un cobro en pasos sin cambiar de ruta."
-        >
-          <MultiStep
-            headerTitle="Demo flow"
-            onComplete={() => showToast({ title: 'Listo', status: 'success' })}
-          >
-            <MultiStep.Step title="One">
-              <Text>First step</Text>
-            </MultiStep.Step>
-            <MultiStep.Step title="Two">
-              <Text>Second step</Text>
-            </MultiStep.Step>
-          </MultiStep>
-        </CatalogCard>
-
-        <CatalogCard
-          n={22}
           title="Dialog"
-          does="Modal compuesto: Header, Title, Content, Footer."
+          does="Modal compuesto: Header, Content, Footer."
           doesNot="No es Drawer ni Toast. closeOnOutside es false por defecto."
           solves="Confirmar, formularios cortos o bloqueo de contexto."
         >
           <CatalogVariant
-            n={22}
+            n={21}
             sub={1}
             title="Default"
-            description="Compound: Dialog.Header, Dialog.Title, Dialog.Content, Dialog.Footer. Overlay. Tap fuera no cierra."
+            description="Footer con Button del kit. Tap fuera no cierra."
           >
             <Button label="Open dialog" onPress={() => setDialogOpen(true)} />
           </CatalogVariant>
           <CatalogVariant
-            n={22}
+            n={21}
             sub={2}
             title="Form locked"
             description="Input + dos Combobox apilados; overlay de lista sobre el modal."
@@ -322,7 +315,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={23}
+          n={22}
           title="Drawer"
           does="Sheet inferior con título y onOpenChange."
           doesNot="No es Dialog centrado. No es bottom-sheet de Gorhom."
@@ -336,7 +329,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={24}
+          n={23}
           title="Toast"
           does="Aviso nativo (Android Toast / iOS Alert) vía showToast."
           doesNot="No es un componente montado. No encola UI custom."
@@ -352,7 +345,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={25}
+          n={24}
           title="device-lab"
           does="Hook que agrega chips de batería, red, OS, brillo, sensores."
           doesNot="No escribe settings. No sustituye cada módulo device."
@@ -370,7 +363,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={26}
+          n={25}
           title="biometrics"
           does="Pide Face ID / huella con el copy de metadata."
           doesNot="No guarda PIN. No es login por sí mismo."
@@ -399,14 +392,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={27}
+          n={26}
           title="camera"
           does="Captura foto/video, galería y escáner de códigos."
           doesNot="No persiste en backend. No es el componente Image."
           solves="Tickets, KYC, cobro QR y adjuntos desde el device."
         >
           <CatalogVariant
-            n={27}
+            n={26}
             sub={1}
             title="openCamera"
             description="Modal de captura. facing back."
@@ -435,7 +428,7 @@ const Home: FC = () => {
             </View>
           </CatalogVariant>
           <CatalogVariant
-            n={27}
+            n={26}
             sub={2}
             title="pickImage"
             description="Elige de la galería con permiso incluido."
@@ -454,7 +447,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={27}
+            n={26}
             sub={3}
             title="openScanner"
             description="Viewfinder QR / barcode."
@@ -484,7 +477,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={28}
+          n={27}
           title="document-picker"
           does="Abre el selector de archivos del sistema."
           doesNot="No sube al backend. No previsualiza PDF."
@@ -505,7 +498,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={29}
+          n={28}
           title="clipboard"
           does="Copia un string al portapapeles del sistema."
           doesNot="No comparte archivos. No lee contactos."
@@ -523,7 +516,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={30}
+          n={29}
           title="location"
           does="Pide permiso y devuelve lat, lng y accuracy."
           doesNot="No dibuja mapa. No trackea en background."
@@ -549,7 +542,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={31}
+          n={30}
           title="speech"
           does="TTS del sistema. Si ya habla, detiene."
           doesNot="No transcribe. No es el audio-recorder."
@@ -566,7 +559,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={32}
+          n={31}
           title="mail"
           does="Abre el composer de correo de soporte."
           doesNot="No envía solo. No es inbox in-app."
@@ -586,7 +579,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={33}
+          n={32}
           title="brightness"
           does="Fija el brillo de pantalla en porcentaje."
           doesNot="No restaura al salir. No lee sensores."
@@ -604,7 +597,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={34}
+          n={33}
           title="keep-awake"
           does="Impide que la pantalla se apague mientras está activo."
           doesNot="No cambia brillo. No es lock de orientación."
@@ -627,7 +620,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={35}
+          n={34}
           title="contacts"
           does="Pide permiso y cuenta contactos accesibles."
           doesNot="No lista ni elige un contacto. No envía SMS."
@@ -651,14 +644,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={36}
+          n={35}
           title="orientation"
           does="Bloquea portrait o libera la rotación."
           doesNot="No lee sensores de movimiento. No es keep-awake."
           solves="Forzar vertical en cobro o cine en un video."
         >
           <CatalogVariant
-            n={36}
+            n={35}
             sub={1}
             title="lockPortrait"
             description="PORTRAIT_UP."
@@ -673,7 +666,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={36}
+            n={35}
             sub={2}
             title="unlockOrientation"
             description="Todas las orientaciones."
@@ -690,14 +683,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={37}
+          n={36}
           title="haptics"
           does="Feedback háptico: impacto, éxito, warning."
           doesNot="No reproduce audio. No es un botón."
           solves="Confirmar tap o pago con el motor de vibración."
         >
           <CatalogVariant
-            n={37}
+            n={36}
             sub={1}
             title="hapticImpact"
             description="Impacto medio."
@@ -711,7 +704,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={37}
+            n={36}
             sub={2}
             title="hapticSuccess"
             description="Notificación de éxito."
@@ -725,7 +718,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={37}
+            n={36}
             sub={3}
             title="hapticWarning"
             description="Notificación de advertencia."
@@ -741,7 +734,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={38}
+          n={37}
           title="sharing"
           does="Abre el share sheet nativo con un archivo local."
           doesNot="No genera el archivo. No copia texto (eso es clipboard)."
@@ -794,7 +787,7 @@ const Home: FC = () => {
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <Dialog.Header>
-          <Dialog.Title>Dialog</Dialog.Title>
+          <Text.Title size="sm">Dialog</Text.Title>
         </Dialog.Header>
         <Dialog.Content>
           <Text.Subtitle>
@@ -817,7 +810,7 @@ const Home: FC = () => {
         closeOnOutside={false}
       >
         <Dialog.Header>
-          <Dialog.Title>Form dialog</Dialog.Title>
+          <Text.Title size="sm">Form dialog</Text.Title>
         </Dialog.Header>
         <Dialog.Content>
           <Input label="Note" placeholder="Outside tap does nothing" />
@@ -827,10 +820,7 @@ const Home: FC = () => {
               value={dialogCategory}
               onChange={setDialogCategory}
               placeholder="Categoría"
-              options={COMBO_CATEGORIES.map(({ value, label }) => ({
-                value,
-                label,
-              }))}
+              options={COMBO_CATEGORY_OPTIONS}
             />
           </View>
           <View className="gap-2">

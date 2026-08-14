@@ -8,6 +8,7 @@ const Combobox = Object.assign(ComboboxRoot, {
 export type {
   ComboboxItemState,
   ComboboxOption,
+  ComboboxPlacement,
   ComboboxProps,
   ComboboxSlot,
 } from './root'

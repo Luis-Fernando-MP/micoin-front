@@ -17,6 +17,23 @@ interface Props {
   className?: string
 }
 
+/**
+ * LabModule — tarjeta de catálogo para demos del design system.
+ *
+ * @param id - Número de módulo en el catálogo
+ * @param title - Nombre corto del módulo
+ * @param what - Descripción de qué hace
+ * @param why - Descripción de para qué sirve
+ * @param pack - Chip opcional de paquete/origen
+ * @param children - Controles o demos del módulo
+ * @param className - Clases NativeWind extra
+ *
+ * @example
+ * import LabModule from '@components/lab-module'
+ * <LabModule id={1} title="Chip" what="Etiqueta" why="Filtros">
+ *   <Chip label="Hoy" />
+ * </LabModule>
+ */
 const LabModule: FC<Props> = ({
   id,
   title,

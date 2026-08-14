@@ -28,7 +28,6 @@ import Combobox, {
   type ComboboxOption,
 } from '@components/combobox'
 import Dialog from '@components/dialog'
-import Drawer from '@components/drawer'
 import Header from '@components/header'
 import Icon from '@components/icon'
 import Image from '@components/image'
@@ -46,7 +45,7 @@ import { setBrightness } from '@device/brightness'
 import { openCamera, openScanner, pickImage } from '@device/camera'
 import { copyText } from '@device/clipboard'
 import { getContactsCount } from '@device/contacts'
-import { useDeviceLab } from '@device/device-lab/hooks'
+import { type DeviceSnapshot, useDevice } from '@device/device'
 import { pickDocument } from '@device/document-picker'
 import { hapticImpact, hapticSuccess, hapticWarning } from '@device/haptics'
 import { setKeepAwake } from '@device/keep-awake'
@@ -196,14 +195,197 @@ const IMAGE_DEMO =
 
 const FILTERS = ['Hoy', 'Semana', 'Mes'] as const
 
-const KIT_LAST = 37
+const KIT_LAST = 36
+
+type LabRow = {
+  id: string
+  utility: string
+  value: string
+  status?: 'default' | 'info' | 'success' | 'warning' | 'brand'
+}
+
+const toDeviceRows = (snapshot: DeviceSnapshot): LabRow[] => {
+  const rows: LabRow[] = []
+
+  if (snapshot.battery) {
+    rows.push({
+      id: 'battery',
+      utility: 'Battery',
+      value: `${snapshot.battery.level}%`,
+      status: snapshot.battery.powerSaver ? 'warning' : 'success',
+    })
+    rows.push({
+      id: 'charging',
+      utility: 'Charging',
+      value: snapshot.battery.charging ? 'Yes' : 'No',
+      status: snapshot.battery.charging ? 'brand' : 'default',
+    })
+    rows.push({
+      id: 'power-saver',
+      utility: 'Power saver',
+      value: snapshot.battery.powerSaver ? 'On' : 'Off',
+      status: snapshot.battery.powerSaver ? 'warning' : 'default',
+    })
+  }
+
+  if (snapshot.info.model) {
+    rows.push({
+      id: 'model',
+      utility: 'Model',
+      value: snapshot.info.model,
+      status: 'brand',
+    })
+  }
+
+  if (snapshot.info.system) {
+    rows.push({
+      id: 'system',
+      utility: 'System',
+      value: snapshot.info.system,
+      status: 'info',
+    })
+  }
+
+  if (snapshot.network) {
+    rows.push({
+      id: 'online',
+      utility: 'Network',
+      value: snapshot.network.online ? 'Online' : 'Offline',
+      status: snapshot.network.online ? 'success' : 'warning',
+    })
+    rows.push({
+      id: 'net-type',
+      utility: 'Network type',
+      value: snapshot.network.type ?? 'unknown',
+      status: 'default',
+    })
+
+    if (snapshot.network.ip) {
+      rows.push({
+        id: 'ip',
+        utility: 'IP',
+        value: snapshot.network.ip,
+        status: 'default',
+      })
+    }
+  }
+
+  if (snapshot.cellular?.carrier) {
+    rows.push({
+      id: 'carrier',
+      utility: 'Carrier',
+      value: snapshot.cellular.carrier,
+      status: 'default',
+    })
+  }
+
+  if (snapshot.cellular?.country) {
+    rows.push({
+      id: 'country',
+      utility: 'SIM country',
+      value: snapshot.cellular.country,
+      status: 'default',
+    })
+  }
+
+  if (snapshot.app?.name) {
+    rows.push({
+      id: 'app',
+      utility: 'App',
+      value: snapshot.app.name,
+      status: 'brand',
+    })
+  }
+
+  if (snapshot.app?.version) {
+    rows.push({
+      id: 'version',
+      utility: 'Version',
+      value: snapshot.app.version,
+      status: 'info',
+    })
+  }
+
+  if (snapshot.brightness !== null) {
+    rows.push({
+      id: 'brightness',
+      utility: 'Brightness',
+      value: `${snapshot.brightness}%`,
+      status: 'default',
+    })
+  }
+
+  if (snapshot.locale) {
+    if (snapshot.locale.language) {
+      rows.push({
+        id: 'language',
+        utility: 'Language',
+        value: snapshot.locale.language,
+        status: 'info',
+      })
+    }
+
+    if (snapshot.locale.region) {
+      rows.push({
+        id: 'region',
+        utility: 'Region',
+        value: snapshot.locale.region,
+        status: 'default',
+      })
+    }
+
+    if (snapshot.locale.timezone) {
+      rows.push({
+        id: 'timezone',
+        utility: 'Timezone',
+        value: snapshot.locale.timezone,
+        status: 'default',
+      })
+    }
+  }
+
+  if (snapshot.biometrics) {
+    rows.push({
+      id: 'bio-hardware',
+      utility: 'Biometrics',
+      value: snapshot.biometrics.hasHardware ? 'Hardware' : 'None',
+      status: snapshot.biometrics.hasHardware ? 'success' : 'warning',
+    })
+    rows.push({
+      id: 'bio-enrolled',
+      utility: 'Biometrics enrolled',
+      value: snapshot.biometrics.enrolled ? 'Yes' : 'No',
+      status: snapshot.biometrics.enrolled ? 'success' : 'default',
+    })
+  }
+
+  if (snapshot.steps !== null) {
+    rows.push({
+      id: 'steps',
+      utility: 'Steps',
+      value: String(snapshot.steps),
+      status: 'success',
+    })
+  }
+
+  if (snapshot.location) {
+    rows.push({
+      id: 'location',
+      utility: 'Location',
+      value: `${snapshot.location.lat}, ${snapshot.location.lng}`,
+      status: 'brand',
+    })
+  }
+
+  return rows
+}
 
 const Home: FC = () => {
   const { isAuthenticated, data } = useSession()
-  const deviceChips = useDeviceLab()
+  const snapshot = useDevice()
+  const deviceRows = snapshot ? toDeviceRows(snapshot) : []
   const [dialogOpen, setDialogOpen] = useState(false)
   const [dialogLocked, setDialogLocked] = useState(false)
-  const [drawerOpen, setDrawerOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [checked, setChecked] = useState(false)
   const [switched, setSwitched] = useState(true)
@@ -234,134 +416,33 @@ const Home: FC = () => {
         keyboardShouldPersistTaps="handled"
       >
         <CatalogCard
-          n={20}
-          title="Combobox"
-          does="Select in-place; content o renderItem por opción."
-          doesNot="No busca remoto. Searchable filtra local."
-          solves="Elegir categoría, moneda o ítem con estilo propio."
-        >
-          <CatalogVariant
-            n={20}
-            sub={1}
-            title="Default"
-            description="Solo label; lista compacta."
-          >
-            <Combobox
-              value={combo}
-              onChange={setCombo}
-              placeholder="Categoría"
-              options={COMBO_CATEGORY_OPTIONS}
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={20}
-            sub={2}
-            title="Icono + texto"
-            description="Ícono a la izquierda, título y subtítulo a la derecha."
-          >
-            <Combobox
-              value={comboRich}
-              onChange={setComboRich}
-              placeholder="Categoría"
-              options={RICH_COMBO_OPTIONS}
-              renderItem={renderRichComboItem}
-            />
-          </CatalogVariant>
-          <CatalogVariant
-            n={20}
-            sub={3}
-            title="Searchable"
-            description="Mismo layout enriquecido con filtro local."
-          >
-            <Combobox.Searchable
-              value={comboSearch}
-              onChange={setComboSearch}
-              placeholder="Categoría"
-              searchPlaceholder="Buscar categoría…"
-              options={RICH_COMBO_OPTIONS}
-            />
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={21}
-          title="Dialog"
-          does="Modal compuesto: Header, Content, Footer."
-          doesNot="No es Drawer ni Toast. closeOnOutside es false por defecto."
-          solves="Confirmar, formularios cortos o bloqueo de contexto."
-        >
-          <CatalogVariant
-            n={21}
-            sub={1}
-            title="Default"
-            description="Footer con Button del kit. Tap fuera no cierra."
-          >
-            <Button label="Open dialog" onPress={() => setDialogOpen(true)} />
-          </CatalogVariant>
-          <CatalogVariant
-            n={21}
-            sub={2}
-            title="Form locked"
-            description="Input + dos Combobox apilados; overlay de lista sobre el modal."
-          >
-            <Button
-              variant="outline"
-              label="Form dialog"
-              onPress={() => setDialogLocked(true)}
-            />
-          </CatalogVariant>
-        </CatalogCard>
-
-        <CatalogCard
-          n={22}
-          title="Drawer"
-          does="Sheet inferior con título y onOpenChange."
-          doesNot="No es Dialog centrado. No es bottom-sheet de Gorhom."
-          solves="Acciones secundarias sin tapar toda la pantalla."
-        >
-          <Button
-            variant="outline"
-            label="Open drawer"
-            onPress={() => setDrawerOpen(true)}
-          />
-        </CatalogCard>
-
-        <CatalogCard
           n={23}
-          title="Toast"
-          does="Aviso nativo (Android Toast / iOS Alert) vía showToast."
-          doesNot="No es un componente montado. No encola UI custom."
-          solves="Feedback corto: guardado, error, warning."
+          title="device"
+          does="device.battery / locale…; useDevice() = device.all; useDevice(device.battery) = solo esa."
+          doesNot="device.battery no carga el resto. Location solo con device.location."
+          solves="Telemetría del device sin cablear módulos sueltos."
         >
-          <Button
-            variant="ghost"
-            label="Toast"
-            onPress={() =>
-              showToast({ title: 'Guardado', status: 'success', message: 'OK' })
-            }
-          />
-        </CatalogCard>
-
-        <CatalogCard
-          n={24}
-          title="device-lab"
-          does="Hook que agrega chips de batería, red, OS, brillo, sensores."
-          doesNot="No escribe settings. No sustituye cada módulo device."
-          solves="Telemetría de lab en una sola suscripción."
-        >
-          <View className="flex-row flex-wrap gap-2">
-            {deviceChips.map((item) => (
-              <Chip
+          <View className="gap-2">
+            {!snapshot && (
+              <View className="flex-row flex-wrap items-center gap-2">
+                <Text.Caption>Status:</Text.Caption>
+                <Chip label="Loading…" status="info" />
+              </View>
+            )}
+            {deviceRows.map((item) => (
+              <View
                 key={item.id}
-                label={item.label}
-                status={item.status ?? 'default'}
-              />
+                className="flex-row flex-wrap items-center gap-2"
+              >
+                <Text.Caption>{item.utility}:</Text.Caption>
+                <Chip label={item.value} status={item.status ?? 'default'} />
+              </View>
             ))}
           </View>
         </CatalogCard>
 
         <CatalogCard
-          n={25}
+          n={24}
           title="biometrics"
           does="Pide Face ID / huella con el copy de metadata."
           doesNot="No guarda PIN. No es login por sí mismo."
@@ -390,14 +471,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={26}
+          n={25}
           title="camera"
           does="Captura foto/video, galería y escáner de códigos."
           doesNot="No persiste en backend. No es el componente Image."
           solves="Tickets, KYC, cobro QR y adjuntos desde el device."
         >
           <CatalogVariant
-            n={26}
+            n={25}
             sub={1}
             title="openCamera"
             description="Modal de captura. facing back."
@@ -426,7 +507,7 @@ const Home: FC = () => {
             </View>
           </CatalogVariant>
           <CatalogVariant
-            n={26}
+            n={25}
             sub={2}
             title="pickImage"
             description="Elige de la galería con permiso incluido."
@@ -445,7 +526,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={26}
+            n={25}
             sub={3}
             title="openScanner"
             description="Viewfinder QR / barcode."
@@ -475,7 +556,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={27}
+          n={26}
           title="document-picker"
           does="Abre el selector de archivos del sistema."
           doesNot="No sube al backend. No previsualiza PDF."
@@ -496,7 +577,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={28}
+          n={27}
           title="clipboard"
           does="Copia un string al portapapeles del sistema."
           doesNot="No comparte archivos. No lee contactos."
@@ -514,7 +595,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={29}
+          n={28}
           title="location"
           does="Pide permiso y devuelve lat, lng y accuracy."
           doesNot="No dibuja mapa. No trackea en background."
@@ -540,7 +621,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={30}
+          n={29}
           title="speech"
           does="TTS del sistema. Si ya habla, detiene."
           doesNot="No transcribe. No es el audio-recorder."
@@ -557,7 +638,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={31}
+          n={30}
           title="mail"
           does="Abre el composer de correo de soporte."
           doesNot="No envía solo. No es inbox in-app."
@@ -577,7 +658,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={32}
+          n={31}
           title="brightness"
           does="Fija el brillo de pantalla en porcentaje."
           doesNot="No restaura al salir. No lee sensores."
@@ -595,7 +676,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={33}
+          n={32}
           title="keep-awake"
           does="Impide que la pantalla se apague mientras está activo."
           doesNot="No cambia brillo. No es lock de orientación."
@@ -618,7 +699,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={34}
+          n={33}
           title="contacts"
           does="Pide permiso y cuenta contactos accesibles."
           doesNot="No lista ni elige un contacto. No envía SMS."
@@ -642,14 +723,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={35}
+          n={34}
           title="orientation"
           does="Bloquea portrait o libera la rotación."
           doesNot="No lee sensores de movimiento. No es keep-awake."
           solves="Forzar vertical en cobro o cine en un video."
         >
           <CatalogVariant
-            n={35}
+            n={34}
             sub={1}
             title="lockPortrait"
             description="PORTRAIT_UP."
@@ -664,7 +745,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={35}
+            n={34}
             sub={2}
             title="unlockOrientation"
             description="Todas las orientaciones."
@@ -681,14 +762,14 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={36}
+          n={35}
           title="haptics"
           does="Feedback háptico: impacto, éxito, warning."
           doesNot="No reproduce audio. No es un botón."
           solves="Confirmar tap o pago con el motor de vibración."
         >
           <CatalogVariant
-            n={36}
+            n={35}
             sub={1}
             title="hapticImpact"
             description="Impacto medio."
@@ -702,7 +783,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={36}
+            n={35}
             sub={2}
             title="hapticSuccess"
             description="Notificación de éxito."
@@ -716,7 +797,7 @@ const Home: FC = () => {
             />
           </CatalogVariant>
           <CatalogVariant
-            n={36}
+            n={35}
             sub={3}
             title="hapticWarning"
             description="Notificación de advertencia."
@@ -732,7 +813,7 @@ const Home: FC = () => {
         </CatalogCard>
 
         <CatalogCard
-          n={37}
+          n={36}
           title="sharing"
           does="Abre el share sheet nativo con un archivo local."
           doesNot="No genera el archivo. No copia texto (eso es clipboard)."
@@ -775,13 +856,6 @@ const Home: FC = () => {
       </ScrollView>
 
       <AppNav />
-
-      <Drawer open={drawerOpen} onOpenChange={setDrawerOpen} title="Drawer">
-        <Text.Subtitle className="mb-4">
-          Sheet inferior para acciones secundarias.
-        </Text.Subtitle>
-        <Button label="Cerrar" onPress={() => setDrawerOpen(false)} />
-      </Drawer>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <Dialog.Header>

@@ -241,7 +241,7 @@ const ENTRIES: Entry[] = [
   {
     title: 'RichOverflowSheet',
     does: 'Bottom sheet Gorhom con acciones.',
-    doesNot: 'No es Drawer del kit. No es Dialog.',
+    doesNot: 'No es Dialog. No es bottom-sheet genérico sin acciones.',
     solves: 'Menú ⋯ sin salir de contexto.',
     children: <RichOverflowSheet />,
   },

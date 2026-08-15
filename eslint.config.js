@@ -35,9 +35,9 @@ module.exports = defineConfig([
             [
               '^expo',
               '^@expo',
-              '^(?!@assets|@components|@views|@core|@theme|@device|@/)@?\\w',
+              '^(?!@assets|@components|@views|@core|@theme|@device|@env|@/)@?\\w',
             ],
-            ['^@(assets|components|views|core|theme|device)(/.*)?$'],
+            ['^@(assets|components|views|core|theme|device|env)(/.*)?$'],
             ['^@/'],
             ['^\\.\\./'],
             ['^\\./'],
@@ -67,6 +67,11 @@ module.exports = defineConfig([
           selector: 'LineComment',
           message: 'No line comments. JSDoc on reusable exports only.',
         },
+        {
+          selector:
+            'MemberExpression[object.name="process"][property.name="env"]',
+          message: 'Read environment variables from @env only.',
+        },
       ],
     },
   },
@@ -91,6 +96,18 @@ module.exports = defineConfig([
             'VariableDeclarator[id.name=/^[A-Z].*/] > ArrowFunctionExpression',
             'VariableDeclarator[id.name=/^[A-Z].*/] > FunctionExpression',
           ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/common/config/environment/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'LineComment',
+          message: 'No line comments. JSDoc on reusable exports only.',
         },
       ],
     },

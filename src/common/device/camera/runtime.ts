@@ -1,4 +1,4 @@
-import { APP_ENV, isProduction } from '@core/constants'
+import { APP_ENV, isDevelopment } from '@env'
 
 /**
  * cameraEngine — motor activo según APP_ENV.
@@ -9,6 +9,6 @@ import { APP_ENV, isProduction } from '@core/constants'
  * @example
  * import { cameraEngine } from '@device/camera/runtime'
  */
-const cameraEngine = isProduction ? 'vision' : 'expo'
+const cameraEngine = isDevelopment ? 'expo' : 'vision'
 
-export { APP_ENV, cameraEngine, isProduction }
+export { APP_ENV, cameraEngine }

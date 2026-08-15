@@ -12,7 +12,8 @@
       "@core/*": ["./src/common/core/*"],
       "@theme": ["./src/common/utils/theme/index.ts"],
       "@theme/*": ["./src/common/utils/theme/*"],
-      "@device/*": ["./src/common/device/*"]
+      "@device/*": ["./src/common/device/*"],
+      "@env": ["./src/common/config/environment/index.ts"]
     }
   },
   "include": [

@@ -4,7 +4,7 @@ Prioridad #1 del repo: piezas reutilizables en `src/common`.
 
 ## Estilo
 
-- Sin punto y coma. Imports: librerías arriba, alias de proyecto (`@components`, `@views`, `@core`, `@theme`, `@assets`, `@/`) abajo, un nivel `../` si es el padre inmediato, relativos de carpeta (`./`) al final. Dos o más niveles (`../../`) → alias.
+- Sin punto y coma. Imports: librerías arriba, alias de proyecto (`@components`, `@views`, `@core`, `@theme`, `@assets`, `@env`, `@/`) abajo, un nivel `../` si es el padre inmediato, relativos de carpeta (`./`) al final. Dos o más niveles (`../../`) → alias.
 - Constantes y tipos arriba; el componente abajo. Pieza React: `export default`.
 - Sin comentarios narrativos ni `//` en bloques. JSDoc en español en piezas/métodos reutilizables de `src/common` (`@param`, `@example`).
 - `pnpm lint` / `pnpm lint:fix` · `pnpm format` / `pnpm format:fix`.
@@ -17,6 +17,7 @@ Alias de TypeScript:
 - `@theme` → `src/common/utils/theme` (store, hooks, provider)
 - `@assets` → `assets`
 - `@device/*` → `src/common/device/*` (API nativa por carpeta)
+- `@env` → `src/common/config/environment` (única lectura de `process.env`)
 
 Tema: `BRAND_THEMES` en `src/common/utils/theme/themes.ts` (`icon` + `system`). Colores en `global.css` (clase = nombre del tema). Un tema nuevo = entrada + bloque CSS. El provider pone la clase en el padre.
 

@@ -1,5 +1,5 @@
-import { API_URL } from '@core/constants'
 import Axios, { apiLogger, createSessionAuth } from '@core/lib/axios'
+import { API_URL } from '@env'
 
 const sessionAuth = createSessionAuth()
 

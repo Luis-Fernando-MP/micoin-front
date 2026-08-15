@@ -15,6 +15,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@core'
 import CameraHost from '@device/camera'
 import ScannerHost from '@device/scanner'
+import { STRIPE_PUBLISHABLE_KEY } from '@env'
 import ThemeProvider from '@theme'
 
 import { useSession } from '@/auth/use-session'
@@ -23,7 +24,7 @@ export const unstable_settings = {
   anchor: '(public)',
 }
 
-const stripeKey = process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ''
+const stripeKey = STRIPE_PUBLISHABLE_KEY
 
 const StripeGate: FC<{ children: ReactNode }> = ({ children }) => {
   const content = <Fragment>{children}</Fragment>

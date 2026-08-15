@@ -24,6 +24,7 @@ import { scheduleLocalAlert } from '@device/notifications'
 import { setScreenProtected } from '@device/screen-capture'
 import { shareFile } from '@device/sharing'
 import { sendPaymentSms } from '@device/sms'
+import { hasStripeKey } from '@env'
 import { useMcVar } from '@theme'
 
 import { metadata } from '@/common/metadata'
@@ -244,7 +245,7 @@ const StripeCardDemo: FC = () => {
   const textColor = useMcVar(BRAND.native.textPrimary)
   const backgroundColor = useMcVar(BRAND.native.card)
   const borderColor = useMcVar(BRAND.native.border)
-  const hasKey = Boolean(process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  const hasKey = hasStripeKey
 
   if (!hasKey) {
     return (

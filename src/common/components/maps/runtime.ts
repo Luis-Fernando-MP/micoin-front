@@ -1,5 +1,7 @@
 import Constants, { ExecutionEnvironment } from 'expo-constants'
 
+import { hasGoogleMapsKey as hasMapsApiKey } from '@env'
+
 const extra = Constants.expoConfig?.extra as
   | { hasGoogleMapsKey?: boolean }
   | undefined
@@ -11,6 +13,7 @@ const extra = Constants.expoConfig?.extra as
  * import { hasGoogleMapsKey } from '@components/maps/runtime'
  */
 const hasGoogleMapsKey =
+  hasMapsApiKey ||
   Constants.executionEnvironment === ExecutionEnvironment.StoreClient ||
   Boolean(extra?.hasGoogleMapsKey)
 

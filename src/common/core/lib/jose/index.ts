@@ -1,6 +1,6 @@
 import { EncryptJWT, jwtDecrypt } from 'jose'
 
-import { APP_KEY } from '@core/constants'
+import { APP_KEY } from '@env'
 
 type SealOptions = {
   exp?: string

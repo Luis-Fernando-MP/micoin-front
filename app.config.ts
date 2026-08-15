@@ -2,7 +2,7 @@ import type { ConfigContext, ExpoConfig } from 'expo/config'
 
 import appJson from './app.json'
 
-const mapsKey = process.env.GOOGLE_MAPS_API_KEY?.trim() ?? ''
+const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY ?? ''
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   const base = appJson.expo as ExpoConfig
@@ -17,7 +17,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         ...base.android?.config,
         ...config.android?.config,
         googleMaps: {
-          apiKey: mapsKey,
+          apiKey: GOOGLE_MAPS_API_KEY,
         },
       },
     },
@@ -27,13 +27,13 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       config: {
         ...base.ios?.config,
         ...config.ios?.config,
-        googleMapsApiKey: mapsKey,
+        googleMapsApiKey: GOOGLE_MAPS_API_KEY,
       },
     },
     extra: {
       ...base.extra,
       ...config.extra,
-      hasGoogleMapsKey: Boolean(mapsKey),
+      hasGoogleMapsKey: Boolean(GOOGLE_MAPS_API_KEY),
     },
   }
 }

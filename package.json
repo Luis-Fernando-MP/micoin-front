@@ -12,7 +12,8 @@
     "lint": "expo lint",
     "lint:fix": "expo lint --fix",
     "format": "prettier --check .",
-    "format:fix": "prettier --write ."
+    "format:fix": "prettier --write .",
+    "apk": "npx eas-cli@latest build -p android --profile preview"
   },
   "dependencies": {
     "@better-auth/expo": "^1.6.27",

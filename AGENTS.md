@@ -186,4 +186,6 @@ Las extensiones viven en `extensions/` y se adjuntan al default. El consumidor n
 
 SDK 54 / Expo Go. `pnpm exec expo install` para nativos. No subir de SDK si rompe Expo Go.
 
-`EXPO_PUBLIC_APP_ENV=development` (lab / Go) vs `production` (app instalada). `@device/scanner` es módulo aparte. `@device/camera` extensions: `filters` (color). VisionCamera solo en production + binario nativo.
+`EXPO_PUBLIC_APP_ENV=development` (lab / Go) vs `production` (app instalada, `.env.production`). `@device/scanner` es módulo aparte. `@device/camera` extensions: `filters` (color). VisionCamera solo en production + binario nativo.
+
+APK de prueba (sideload, env production): `pnpm apk` → `eas build -p android --profile preview`. Instalar con `adb install` o el QR de Expo. AAB de tienda: `npx eas-cli@latest build -p android --profile production`.

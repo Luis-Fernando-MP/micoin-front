@@ -33,6 +33,7 @@ pnpm-debug.log*
 
 # local env files
 .env
+.env.production
 .env*.local
 .env.eas-simulator
 .impeccable/config.local.json

@@ -17,7 +17,9 @@ import {
   type PlaceOption,
   searchNominatim,
 } from '@components/maps/extensions/route-planner/hooks'
+import { hasGoogleMapsKey } from '@components/maps/runtime'
 import { type LatLng } from '@components/maps/types'
+import MapsUnavailable from '@components/maps/unavailable'
 import BRAND from '@components/shared/brand'
 import Text from '@components/text'
 import { showToast } from '@components/toast'
@@ -278,6 +280,10 @@ const RoutePlanner: FC<Props> = ({
       setBusy(false)
     }
   }, [onRoute, placeA, placeB])
+
+  if (!hasGoogleMapsKey) {
+    return <MapsUnavailable height={height} />
+  }
 
   return (
     <View className="gap-3">

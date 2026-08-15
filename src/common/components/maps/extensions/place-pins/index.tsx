@@ -3,7 +3,9 @@ import { View } from 'react-native'
 import MapView, { Marker, type Region } from 'react-native-maps'
 
 import Button from '@components/button'
+import { hasGoogleMapsKey } from '@components/maps/runtime'
 import { type LatLng } from '@components/maps/types'
+import MapsUnavailable from '@components/maps/unavailable'
 import BRAND from '@components/shared/brand'
 import { showToast } from '@components/toast'
 import { getLocationSnapshot } from '@device/location'
@@ -76,6 +78,10 @@ const PlacePins: FC<Props> = ({
       longitude: snap.lng,
     }))
   }, [])
+
+  if (!hasGoogleMapsKey) {
+    return <MapsUnavailable height={height} />
+  }
 
   return (
     <View className="gap-2">

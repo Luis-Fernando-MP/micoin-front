@@ -5,7 +5,9 @@ import MapView, { Marker, type Region } from 'react-native-maps'
 import DropPin from '@components/maps/extensions/drop-pin'
 import PlacePins from '@components/maps/extensions/place-pins'
 import RoutePlanner from '@components/maps/extensions/route-planner'
+import { hasGoogleMapsKey } from '@components/maps/runtime'
 import { type LatLng } from '@components/maps/types'
+import MapsUnavailable from '@components/maps/unavailable'
 import BRAND from '@components/shared/brand'
 
 import { cn } from '@/lib/utils'
@@ -53,6 +55,10 @@ const MapsRoot: FC<Props> = ({
   className,
   ...props
 }) => {
+  if (!hasGoogleMapsKey) {
+    return <MapsUnavailable height={height} className={className} {...props} />
+  }
+
   const region: Region = {
     ...coordinate,
     latitudeDelta,

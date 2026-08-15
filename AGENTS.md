@@ -188,4 +188,4 @@ SDK 54 / Expo Go. `pnpm exec expo install` para nativos. No subir de SDK si romp
 
 `EXPO_PUBLIC_APP_ENV=development` (lab / Go) vs `production` (app instalada, `.env.production`). `@device/scanner` es módulo aparte. `@device/camera` extensions: `filters` (color). VisionCamera solo en production + binario nativo.
 
-APK de prueba (sideload, env production): `pnpm apk` → `eas build -p android --profile preview`. Instalar con `adb install` o el QR de Expo. AAB de tienda: `npx eas-cli@latest build -p android --profile production`.
+APK de prueba (sideload, env production): `pnpm apk` → `eas build -p android --profile preview`. Instalar con `adb install` o el QR de Expo. AAB de tienda: `npx eas-cli@latest build -p android --profile production`. Mapas en APK: `GOOGLE_MAPS_API_KEY` (Maps SDK for Android) en `.env` / EAS preview.

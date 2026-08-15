@@ -2,7 +2,9 @@ import { type FC, memo, useCallback, useState } from 'react'
 import { View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 
+import { hasGoogleMapsKey } from '@components/maps/runtime'
 import { type LatLng } from '@components/maps/types'
+import MapsUnavailable from '@components/maps/unavailable'
 import BRAND from '@components/shared/brand'
 import Text from '@components/text'
 
@@ -43,6 +45,10 @@ const DropPin: FC<Props> = ({ initialPin = SV, height = 180, onChange }) => {
     },
     [onChange],
   )
+
+  if (!hasGoogleMapsKey) {
+    return <MapsUnavailable height={height} />
+  }
 
   return (
     <View className="gap-2">

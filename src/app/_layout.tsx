@@ -6,11 +6,11 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { Stack } from 'expo-router'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { PortalHost } from '@rn-primitives/portal'
 import { StripeProvider } from '@stripe/stripe-react-native'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { Stack } from 'expo-router'
 
 import { queryClient } from '@core'
 import CameraHost from '@device/camera'

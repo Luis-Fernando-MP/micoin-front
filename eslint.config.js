@@ -3,7 +3,6 @@ const expoConfig = require('eslint-config-expo/flat')
 const eslintConfigPrettier = require('eslint-config-prettier')
 const eslintPluginPrettier = require('eslint-plugin-prettier')
 const jsdoc = require('eslint-plugin-jsdoc')
-const simpleImportSort = require('eslint-plugin-simple-import-sort')
 
 module.exports = defineConfig([
   expoConfig,
@@ -23,28 +22,8 @@ module.exports = defineConfig([
     files: ['src/**/*.{ts,tsx}'],
     plugins: {
       prettier: eslintPluginPrettier,
-      'simple-import-sort': simpleImportSort,
     },
     rules: {
-      'simple-import-sort/imports': [
-        'error',
-        {
-          groups: [
-            ['^\\u0000'],
-            ['^react$', '^react-native$', '^react-native-'],
-            [
-              '^expo',
-              '^@expo',
-              '^(?!@assets|@components|@views|@core|@theme|@device|@env|@/)@?\\w',
-            ],
-            ['^@(assets|components|views|core|theme|device|env)(/.*)?$'],
-            ['^@/'],
-            ['^\\.\\./'],
-            ['^\\./'],
-          ],
-        },
-      ],
-      'simple-import-sort/exports': 'error',
       'prettier/prettier': 'off',
       'no-restricted-imports': [
         'error',

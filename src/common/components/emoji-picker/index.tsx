@@ -2,8 +2,8 @@ import { type FC, useState } from 'react'
 import { View } from 'react-native'
 
 import {
-  EmojiPicker as RnEmojiPicker,
   type EmojiSelection,
+  EmojiPicker as RnEmojiPicker,
   lightTheme,
 } from 'rn-expo-emoji-picker'
 

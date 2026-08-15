@@ -71,9 +71,9 @@ Fuente de verdad: `src/common/components/shared/brand.ts`.
 
 ```ts
 import BRAND, {
-  type BrandStatus,
-  type BrandSize,
   type BrandRadius,
+  type BrandSize,
+  type BrandStatus,
 } from '@components/shared/brand'
 
 type BrandSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'

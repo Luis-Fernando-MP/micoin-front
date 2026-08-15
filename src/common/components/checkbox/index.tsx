@@ -80,5 +80,5 @@ const Checkbox: FC<Props> = ({
   )
 }
 
-export type { Props as CheckboxProps,CheckboxVariant }
+export type { Props as CheckboxProps, CheckboxVariant }
 export default Checkbox

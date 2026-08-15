@@ -3,8 +3,7 @@ import Constants, { ExecutionEnvironment } from 'expo-constants'
 import { hasGoogleMapsKey as hasMapsApiKey } from '@env'
 
 const extra = Constants.expoConfig?.extra as
-  | { hasGoogleMapsKey?: boolean }
-  | undefined
+  { hasGoogleMapsKey?: boolean } | undefined
 
 /**
  * hasGoogleMapsKey — true en Expo Go o si el APK se compiló con GOOGLE_MAPS_API_KEY.

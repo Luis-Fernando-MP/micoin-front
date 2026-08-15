@@ -1,7 +1,7 @@
 import { type FC, type ReactNode } from 'react'
 import { Pressable, type PressableProps } from 'react-native'
 
-import { cva, type VariantProps } from 'class-variance-authority'
+import { type VariantProps, cva } from 'class-variance-authority'
 import { type LucideIcon } from 'lucide-react-native'
 
 import Icon from '@components/icon'

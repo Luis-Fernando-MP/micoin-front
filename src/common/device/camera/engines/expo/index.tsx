@@ -300,7 +300,7 @@ const ExpoCameraHost: FC = () => {
                           key={item}
                           onPress={() => setFilter(item)}
                           className={cn(
-                            'h-8 px-3 items-center justify-center rounded-full',
+                            'h-8 items-center justify-center rounded-full px-3',
                             selected && 'bg-white',
                           )}
                         >

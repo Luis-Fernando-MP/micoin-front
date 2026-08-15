@@ -6,9 +6,9 @@ import {
   type EnableSuccess,
 } from '@device/biometrics/types'
 import {
+  VAULT_KEY,
   createVaultOptions,
   mapVaultError,
-  VAULT_KEY,
 } from '@device/biometrics/vault'
 
 import { metadata } from '@/common/metadata'

@@ -1,7 +1,7 @@
 import {
   type FC,
-  memo,
   type ReactNode,
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -10,13 +10,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import {
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native'
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 
 import { Check, ChevronDown } from 'lucide-react-native'
 

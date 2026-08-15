@@ -1,7 +1,7 @@
 import { type FC } from 'react'
 import { View } from 'react-native'
 
-import { useVideoPlayer, VideoView } from 'expo-video'
+import { VideoView, useVideoPlayer } from 'expo-video'
 
 import BRAND from '@components/shared/brand'
 import Text from '@components/text'

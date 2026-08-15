@@ -2,8 +2,8 @@ import { type FC, useState } from 'react'
 import { View } from 'react-native'
 
 import {
-  EmojiReactionBar as RnReactionBar,
   type EmojiSelection,
+  EmojiReactionBar as RnReactionBar,
 } from 'rn-expo-emoji-picker'
 
 import Text from '@components/text'

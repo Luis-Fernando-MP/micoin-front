@@ -1,5 +1,5 @@
 import { type FC } from 'react'
-import { useColorScheme as useSystemColorScheme, View } from 'react-native'
+import { View, useColorScheme as useSystemColorScheme } from 'react-native'
 
 import Button from '@components/button'
 import { BRAND_THEMES, resolveTheme } from '@theme'

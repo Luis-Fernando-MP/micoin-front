@@ -9,9 +9,9 @@ import Icon from '@components/icon'
 import Text from '@components/text'
 import { hapticImpact } from '@device/haptics'
 import {
-  bindScanner,
   DEFAULT_SCAN_TYPES,
   type OpenScannerOptions,
+  bindScanner,
   resolveScan,
 } from '@device/scanner/bridge'
 

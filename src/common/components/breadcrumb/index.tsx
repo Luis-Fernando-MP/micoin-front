@@ -65,15 +65,9 @@ const Breadcrumb: FC<Props> = ({ items, className }) => {
         const pressable = !isLast && item.onPress
 
         return (
-          <View
-            key={item.id}
-            className="flex-row items-center gap-1"
-          >
+          <View key={item.id} className="flex-row items-center gap-1">
             {pressable && (
-              <Pressable
-                onPress={item.onPress}
-                className="active:opacity-90"
-              >
+              <Pressable onPress={item.onPress} className="active:opacity-90">
                 {slot}
               </Pressable>
             )}

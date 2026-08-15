@@ -1,13 +1,13 @@
 import {
-  createContext,
   type FC,
   type ReactNode,
+  createContext,
   useCallback,
   useContext,
   useEffect,
   useMemo,
 } from 'react'
-import { Modal as RNModal, Pressable, StyleSheet, View } from 'react-native'
+import { Pressable, Modal as RNModal, StyleSheet, View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -100,10 +100,7 @@ const DialogRoot: FC<DialogProps> = ({
     transform: [{ scale: scale.value }],
   }))
 
-  const dialogValue = useMemo(
-    () => ({ onOpenChange }),
-    [onOpenChange],
-  )
+  const dialogValue = useMemo(() => ({ onOpenChange }), [onOpenChange])
 
   const onBackdropPress = useCallback(() => {
     if (!closeOnOutside) {

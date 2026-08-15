@@ -11,14 +11,8 @@ import { metadata } from '@/common/metadata'
 const About: FC = () => {
   return (
     <View className="flex-1 bg-background">
-      <Header
-        title="About"
-        rightComponents={[<ThemeToggle key="theme" />]}
-      />
-      <ScrollView
-        className="flex-1"
-        contentContainerClassName="gap-4 p-5 pb-8"
-      >
+      <Header title="About" rightComponents={[<ThemeToggle key="theme" />]} />
+      <ScrollView className="flex-1" contentContainerClassName="gap-4 p-5 pb-8">
         <Text.Title size="lg">{metadata.name}</Text.Title>
         <Text.Subtitle>{metadata.tagline}</Text.Subtitle>
         <Text.Paragraph>{metadata.description}</Text.Paragraph>

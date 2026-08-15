@@ -1,11 +1,11 @@
-import { type FC, memo, type ReactNode } from 'react'
-import { useColorScheme as useSystemColorScheme, View } from 'react-native'
+import { type FC, type ReactNode, memo } from 'react'
+import { View, useColorScheme as useSystemColorScheme } from 'react-native'
 
-import { StatusBar } from 'expo-status-bar'
 import {
   DarkTheme,
   ThemeProvider as NavigationThemeProvider,
 } from '@react-navigation/native'
+import { StatusBar } from 'expo-status-bar'
 
 import { resolveTheme } from '@theme'
 import { useThemeStore } from '@theme/store'

@@ -23,15 +23,11 @@ interface Props extends ViewProps {
  * import MapsUnavailable from '@components/maps/unavailable'
  * <MapsUnavailable height={200} />
  */
-const MapsUnavailable: FC<Props> = ({
-  height = 180,
-  className,
-  ...props
-}) => {
+const MapsUnavailable: FC<Props> = ({ height = 180, className, ...props }) => {
   return (
     <View
       className={cn(
-        'items-center justify-center border border-border bg-muted px-4',
+        'bg-muted items-center justify-center border border-border px-4',
         BRAND.radius.variants.control,
         className,
       )}

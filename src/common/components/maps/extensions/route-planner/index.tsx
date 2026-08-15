@@ -13,8 +13,8 @@ import MapView, { Marker, Polyline } from 'react-native-maps'
 import Button from '@components/button'
 import Input from '@components/input'
 import {
-  fetchOsrmRoute,
   type PlaceOption,
+  fetchOsrmRoute,
   searchNominatim,
 } from '@components/maps/extensions/route-planner/hooks'
 import { hasGoogleMapsKey } from '@components/maps/runtime'

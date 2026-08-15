@@ -2,8 +2,8 @@ import { type FC, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import ViewShot from 'react-native-view-shot'
 
-import { type AudioPlayer } from 'expo-audio'
 import { CardField } from '@stripe/stripe-react-native'
+import { type AudioPlayer } from 'expo-audio'
 
 import Button from '@components/button'
 import Image from '@components/image'
@@ -18,7 +18,7 @@ import {
 } from '@device/audio-recorder'
 import { pickImage } from '@device/camera'
 import { resizeImage } from '@device/image-manipulator'
-import { addExpense, type Expense, listExpenses } from '@device/ledger'
+import { type Expense, addExpense, listExpenses } from '@device/ledger'
 import { saveToGallery } from '@device/media-library'
 import { scheduleLocalAlert } from '@device/notifications'
 import { setScreenProtected } from '@device/screen-capture'

@@ -1,8 +1,8 @@
 import { type FC } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-import { LinearGradient } from 'expo-linear-gradient'
 import MaskedView from '@react-native-masked-view/masked-view'
+import { LinearGradient } from 'expo-linear-gradient'
 
 import BRAND from '@components/shared/brand'
 import { useMcVar } from '@theme'
